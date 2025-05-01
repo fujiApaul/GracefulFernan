@@ -18,12 +18,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.PixmapIO;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-
-
 public class MainFernan implements Screen {
 
     final FernansGrace game;
@@ -106,7 +100,7 @@ public class MainFernan implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Start clicked");
-                // game.setScreen(...);
+                game.setScreen(new GameMenuScreen(game));
             }
         });
 
