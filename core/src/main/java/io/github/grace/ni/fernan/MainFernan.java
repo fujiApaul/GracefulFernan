@@ -42,8 +42,8 @@ public class MainFernan implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         // Load custom font (replace with the correct path to your .fnt file)
-        customFont = new BitmapFont(Gdx.files.internal("ui/Aligator3.fnt"));
-        customFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        customFont = new BitmapFont(Gdx.files.internal("ui/Aligator4.fnt"));
+        customFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         buttonFont = new BitmapFont(Gdx.files.internal("ui/Aligator2.fnt"));
         buttonFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -51,7 +51,7 @@ public class MainFernan implements Screen {
         BitmapFont yellowFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
         yellowFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        BitmapFont whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
+        BitmapFont whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
         whiteFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 
@@ -69,9 +69,6 @@ public class MainFernan implements Screen {
 
         Texture transparentTexture = new Texture(Gdx.files.internal("ui/transparent.png"));
         Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(transparentTexture));
-        Texture glowTexture = new Texture(Gdx.files.internal("ui/bottom_glow.png"));
-        Drawable glowDrawable = new TextureRegionDrawable(new TextureRegion(glowTexture));
-
         // Create custom button style using the custom font
         TextButton.TextButtonStyle customButtonStyle = new TextButton.TextButtonStyle();
         customButtonStyle.up = transparentDrawable;
@@ -85,8 +82,9 @@ public class MainFernan implements Screen {
         TextButton startButton = new TextButton("Start", customButtonStyle);
         TextButton settingsButton = new TextButton("Settings", customButtonStyle);
         TextButton exitButton = new TextButton("Exit", customButtonStyle);
-        startButton.getLabel().setFontScale(0.8f); // Scale X and Y
-
+        startButton.getLabel().setFontScale(1.7f); // Scale X and Y
+        settingsButton.getLabel().setFontScale(1.7f);
+        exitButton.getLabel().setFontScale(1.7f);
 
         // Add listeners to the buttons
         // --- START BUTTON ---
@@ -164,9 +162,9 @@ public class MainFernan implements Screen {
 
         // Add UI elements to the table
         table.add(titleLabel).padBottom(40).row();
-        table.add(startButton).width(200).padBottom(20).row();
-        table.add(settingsButton).width(200).padBottom(20).row();
-        table.add(exitButton).width(200).row();
+        table.add(startButton).width(200).height(50).padBottom(20).row();
+        table.add(settingsButton).width(200).height(50).padBottom(20).row();
+        table.add(exitButton).width(200).height(50).row();
 
         // Add the table to the stage
         stage.addActor(table);
