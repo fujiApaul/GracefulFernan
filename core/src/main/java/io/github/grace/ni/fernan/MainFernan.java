@@ -5,14 +5,24 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+
 
 public class MainFernan implements Screen {
 
@@ -26,7 +36,6 @@ public class MainFernan implements Screen {
 
     public MainFernan(final FernansGrace game){
         this.game = game;
-
         background = new Texture("BG1.png");
 
         stage = new Stage(new ScreenViewport());
@@ -38,6 +47,13 @@ public class MainFernan implements Screen {
 
         buttonFont = new BitmapFont(Gdx.files.internal("ui/Aligator2.fnt"));
         buttonFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        BitmapFont yellowFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
+        yellowFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        BitmapFont whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
+        whiteFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
 
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
@@ -51,13 +67,18 @@ public class MainFernan implements Screen {
         titleLabel.setFontScale(2.5f);  // Adjust the title font size
         titleLabel.setAlignment(Align.center);
 
+        Texture transparentTexture = new Texture(Gdx.files.internal("ui/transparent.png"));
+        Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(transparentTexture));
+        Texture glowTexture = new Texture(Gdx.files.internal("ui/bottom_glow.png"));
+        Drawable glowDrawable = new TextureRegionDrawable(new TextureRegion(glowTexture));
+
         // Create custom button style using the custom font
         TextButton.TextButtonStyle customButtonStyle = new TextButton.TextButtonStyle();
-        customButtonStyle.up = skin.getDrawable("button-normal");
-        customButtonStyle.down = skin.getDrawable("button-normal-pressed");
-        customButtonStyle.over = skin.getDrawable("button-normal-over");
-        customButtonStyle.font = buttonFont;  // Apply the custom font to the button
-        customButtonStyle.fontColor = Color.WHITE;  // Set button text color
+        customButtonStyle.up = transparentDrawable;
+        customButtonStyle.down = transparentDrawable;
+        customButtonStyle.over = transparentDrawable;
+        customButtonStyle.font = yellowFont;
+
 
 
         // Create buttons with custom font
@@ -68,23 +89,71 @@ public class MainFernan implements Screen {
 
 
         // Add listeners to the buttons
+        // --- START BUTTON ---
         startButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                Label.LabelStyle style = new Label.LabelStyle(startButton.getLabel().getStyle());
+                style.font = whiteFont;
+                startButton.getLabel().setStyle(style);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                Label.LabelStyle style = new Label.LabelStyle(startButton.getLabel().getStyle());
+                style.font = yellowFont;
+                startButton.getLabel().setStyle(style);
+            }
+
+            @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Start clicked");
-                // game.setScreen(new YourGameScreen(game)); // Uncomment and replace with the actual screen
+                // game.setScreen(...);
             }
         });
 
+// --- SETTINGS BUTTON ---
         settingsButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                Label.LabelStyle style = new Label.LabelStyle(settingsButton.getLabel().getStyle());
+                style.font = whiteFont;
+                settingsButton.getLabel().setStyle(style);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                Label.LabelStyle style = new Label.LabelStyle(settingsButton.getLabel().getStyle());
+                style.font = yellowFont;
+                settingsButton.getLabel().setStyle(style);
+            }
+
+            @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Settings clicked");
                 // Handle settings screen here
             }
         });
 
+// --- EXIT BUTTON ---
         exitButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                Label.LabelStyle style = new Label.LabelStyle(exitButton.getLabel().getStyle());
+                style.font = whiteFont;
+                exitButton.getLabel().setStyle(style);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                Label.LabelStyle style = new Label.LabelStyle(exitButton.getLabel().getStyle());
+                style.font = yellowFont;
+                exitButton.getLabel().setStyle(style);
+            }
+
+            @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();  // Exit the game
+                Gdx.app.exit();
             }
         });
 
@@ -142,5 +211,7 @@ public class MainFernan implements Screen {
         stage.dispose();
         skin.dispose();
         customFont.dispose();  // Don't forget to dispose the font when done
+
     }
+
 }
