@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -30,11 +29,9 @@ public class GameMenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-// Set background
         background = new Texture(Gdx.files.internal("ui/gamemenubg2.png"));
         background.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-// ✅ Add background as Image actor
         Image bgImage = new Image(new TextureRegionDrawable(new TextureRegion(background)));
         bgImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(bgImage);
@@ -44,8 +41,6 @@ public class GameMenuScreen implements Screen {
 
         Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("ui/transparent.png")));
 
-        // Main button style
-        // Create two styles: default and hover
         TextButton.TextButtonStyle defaultStyle = new TextButton.TextButtonStyle();
         defaultStyle.up = transparentDrawable;
         defaultStyle.down = transparentDrawable;
@@ -58,8 +53,6 @@ public class GameMenuScreen implements Screen {
         hoverStyle.over = transparentDrawable;
         hoverStyle.font = hoverFont;
 
-
-        // Descriptions
         String[] descriptions = {
             "Battle against various creatures, enemies, and other players.",
             "View and manage your battle decks.",
@@ -106,18 +99,31 @@ public class GameMenuScreen implements Screen {
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    // Handle clicks like before...
+                    switch (index) {
+                        case 0:
+                            System.out.println("Load game clicked");
+                            break;
+                        case 1:
+                            System.out.println("Load game clicked");
+                            break;
+                        case 2:
+                            System.out.println("Load game clicked");
+                            break;
+                        case 3:
+                            game.setScreen(new SettingsScreen2(game)); // Go back to the main menu
+                            break;
+                        case 4:
+                            game.setScreen(new MainFernan(game)); // Go back to the main menu
+                            break;
+                    }
                 }
             });
 
-            // Apply extra padding for "Decks" and "Store"
             float extraPadLeft = (index == 1 || index == 2) ? 40f : 0f;
 
             table.add(button).padBottom(20).padLeft(extraPadLeft).left();
             table.add(rowDescription).padLeft(30 + extraPadLeft).width(600).left().row();
         }
-
-
     }
 
     @Override
@@ -130,7 +136,6 @@ public class GameMenuScreen implements Screen {
         stage.draw();
     }
 
-
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -138,10 +143,13 @@ public class GameMenuScreen implements Screen {
 
     @Override
     public void pause() {}
+
     @Override
     public void resume() {}
+
     @Override
     public void hide() {}
+
     @Override
     public void dispose() {
         stage.dispose();
