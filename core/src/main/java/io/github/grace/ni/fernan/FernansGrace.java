@@ -9,6 +9,7 @@ public class FernansGrace extends Game {
 
     public SpriteBatch batch;
     public FitViewport viewport;
+    public boolean isInGame = false;
 
     @Override
     public void create() {

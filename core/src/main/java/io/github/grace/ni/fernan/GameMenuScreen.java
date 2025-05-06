@@ -110,10 +110,11 @@ public class GameMenuScreen implements Screen {
                             System.out.println("Load game clicked");
                             break;
                         case 3:
-                            game.setScreen(new SettingsScreen2(game)); // Go back to the main menu
+                            game.setScreen(new SettingsScreen(game)); // Go back to the main menu
                             break;
                         case 4:
-                            game.setScreen(new MainFernan(game)); // Go back to the main menu
+                            game.setScreen(new MainFernan(game));
+                            game.isInGame = false;
                             break;
                     }
                 }

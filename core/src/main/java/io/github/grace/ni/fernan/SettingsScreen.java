@@ -51,7 +51,12 @@ public class SettingsScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainFernan(game)); // Go back to the main menu
+                if (!game.isInGame){
+                    game.setScreen(new MainFernan(game));
+                } else {
+                    game.setScreen(new GameMenuScreen(game));
+                }
+
             }
         });
 
