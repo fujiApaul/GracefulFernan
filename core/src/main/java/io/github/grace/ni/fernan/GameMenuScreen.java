@@ -102,6 +102,7 @@ public class GameMenuScreen implements Screen {
                     switch (index) {
                         case 0:
                             System.out.println("Load game clicked");
+                            game.setScreen(new GameModeSelectionScreen(game));
                             break;
                         case 1:
                             System.out.println("Load game clicked");
