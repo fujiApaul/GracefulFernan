@@ -14,8 +14,9 @@ public class FernansGrace extends Game {
     @Override
     public void create() {
 
-        viewport = new FitViewport(16, 9);
+        viewport = new FitViewport(16*3, 9*3);
         batch = new SpriteBatch();
+
 
         this.setScreen(new MainFernan(this));
     }
