@@ -108,7 +108,7 @@ public class GameMenuFernan implements Screen {
                             System.out.println("Load game clicked");
                             break;
                         case 2:
-                            System.out.println("Load game clicked");
+                            game.setScreen(new StoreScreenFernan(game));
                             break;
                         case 3:
                             game.setScreen(new SettingsFernan(game)); // Go back to the main menu
