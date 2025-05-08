@@ -165,6 +165,23 @@ public class StoreScreenFernan implements Screen {
                 } else {
                     System.out.println("Purchased: " + item.name);
                 }
+
+                // Transition to different screens based on the item clicked
+                switch (item.name) {
+                    case "GOD/DIVINE PACK":
+                        game.setScreen(new GodDivineFernan(game));  // Transition to GodDivineScreen
+                        break;
+                    case "DIVINE/SUPPORT PACK":
+                        System.out.println("Load game clicked");  // Transition to DivineSupportScreen
+                        break;
+                    case "ARTIFACT/ITEM PACK":
+                        System.out.println("Load game clicked");  // Transition to ArtifactItemScreen
+                        break;
+                    default:
+                        // Handle unknown items if necessary
+                        System.out.println("Unknown item: " + item.name);
+                        break;
+                }
             }
         });
 
