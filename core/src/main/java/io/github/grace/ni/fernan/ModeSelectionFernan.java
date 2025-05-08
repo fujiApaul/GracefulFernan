@@ -33,7 +33,8 @@ public class ModeSelectionFernan implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        BitmapFont font = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
+        BitmapFont font1 = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
+        BitmapFont font2 = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
         Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         // === Background ===
@@ -43,9 +44,9 @@ public class ModeSelectionFernan implements Screen {
 
         // === Game Modes ===
         gameModes = new Array<>();
-        gameModes.add(new GameMode("Konquer", "Story Mode, Towers, or Krypt rewards.", new Texture("BG2.png")));
-        gameModes.add(new GameMode("Fight", "Challenge other players or AI.", new Texture("BG2.png")));
-        gameModes.add(new GameMode("Learn", "Practice and tutorials.", new Texture("BG2.png")));
+        gameModes.add(new GameMode("Classic", "Fight against various enemies to get the Ultimate God.", new Texture("BG2.png")));
+        gameModes.add(new GameMode("Versus", "Challenge other players.", new Texture("BG2.png")));
+        gameModes.add(new GameMode("Coming Soon", "Ma'am, next week na po please.", new Texture("BG2.png")));
 
         // === Main Table ===
         mainTable = new Table();
@@ -54,13 +55,13 @@ public class ModeSelectionFernan implements Screen {
 
         // === Create Cards ===
         for (int i = 0; i < 3; i++) {
-            cards[i] = createCard(i, font);
+            cards[i] = createCard(i, font2);
         }
 
-        layoutUI(font);
+        layoutUI(font1);
     }
 
-    private Table createCard(int index, BitmapFont font) {
+    private Table createCard(int index, BitmapFont font1) {
         final int cardIndex = index;
 
         Table card = new Table();
@@ -69,7 +70,7 @@ public class ModeSelectionFernan implements Screen {
         // Make sure the whole card can receive touch events
         card.setTouchable(Touchable.enabled);
 
-        Label title = new Label(gameModes.get(index).title, new Label.LabelStyle(font, Color.WHITE));
+        Label title = new Label(gameModes.get(index).title, new Label.LabelStyle(font1, Color.WHITE));
         title.setAlignment(Align.center);
 
         card.add(title).expand().bottom().padBottom(20);
@@ -129,10 +130,10 @@ public class ModeSelectionFernan implements Screen {
         return card;
     }
 
-    private void layoutUI(BitmapFont font) {
+    private void layoutUI(BitmapFont font1) {
         mainTable.clear();
 
-        Label titleLabel = new Label("Select Game Mode", new Label.LabelStyle(font, Color.WHITE));
+        Label titleLabel = new Label("Select Game Mode", new Label.LabelStyle(font1, Color.WHITE));
         titleLabel.setFontScale(1.5f);
         titleLabel.setAlignment(Align.center);
 
@@ -147,14 +148,14 @@ public class ModeSelectionFernan implements Screen {
         mainTable.add(cardRow).colspan(3).padBottom(30).row();
 
         // Description label below the cards (HUD area)
-        descriptionLabel = new Label("Hover over a mode to see details", new Label.LabelStyle(font, Color.LIGHT_GRAY));
+        descriptionLabel = new Label("Hover over a mode to see details", new Label.LabelStyle(font1, Color.LIGHT_GRAY));
         descriptionLabel.setFontScale(0.9f);
         descriptionLabel.setAlignment(Align.center);
 
         mainTable.add(descriptionLabel).colspan(3).padBottom(10).row();
 
         // HUD info (optional — you can remove this if you want just the description)
-        hudLabel = new Label("18,007 Gold | 420 Crystals | Level 52", new Label.LabelStyle(font, Color.GOLD));
+        hudLabel = new Label("18,007 Gold | 420 Crystals | Level 52", new Label.LabelStyle(font1, Color.GOLD));
         hudLabel.setFontScale(0.8f);
         hudLabel.setAlignment(Align.center);
 
