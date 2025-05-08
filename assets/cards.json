@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Aeolus",
+    "health": 100,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/aeolus.png",
+    "skills": [
+      { "name": "Storm Gust", "cost": 1, "effectType": "DAMAGE", "amount": 20 },
+      { "name": "Lightning Storm", "cost": 8, "effectType": "DAMAGE", "amount": 15 }
+    ]
+  }
+,
+  {
+    "name": "Luna",
+    "health": 90,
+    "type": "GOD",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/luna.png",
+    "skills": [
+      {
+        "name": "Silver Slash",
+        "cost": 2,
+        "effectType": "DAMAGE",
+        "amount": 20
+      },
+      {
+        "name": "Moonlight Barrier",
+        "cost": 1,
+        "effectType": "HEAL",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "name": "Aesculapius",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/aesculapius.png",
+    "skills": [
+      {
+        "name": "Silver Slash",
+        "cost": 2,
+        "effectType": "DAMAGE",
+        "amount": 20
+      },
+      {
+        "name": "Moonlight Barrier",
+        "cost": 1,
+        "effectType": "HEAL",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "name": "Ananke",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/luna.png",
+    "skills": [
+      {
+        "name": "Silver Slash",
+        "cost": 2,
+        "effectType": "DAMAGE",
+        "amount": 20
+      },
+      {
+        "name": "Moonlight Barrier",
+        "cost": 1,
+        "effectType": "HEAL",
+        "amount": 20
+      }
+    ]
+  }
+]

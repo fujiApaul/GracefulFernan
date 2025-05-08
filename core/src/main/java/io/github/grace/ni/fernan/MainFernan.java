@@ -16,6 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+
 
 public class MainFernan implements Screen {
 
@@ -182,6 +189,7 @@ public class MainFernan implements Screen {
         game.batch.draw(background, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         game.batch.end();
 
+        // Draw the Scene2D UI elements (buttons, labels)
         stage.act(delta);
         stage.draw();
     }
@@ -204,4 +212,5 @@ public class MainFernan implements Screen {
         yellowFont.dispose();
         whiteFont.dispose();
     }
+
 }
