@@ -46,7 +46,7 @@ public class GodDivineFernan implements Screen {
 
         // Store Item (only one item for now)
         storeItems = new Array<>();
-        storeItems.add(new StoreItem("GOD/DIVINE PACK" new Texture("BG1.png")));
+        storeItems.add(new StoreItem("GOD/DIVINE PACK", " ",new Texture("BG1.png")));
 
         // Main layout table
         mainTable = new Table();
