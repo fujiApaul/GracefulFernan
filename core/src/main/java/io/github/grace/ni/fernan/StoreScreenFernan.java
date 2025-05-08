@@ -169,14 +169,43 @@ public class StoreScreenFernan implements Screen {
                 // Transition to different screens based on the item clicked
                 switch (item.name) {
                     case "GOD/DIVINE PACK":
-                        game.setScreen(new GodPackFernan(game));  // Transition to GodDivineScreen
+                        game.setScreen(new PackScreenFernan(game,
+                            new PackScreenFernan.StoreItem(
+                                "GOD / DIVINE CARD PACK",
+                                "\nThis pack contains a god or divine card with chances:\n\n" +
+                                    "15% chance for a God Card\n" +
+                                    "85% chance for a Divine Card",
+                                "Packs owned: 13",
+                                new Texture("BG1.png")
+                            )
+                        ));  // Transition to GodDivineScreen
                         break;
+
                     case "DIVINE/SUPPORT PACK":
                         System.out.println("Load game clicked");
-                        game.setScreen(new SupportPackFernan(game));// Transition to DivineSupportScreen
+                        game.setScreen(new PackScreenFernan(game,
+                            new PackScreenFernan.StoreItem(
+                                "DIVINE / SUPPORT CARD PACK",
+                                "\nThis pack contains a divine or support card with chances:\n\n" +
+                                    "15% chance for a God Card\n" +
+                                    "85% chance for a Divine Card",
+                                "Packs owned: 13",
+                                new Texture("BG1.png")
+                            )
+                        ));
+
                         break;
                     case "ARTIFACT/ITEM PACK":
-                        game.setScreen(new ArtifactFernan(game));  // Transition to ArtifactItemScreen
+                        game.setScreen(new PackScreenFernan(game,
+                            new PackScreenFernan.StoreItem(
+                                "ARTIFACT / ITEM CARD PACK",
+                                "\nThis pack contains a artifact or item card with chances:\n\n" +
+                                    "15% chance for a God Card\n" +
+                                    "85% chance for a Divine Card",
+                                "Packs owned: 13",
+                                new Texture("BG1.png")
+                            )
+                        ));  // Transition to ArtifactItemScreen
                         break;
                     default:
                         // Handle unknown items if necessary
@@ -207,6 +236,7 @@ public class StoreScreenFernan implements Screen {
         stage.act(delta);
         stage.draw();
     }
+
     @Override public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }

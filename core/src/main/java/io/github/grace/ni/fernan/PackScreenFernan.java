@@ -12,60 +12,47 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class GodPackFernan implements Screen {
+public class PackScreenFernan implements Screen {
     final FernansGrace game;
-    private Stage stage;
-    private Image background;
-    private Array<StoreItem> storeItems;
-    private Table itemCard;
-    private Table mainTable;
+    private final Stage stage;
+    private final BitmapFont yellowFont;
+    private final BitmapFont whiteFont;
+    private final StoreItem item;
 
-    private BitmapFont yellowFont;
-    private BitmapFont whiteFont;
-
-    public GodPackFernan(final FernansGrace game) {
+    public PackScreenFernan(FernansGrace game, StoreItem item) {
         this.game = game;
+        this.item = item;
+
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         yellowFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
         yellowFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
         whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
         whiteFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        // Background
-        background = new Image(new Texture("Bg2B.PNG"));
+        Image background = new Image(new Texture("Bg2B.PNG"));
         background.setFillParent(true);
         stage.addActor(background);
 
-        // Store Item
-        storeItems = new Array<>();
-        storeItems.add(new StoreItem(
-            "GOD / DIVINE CARD PACK",
-            "\nThis pack contains a god or divine card with chances:\n\n" +
-                "15% chance for a God Card\n" +
-                "85% chance for a Divine Card",
-            "Packs owned: 13",
-            new Texture("BG1.png")
-        ));
-
-        mainTable = new Table();
+        Table mainTable = new Table();
         mainTable.setFillParent(true);
         stage.addActor(mainTable);
 
-        itemCard = createItemCard(0);
-        layoutUI();
+        Table leftSideTable = createLeftPanel();
+        Table rightCard = createItemCard();
+
+        Table layoutRow = new Table();
+        layoutRow.add(leftSideTable).expandX().left().pad(10);
+        layoutRow.add(rightCard).right().pad(10);
+        mainTable.add(layoutRow).expand().fill().row();
 
         createBackButton();
     }
 
-    private Table createItemCard(int index) {
-        StoreItem item = storeItems.get(index);
-
+    private Table createItemCard() {
         Table cardContainer = new Table();
         cardContainer.defaults().padBottom(10);
         cardContainer.setTouchable(Touchable.disabled);
@@ -73,14 +60,13 @@ public class GodPackFernan implements Screen {
         Image image = new Image(item.texture);
         image.setColor(Color.WHITE);
 
-        Table textTable = new Table();
-        textTable.top().pad(10);
-
         Label name = new Label(item.name, new Label.LabelStyle(yellowFont, Color.WHITE));
         name.setFontScale(0.8f);
         name.setWrap(true);
         name.setAlignment(Align.center);
 
+        Table textTable = new Table();
+        textTable.top().pad(10);
         textTable.add(name).width(280).padBottom(10).row();
 
         Stack stack = new Stack();
@@ -88,18 +74,11 @@ public class GodPackFernan implements Screen {
         stack.add(textTable);
 
         cardContainer.add(stack).width(300).height(400).row();
-
         return cardContainer;
     }
 
-    private void layoutUI() {
-        mainTable.clear();
-
-        StoreItem item = storeItems.get(0);
-
-        // LEFT: Description + Buttons
-        Table leftSideTable = new Table();
-        leftSideTable.top().left().pad(40);
+    private Table createLeftPanel() {
+        Table leftSideTable = new Table().top().left().pad(40);
 
         Label infoLabel = new Label(item.infoText, new Label.LabelStyle(yellowFont, Color.YELLOW));
         infoLabel.setFontScale(0.6f);
@@ -114,21 +93,25 @@ public class GodPackFernan implements Screen {
         leftSideTable.add(infoLabel).width(300).padBottom(10).left().row();
         leftSideTable.add(ownedLabel).width(250).padBottom(40).left().row();
 
-        // Buttons
+        Table buttonTable = createButtons();
+        leftSideTable.add(buttonTable).top().left().row();
+
+        return leftSideTable;
+    }
+
+    private Table createButtons() {
         Table buttonTable = new Table();
 
-        TextButton.TextButtonStyle yellowButtonStyle = new TextButton.TextButtonStyle();
-        yellowButtonStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ui/transparent.png"))));
-        yellowButtonStyle.down = yellowButtonStyle.up;
-        yellowButtonStyle.over = yellowButtonStyle.up;
-        yellowButtonStyle.font = yellowFont;
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        Drawable transparent = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ui/transparent.png"))));
+        style.up = style.down = style.over = transparent;
+        style.font = yellowFont;
 
-        TextButton open1 = new TextButton("Open 1", yellowButtonStyle);
-        TextButton open10 = new TextButton("Open 10", yellowButtonStyle);
-        TextButton buy1 = new TextButton("Buy 1 pack", yellowButtonStyle);
-        TextButton buy10 = new TextButton("Buy 10 packs", yellowButtonStyle);
+        TextButton open1 = new TextButton("Open 1", style);
+        TextButton open10 = new TextButton("Open 10", style);
+        TextButton buy1 = new TextButton("Buy 1 pack", style);
+        TextButton buy10 = new TextButton("Buy 10 packs", style);
 
-        // Add hover effects to each button
         open1.addListener(createHoverListener(open1));
         open10.addListener(createHoverListener(open10));
         buy1.addListener(createHoverListener(buy1));
@@ -146,28 +129,18 @@ public class GodPackFernan implements Screen {
         buttonTable.add(coinLabel1).padTop(0).padRight(15);
         buttonTable.add(coinLabel10).padTop(0).row();
 
-        leftSideTable.add(buttonTable).top().left().row();
-
-        Table layoutRow = new Table();
-        layoutRow.add(leftSideTable).expandX().left().pad(10);
-        layoutRow.add(itemCard).right().pad(10);
-
-        mainTable.add(layoutRow).expand().fill().row();
+        return buttonTable;
     }
 
     private void createBackButton() {
         TextButton.TextButtonStyle backButtonStyle = new TextButton.TextButtonStyle();
-        Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ui/transparent.png"))));
-        backButtonStyle.up = transparentDrawable;
-        backButtonStyle.down = transparentDrawable;
-        backButtonStyle.over = transparentDrawable;
+        Drawable transparent = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ui/transparent.png"))));
+        backButtonStyle.up = backButtonStyle.down = backButtonStyle.over = transparent;
         backButtonStyle.font = yellowFont;
 
         TextButton backButton = new TextButton("Back", backButtonStyle);
         backButton.getLabel().setFontScale(1.5f);
-
         backButton.addListener(createHoverListener(backButton));
-
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -182,7 +155,6 @@ public class GodPackFernan implements Screen {
         stage.addActor(topTable);
     }
 
-    // Shared hover logic for all buttons
     private ClickListener createHoverListener(final TextButton button) {
         return new ClickListener() {
             @Override
@@ -204,28 +176,22 @@ public class GodPackFernan implements Screen {
         stage.act(delta);
         stage.draw();
     }
-
     @Override public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
-
     @Override public void pause() {}
     @Override public void resume() {}
     @Override public void hide() {}
-
     @Override public void dispose() {
         stage.dispose();
-        background.remove();
-        for (StoreItem item : storeItems) {
-            item.texture.dispose();
-        }
+        item.texture.dispose();
     }
 
-    static class StoreItem {
-        String name;
-        String infoText;
-        String ownedText;
-        Texture texture;
+    public static class StoreItem {
+        public final String name;
+        public final String infoText;
+        public final String ownedText;
+        public final Texture texture;
 
         public StoreItem(String name, String infoText, String ownedText, Texture texture) {
             this.name = name;
