@@ -117,6 +117,34 @@ public class PackScreenFernan implements Screen {
         buy1.addListener(createHoverListener(buy1));
         buy10.addListener(createHoverListener(buy10));
 
+        open1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PackOpenScreenFernan(game));
+            }
+        });
+
+        open10.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PackOpenScreenFernan(game));
+            }
+        });
+
+        buy1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PackOpenScreenFernan(game));
+            }
+        });
+
+        buy10.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PackOpenScreenFernan(game));
+            }
+        });
+
         Label coinLabel1 = new Label("15 coins", new Label.LabelStyle(whiteFont, Color.YELLOW));
         coinLabel1.setFontScale(0.7f);
         Label coinLabel10 = new Label("150 coins", new Label.LabelStyle(whiteFont, Color.YELLOW));
@@ -198,6 +226,8 @@ public class PackScreenFernan implements Screen {
             this.infoText = infoText;
             this.ownedText = ownedText;
             this.texture = texture;
+
+
         }
     }
 }
