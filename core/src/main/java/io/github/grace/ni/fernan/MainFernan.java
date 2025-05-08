@@ -123,7 +123,9 @@ public class MainFernan implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Settings clicked");
+                game.setScreen(new DeckBuilderScreen(game));
                 // Handle settings screen here
+                //game.setScreen(new MapScreen());
             }
         });
 

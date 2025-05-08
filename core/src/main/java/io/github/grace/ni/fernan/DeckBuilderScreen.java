@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -53,13 +54,12 @@ public class DeckBuilderScreen implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
-// Inside buildUI() method
-
+        // Image Buttons (Back and Sort)
         ImageButton backButton = new ImageButton(new TextureRegionDrawable(
             new TextureRegion(new Texture("ui/backicon.png"))));
-        backButton.setSize(50, 50); // Set button size
-        backButton.getImage().setScaling(Scaling.fit); // Scale icon properly
-        backButton.getImageCell().size(50, 50); // Ensure image inside button fits
+        backButton.setSize(50, 50);  // Set button size
+        backButton.getImage().setScaling(Scaling.fit);  // Scale icon properly
+        backButton.getImageCell().size(50, 50);  // Ensure image inside button fits
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -80,27 +80,21 @@ public class DeckBuilderScreen implements Screen {
             }
         });
 
+        // Header Table for Back and Sort buttons
         Table header = new Table();
         header.pad(10).top();
 
         header.add(backButton).size(50, 50).padRight(10).left();
-
-        BitmapFont headerFont = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
-
-        Label.LabelStyle headerStyle = new Label.LabelStyle();
-        headerStyle.font = headerFont;
-
-        Label titleLabel = new Label("CARD SELECTION", headerStyle);
-
+        Label titleLabel = new Label("CARD SELECTION", skin);
+        titleLabel.setColor(Color.WHITE);
         header.add(titleLabel).left().expandX();
-
         header.add(sortButton).size(50, 50).padLeft(10).right();
 
-
-
+        // Card table
         cardTable = new Table().top().left();
         rebuildCardTable();
 
+        // Scrollable Area for Cards
         ScrollPane scrollPane = new ScrollPane(cardTable, skin);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setScrollingDisabled(true, false);
@@ -109,27 +103,59 @@ public class DeckBuilderScreen implements Screen {
         root.add(header).expandX().fillX().top().row();
         root.add(scrollPane).expand().fill().pad(10).row();
 
-        TextButton continueButton = new TextButton("Start Game", skin);
-        continueButton.addListener(new ClickListener() {
+        // Load BitmapFonts for SELECT Button
+        BitmapFont whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
+        BitmapFont yellowFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
+
+        // Create a Label for the SELECT button
+        Label.LabelStyle selectButtonStyle = new Label.LabelStyle();
+        selectButtonStyle.font = whiteFont;  // Use white font for default state
+
+        final Label selectButton = new Label("SELECT", selectButtonStyle);
+        selectButton.setColor(Color.WHITE);  // Set the text color to white initially
+
+        // Add a ClickListener to handle button clicks
+        selectButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedCards.size() > 0) {
                     System.out.println("Selected Deck:");
                     for (CardSystem.Card c : selectedCards)
                         System.out.println("- " + c.getName());
-                    game.setScreen(new GameMap1Screen(game));
+                    game.setScreen(new GameMap1Screen(game));  // Navigate to game map
                 }
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                // Change to yellow font on hover
+                selectButtonStyle.font = yellowFont;
+                selectButton.setStyle(selectButtonStyle);  // Apply style change
+                selectButton.setColor(Color.YELLOW);  // Change text color to yellow
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                // Change back to white font when not hovering
+                selectButtonStyle.font = whiteFont;
+                selectButton.setStyle(selectButtonStyle);  // Apply style change
+                selectButton.setColor(Color.WHITE);  // Change text color back to white
             }
         });
 
-        root.add(continueButton).padTop(20).colspan(3);
+        // Add SELECT button to the root table
+        root.add(selectButton).padTop(20).colspan(3);
     }
+
+
+
+
 
     private void rebuildCardTable() {
         cardTable.clear();
         cardContainers.clear();
 
-        int columns = 3;
+        int columns = 4;  // Number of columns set to 4
         int i = 0;
 
         for (CardSystem.Card card : allCards) {
@@ -138,23 +164,24 @@ public class DeckBuilderScreen implements Screen {
             cardGroup.pad(5);
             cardGroup.setTouchable(Touchable.enabled);
 
+            // Load card texture
             Texture texture = new Texture(Gdx.files.internal(card.getImagePath()));
             Image cardImage = new Image(texture);
             cardImage.setScaling(Scaling.fit);
 
+            // Set adjusted card size (suitable for 4 per row)
             Container<Image> imageContainer = new Container<>(cardImage);
-            imageContainer.size(150, 210);
-            cardImage.setSize(50, 70);
-
-            Label nameLabel = new Label(card.getName(), skin);
-            nameLabel.setAlignment(1);
+            imageContainer.size(190, 280);  // Adjusted size for 4 cards per row
 
             cardGroup.addActor(imageContainer);
-            cardGroup.addActor(nameLabel);
+
+            // Removed the name label as requested
+            // Label nameLabel = new Label(card.getName(), skin);
+            // cardGroup.addActor(nameLabel);
 
             Container<VerticalGroup> container = new Container<>(cardGroup);
             container.setBackground(skin.newDrawable("white", Color.DARK_GRAY));
-            container.width(150).height(120).pad(5);
+            container.width(190).height(280).pad(10);  // Adjusted width/height and padding
 
             cardContainers.put(card, container);
 
@@ -166,17 +193,20 @@ public class DeckBuilderScreen implements Screen {
                         container.setBackground(skin.newDrawable("white", Color.DARK_GRAY));
                     } else if (selectedCards.size() < 10) {
                         selectedCards.add(card);
-                        container.setBackground(skin.newDrawable("white", Color.YELLOW));
+                        container.setBackground(skin.newDrawable("white", Color.YELLOW));  // Highlight entire card
                     }
                 }
             });
 
-            cardTable.add(container);
+            // Add each card to the table
+            cardTable.add(container).pad(10);  // Add padding between cards
 
             i++;
-            if (i % columns == 0) cardTable.row();
+            if (i % columns == 0) cardTable.row();  // Ensure proper row break after every 4 cards
         }
     }
+
+
 
     @Override public void show() {}
     @Override public void render(float delta) {
@@ -195,4 +225,27 @@ public class DeckBuilderScreen implements Screen {
         skin.dispose();
         backgroundTexture.dispose();
     }
+
+    private void insertionSort(List<CardSystem.Card> cards, Comparator<CardSystem.Card> comparator) {
+        for (int i = 1; i < cards.size(); i++) {
+            CardSystem.Card key = cards.get(i);
+            int j = i - 1;
+            while (j >= 0 && comparator.compare(cards.get(j), key) > 0) {
+                cards.set(j + 1, cards.get(j));
+                j--;
+            }
+            cards.set(j + 1, key);
+        }
+    }
+
+    private void bubbleSort(List<CardSystem.Card> cards, Comparator<CardSystem.Card> comparator) {
+        for (int i = 0; i < cards.size() - 1; i++) {
+            for (int j = 0; j < cards.size() - i - 1; j++) {
+                if (comparator.compare(cards.get(j), cards.get(j + 1)) > 0) {
+                    Collections.swap(cards, j, j + 1);
+                }
+            }
+        }
+    }
+
 }
