@@ -26,19 +26,19 @@ public class ModeSelectionFernan implements Screen {
     private Label hudLabel;
     private Label descriptionLabel;
 
-    private int selectedCardIndex = -1; // No selection initially
+    private int selectedCardIndex = -1;
 
     public ModeSelectionFernan(final FernansGrace game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        BitmapFont font1 = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
-        BitmapFont font2 = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
+        BitmapFont font1 = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt")); // Hover font
+        BitmapFont font2 = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));  // Default font
         Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         // === Background ===
-        background = new Image(new Texture("Bg1.png")); // Make sure Bg1.png exists in assets!
+        background = new Image(new Texture("Bg1.png"));
         background.setFillParent(true);
         stage.addActor(background);
 
@@ -53,12 +53,43 @@ public class ModeSelectionFernan implements Screen {
         mainTable.setFillParent(true);
         stage.addActor(mainTable);
 
-        // === Create Cards ===
         for (int i = 0; i < 3; i++) {
             cards[i] = createCard(i, font2);
         }
 
         layoutUI(font1);
+
+        // === Back Button ===
+        final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font2;
+        buttonStyle.fontColor = Color.WHITE;
+
+        final TextButton backButton = new TextButton("BACK", buttonStyle);
+        backButton.getLabel().setFontScale(1f);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                backButton.getLabel().setStyle(new Label.LabelStyle(font1, Color.WHITE));
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                backButton.getLabel().setStyle(new Label.LabelStyle(font2, Color.WHITE));
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Back button clicked.");
+                game.setScreen(new GameMenuFernan(game));
+            }
+        });
+
+        Table backTable = new Table();
+        backTable.setFillParent(true);
+        backTable.top().left().pad(20);
+        backTable.add(backButton);
+        stage.addActor(backTable);
     }
 
     private Table createCard(int index, BitmapFont font1) {
@@ -66,26 +97,18 @@ public class ModeSelectionFernan implements Screen {
 
         Table card = new Table();
         card.setBackground(new TextureRegionDrawable(new TextureRegion(gameModes.get(index).texture)));
-
-        // Make sure the whole card can receive touch events
         card.setTouchable(Touchable.enabled);
 
         Label title = new Label(gameModes.get(index).title, new Label.LabelStyle(font1, Color.WHITE));
         title.setAlignment(Align.center);
-
         card.add(title).expand().bottom().padBottom(20);
-
-        // Start all cards dimmed
         card.getColor().a = 0.5f;
 
-        // === Input handling ===
         card.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                card.setColor(Color.YELLOW); // Tint to simulate hover border
+                card.setColor(Color.YELLOW);
                 card.getColor().a = (cardIndex == selectedCardIndex) ? 1f : 0.7f;
-
-                // Show description when hovering
                 descriptionLabel.setText(gameModes.get(cardIndex).description);
             }
 
@@ -105,24 +128,33 @@ public class ModeSelectionFernan implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedCardIndex != cardIndex) {
-                    // Deselect all other cards
                     for (int j = 0; j < 3; j++) {
                         if (j != cardIndex) {
                             cards[j].setColor(Color.WHITE);
                             cards[j].getColor().a = 0.5f;
                         }
                     }
-                    // Select this card
                     card.setColor(Color.WHITE);
                     card.getColor().a = 1f;
                     selectedCardIndex = cardIndex;
-
-                    // Update description
                     descriptionLabel.setText(gameModes.get(cardIndex).description);
-
                 } else {
-                    // Already selected — in future, navigate to another screen here
                     System.out.println("Selected mode: " + gameModes.get(cardIndex).title);
+
+                    switch (gameModes.get(cardIndex).title)
+                    {
+                        case "Classic":
+                            game.setScreen(new MapNavigationFernan(game));
+                            break;
+
+                        case "Versus":
+                            game.setScreen(new MapNavigationFernan(game));
+                            break;
+
+                        case "Coming Soon":
+                            game.setScreen(new MapNavigationFernan(game));
+                            break;
+                    }
                 }
             }
         });
@@ -140,25 +172,20 @@ public class ModeSelectionFernan implements Screen {
         mainTable.add(titleLabel).colspan(3).padTop(40).padBottom(20).row();
 
         Table cardRow = new Table();
-
         for (int i = 0; i < 3; i++) {
             cardRow.add(cards[i]).width(250).height(350).pad(10);
         }
 
         mainTable.add(cardRow).colspan(3).padBottom(30).row();
 
-        // Description label below the cards (HUD area)
         descriptionLabel = new Label("Hover over a mode to see details", new Label.LabelStyle(font1, Color.LIGHT_GRAY));
         descriptionLabel.setFontScale(0.9f);
         descriptionLabel.setAlignment(Align.center);
-
         mainTable.add(descriptionLabel).colspan(3).padBottom(10).row();
 
-        // HUD info (optional — you can remove this if you want just the description)
         hudLabel = new Label("18,007 Gold | 420 Crystals | Level 52", new Label.LabelStyle(font1, Color.GOLD));
         hudLabel.setFontScale(0.8f);
         hudLabel.setAlignment(Align.center);
-
         mainTable.add(hudLabel).colspan(3).padTop(5);
     }
 
