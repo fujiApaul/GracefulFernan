@@ -106,6 +106,7 @@ public class GameMenuFernan implements Screen {
                             break;
                         case 1:
                             System.out.println("Load game clicked");
+                            game.setScreen(new DeckBuilderScreen(game));
                             break;
                         case 2:
                             game.setScreen(new StoreScreenFernan(game));
