@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
@@ -30,6 +32,9 @@ public class DeckBuilderScreen implements Screen {
     private Image backgroundImage;
     private Map<CardSystem.Card, Container<VerticalGroup>> cardContainers = new HashMap<>();
     private Table cardTable;
+
+    private String currentPantheonFilter = null;
+    private String currentTypeFilter = null;
 
     public DeckBuilderScreen(FernansGrace game) {
         this.game = game;
@@ -53,13 +58,11 @@ public class DeckBuilderScreen implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
-// Inside buildUI() method
-
         ImageButton backButton = new ImageButton(new TextureRegionDrawable(
             new TextureRegion(new Texture("ui/backicon.png"))));
-        backButton.setSize(50, 50); // Set button size
-        backButton.getImage().setScaling(Scaling.fit); // Scale icon properly
-        backButton.getImageCell().size(50, 50); // Ensure image inside button fits
+        backButton.setSize(50, 50);
+        backButton.getImage().setScaling(Scaling.fit);
+        backButton.getImageCell().size(50, 50);
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -75,8 +78,7 @@ public class DeckBuilderScreen implements Screen {
         sortButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                allCards.sort(Comparator.comparing(CardSystem.Card::getName));
-                rebuildCardTable();
+                showSortDialog();
             }
         });
 
@@ -84,19 +86,10 @@ public class DeckBuilderScreen implements Screen {
         header.pad(10).top();
 
         header.add(backButton).size(50, 50).padRight(10).left();
-
-        BitmapFont headerFont = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
-
-        Label.LabelStyle headerStyle = new Label.LabelStyle();
-        headerStyle.font = headerFont;
-
-        Label titleLabel = new Label("CARD SELECTION", headerStyle);
-
+        Label titleLabel = new Label("CARD SELECTION", skin);
+        titleLabel.setColor(Color.WHITE);
         header.add(titleLabel).left().expandX();
-
         header.add(sortButton).size(50, 50).padLeft(10).right();
-
-
 
         cardTable = new Table().top().left();
         rebuildCardTable();
@@ -109,8 +102,16 @@ public class DeckBuilderScreen implements Screen {
         root.add(header).expandX().fillX().top().row();
         root.add(scrollPane).expand().fill().pad(10).row();
 
-        TextButton continueButton = new TextButton("Start Game", skin);
-        continueButton.addListener(new ClickListener() {
+        BitmapFont whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
+        BitmapFont yellowFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
+
+        Label.LabelStyle selectButtonStyle = new Label.LabelStyle();
+        selectButtonStyle.font = whiteFont;
+
+        final Label selectButton = new Label("SELECT", selectButtonStyle);
+        selectButton.setColor(Color.WHITE);
+
+        selectButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedCards.size() > 0) {
@@ -120,16 +121,30 @@ public class DeckBuilderScreen implements Screen {
                     game.setScreen(new GameMap1Screen(game));
                 }
             }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                selectButtonStyle.font = yellowFont;
+                selectButton.setStyle(selectButtonStyle);
+                selectButton.setColor(Color.YELLOW);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                selectButtonStyle.font = whiteFont;
+                selectButton.setStyle(selectButtonStyle);
+                selectButton.setColor(Color.WHITE);
+            }
         });
 
-        root.add(continueButton).padTop(20).colspan(3);
+        root.add(selectButton).padTop(20).colspan(3);
     }
 
     private void rebuildCardTable() {
         cardTable.clear();
         cardContainers.clear();
 
-        int columns = 3;
+        int columns = 4;
         int i = 0;
 
         for (CardSystem.Card card : allCards) {
@@ -143,18 +158,13 @@ public class DeckBuilderScreen implements Screen {
             cardImage.setScaling(Scaling.fit);
 
             Container<Image> imageContainer = new Container<>(cardImage);
-            imageContainer.size(150, 210);
-            cardImage.setSize(50, 70);
-
-            Label nameLabel = new Label(card.getName(), skin);
-            nameLabel.setAlignment(1);
+            imageContainer.size(190, 280);
 
             cardGroup.addActor(imageContainer);
-            cardGroup.addActor(nameLabel);
 
             Container<VerticalGroup> container = new Container<>(cardGroup);
             container.setBackground(skin.newDrawable("white", Color.DARK_GRAY));
-            container.width(150).height(120).pad(5);
+            container.width(190).height(280).pad(10);
 
             cardContainers.put(card, container);
 
@@ -171,7 +181,7 @@ public class DeckBuilderScreen implements Screen {
                 }
             });
 
-            cardTable.add(container);
+            cardTable.add(container).pad(10);
 
             i++;
             if (i % columns == 0) cardTable.row();
@@ -194,5 +204,162 @@ public class DeckBuilderScreen implements Screen {
         stage.dispose();
         skin.dispose();
         backgroundTexture.dispose();
+    }
+
+    private void showSortDialog() {
+        Dialog dialog = new Dialog("Sort Cards", skin);
+
+        final SelectBox<String> fieldSelect = new SelectBox<>(skin);
+        fieldSelect.setItems("HP", "Name", "Pantheon", "Card Type");
+
+        final SelectBox<String> methodSelect = new SelectBox<>(skin);
+        methodSelect.setItems("Bubble Sort", "Insertion Sort", "Merge Sort");
+
+        final SelectBox<String> orderSelect = new SelectBox<>(skin);
+        orderSelect.setItems("Ascending", "Descending");
+
+        final SelectBox<String> pantheonValueSelect = new SelectBox<>(skin);
+        pantheonValueSelect.setItems("GREEK", "ROMAN");
+        pantheonValueSelect.setVisible(false);
+
+        final SelectBox<String> typeValueSelect = new SelectBox<>(skin);
+        typeValueSelect.setItems("GOD", "DIVINE", "ITEM", "ARTIFACT");
+        typeValueSelect.setVisible(false);
+
+        fieldSelect.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                String selected = fieldSelect.getSelected();
+                pantheonValueSelect.setVisible("Pantheon".equals(selected));
+                typeValueSelect.setVisible("Card Type".equals(selected));
+            }
+        });
+
+        TextButton applyBtn = new TextButton("Apply Sort", skin);
+        applyBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String field = fieldSelect.getSelected();
+                String method = methodSelect.getSelected();
+                boolean ascending = orderSelect.getSelected().equals("Ascending");
+
+                currentPantheonFilter = pantheonValueSelect.isVisible() ? pantheonValueSelect.getSelected() : null;
+                currentTypeFilter = typeValueSelect.isVisible() ? typeValueSelect.getSelected() : null;
+
+                sortCards(field, method, ascending);
+                dialog.hide();
+            }
+        });
+
+        TextButton clearBtn = new TextButton("Clear Filters", skin);
+        clearBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                currentPantheonFilter = null;
+                currentTypeFilter = null;
+                allCards = CardSystem.loadCardsFromJson();
+                rebuildCardTable();
+                dialog.hide();
+            }
+        });
+
+        Table table = new Table();
+        table.add(new Label("Sort Field: ", skin)).left();
+        table.add(fieldSelect).row();
+        table.add(new Label("Sort Method: ", skin)).left();
+        table.add(methodSelect).row();
+        table.add(new Label("Order: ", skin)).left();
+        table.add(orderSelect).row();
+
+        table.add(new Label("Pantheon Value:", skin)).left();
+        table.add(pantheonValueSelect).row();
+
+        table.add(new Label("Card Type Value:", skin)).left();
+        table.add(typeValueSelect).row();
+
+        table.add(applyBtn).padTop(10);
+        table.add(clearBtn).padTop(10);
+
+        dialog.getContentTable().add(table);
+        dialog.button("Cancel");
+        dialog.show(stage);
+    }
+
+    private void sortCards(String field, String method, boolean ascending) {
+        Comparator<CardSystem.Card> comparator;
+        List<CardSystem.Card> filtered = new ArrayList<>(CardSystem.loadCardsFromJson());
+
+        if (currentPantheonFilter != null) {
+            filtered.removeIf(card -> !card.getPantheon().name().equalsIgnoreCase(currentPantheonFilter));
+        }
+
+        if (currentTypeFilter != null) {
+            filtered.removeIf(card -> !card.getType().name().equalsIgnoreCase(currentTypeFilter));
+        }
+
+        switch (field) {
+            case "HP":
+                comparator = Comparator.comparingInt(CardSystem.Card::getHealth);
+                break;
+            case "Name":
+                comparator = Comparator.comparing(CardSystem.Card::getName, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "Pantheon":
+                comparator = Comparator.comparing(card -> card.getPantheon().name(), String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "Card Type":
+                comparator = Comparator.comparing(card -> card.getType().name(), String.CASE_INSENSITIVE_ORDER);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown field: " + field);
+        }
+
+        if (!ascending) {
+            comparator = comparator.reversed();
+        }
+
+        switch (method) {
+            case "Bubble Sort":
+                bubbleSort(filtered, comparator);
+                break;
+            case "Insertion Sort":
+                insertionSort(filtered, comparator);
+                break;
+            case "Merge Sort":
+                filtered.sort(comparator);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown sort method: " + method);
+        }
+
+        allCards = filtered;
+        updateCardDisplay();
+    }
+
+    private void bubbleSort(List<CardSystem.Card> list, Comparator<CardSystem.Card> comparator) {
+        int n = list.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (comparator.compare(list.get(j), list.get(j + 1)) > 0) {
+                    Collections.swap(list, j, j + 1);
+                }
+            }
+        }
+    }
+
+    private void insertionSort(List<CardSystem.Card> list, Comparator<CardSystem.Card> comparator) {
+        for (int i = 1; i < list.size(); i++) {
+            CardSystem.Card key = list.get(i);
+            int j = i - 1;
+            while (j >= 0 && comparator.compare(list.get(j), key) > 0) {
+                list.set(j + 1, list.get(j));
+                j--;
+            }
+            list.set(j + 1, key);
+        }
+    }
+
+    private void updateCardDisplay() {
+        rebuildCardTable();
     }
 }

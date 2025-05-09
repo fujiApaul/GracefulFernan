@@ -1,4 +1,6 @@
 [
+
+
   {
     "name": "Aeolus",
     "health": 100,
@@ -14,7 +16,7 @@
   {
     "name": "Luna",
     "health": 90,
-    "type": "GOD",
+    "type": "DIVINE",
     "pantheon": "ROMAN",
     "imagePath": "cards/luna.png",
     "skills": [
@@ -58,7 +60,7 @@
     "health": 90,
     "type": "DIVINE",
     "pantheon": "GREEK",
-    "imagePath": "cards/luna.png",
+    "imagePath": "cards/ananke.png",
     "skills": [
       {
         "name": "Silver Slash",
@@ -73,5 +75,125 @@
         "amount": 20
       }
     ]
+  },
+
+  {
+    "name": "Aquilo",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/aquilo.png",
+    "skills": [
+      {
+        "name": "Silver Slash",
+        "cost": 2,
+        "effectType": "DAMAGE",
+        "amount": 20
+      },
+      {
+        "name": "Moonlight Barrier",
+        "cost": 1,
+        "effectType": "HEAL",
+        "amount": 20
+      }
+    ]
+  },
+
+  {
+    "name": "Arcus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/arcus.png",
+    "skills": [
+      {
+        "name": "Silver Slash",
+        "cost": 2,
+        "effectType": "DAMAGE",
+        "amount": 20
+      },
+      {
+        "name": "Moonlight Barrier",
+        "cost": 1,
+        "effectType": "HEAL",
+        "amount": 20
+      }
+    ]
+  },
+
+  {
+    "name": "Asclepius",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/asclepius.png",
+    "skills": [
+      {
+        "name": "Silver Slash",
+        "cost": 2,
+        "effectType": "DAMAGE",
+        "amount": 20
+      },
+      {
+        "name": "Moonlight Barrier",
+        "cost": 1,
+        "effectType": "HEAL",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "name": "Boreas",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/boreas.png",
+    "skills": [
+      {
+        "name": "Silver Slash",
+        "cost": 2,
+        "effectType": "DAMAGE",
+        "amount": 20
+      },
+      {
+        "name": "Moonlight Barrier",
+        "cost": 1,
+        "effectType": "HEAL",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "name": "Golden Apple",
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "health": 0,
+    "imagePath": "items/goldenapple.png",
+    "skills": [
+      {
+        "name": "Item_Skill",
+        "cost": 0,
+        "effectType": "DAMAGE",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "name": "Vulcan's Smithing Gauntlet",
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "health": 0,
+    "imagePath": "artifacts/vulcans_smithing_gauntlet.png",
+    "skills": [
+      {
+        "name": "Artifact_Skill",
+        "cost": 0,
+        "effectType": "DAMAGE",
+        "amount": 30
+      }
+    ]
   }
+
+
+
 ]

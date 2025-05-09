@@ -142,6 +142,7 @@ public class MainFernan implements Screen {
             @Override public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 changeFont(button2, yellowFont);
             }
+
             @Override public void clicked(InputEvent event, float x, float y) {
                 if (!isMainMenu2) {
                     game.setScreen(new SettingsFernan(game));
@@ -149,7 +150,7 @@ public class MainFernan implements Screen {
                     System.out.println("Load Game clicked");
                     game.setScreen(new LoadGameFernan(game));
                     // handle load
-                }
+              
             }
         });
 
