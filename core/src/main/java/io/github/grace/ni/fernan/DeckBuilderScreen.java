@@ -32,19 +32,44 @@ public class DeckBuilderScreen implements Screen {
     private Image backgroundImage;
     private Map<CardSystem.Card, Container<VerticalGroup>> cardContainers = new HashMap<>();
     private Table cardTable;
+    private final ConvergingMapScreen returnMap;
+    private final ConvergingMapScreen.Node returnNode;
+
 
     private String currentPantheonFilter = null;
     private String currentTypeFilter = null;
 
     public DeckBuilderScreen(FernansGrace game) {
-        this.game = game;
+        // chain into the full constructor
+        this(game, null, null);
+    }
+
+    /**
+     * @param game       your game instance
+     * @param returnMap  the map screen to go back to
+     * @param returnNode which node to advance to on Select
+     */
+    /**
+     * called when coming from a Rest node
+     * @param returnMap   the map to go back to
+     * @param returnNode  which node to advance upon “Select”
+     */
+    public DeckBuilderScreen(FernansGrace game,
+                             ConvergingMapScreen returnMap,
+                             ConvergingMapScreen.Node returnNode) {
+        this.game       = game;
+        this.returnMap  = returnMap;
+        this.returnNode = returnNode;
+
         this.stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         allCards = CardSystem.loadCardsFromJson();
-        buildUI();
+
+        buildUI();    // builds the UI and wires up “SELECT”
     }
+
 
     private void buildUI() {
         stage.clear();
@@ -115,10 +140,14 @@ public class DeckBuilderScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedCards.size() > 0) {
-                    System.out.println("Selected Deck:");
-                    for (CardSystem.Card c : selectedCards)
-                        System.out.println("- " + c.getName());
-                    game.setScreen(new GameMap1Screen(game));
+                    // if we came here from a map, advance the marker
+                    if (returnMap != null && returnNode != null) {
+                        returnMap.moveTo(returnNode);
+                        game.setScreen(returnMap);
+                    } else {
+                        // original “start game” flow
+                        game.setScreen(new GameMap1Screen(game));
+                    }
                 }
             }
 
