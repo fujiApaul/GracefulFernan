@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import io.github.grace.ni.fernan.NewGameScreen;
+import io.github.grace.ni.fernan.LoadGameScreen;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
@@ -128,7 +130,7 @@ public class MainFernan implements Screen {
                     updateMenuButtons();
                 } else {
                     System.out.println("New Game clicked");
-                    game.setScreen(new GameMenuFernan(game));
+                    game.setScreen(new NewGameScreen(game));
                     game.isInGame = true;
                 }
             }
@@ -142,15 +144,14 @@ public class MainFernan implements Screen {
             @Override public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 changeFont(button2, yellowFont);
             }
-
             @Override public void clicked(InputEvent event, float x, float y) {
                 if (!isMainMenu2) {
                     game.setScreen(new SettingsFernan(game));
                 } else {
                     System.out.println("Load Game clicked");
-                    game.setScreen(new LoadGameFernan(game));
+                    game.setScreen(new LoadGameScreen(game));
                     // handle load
-              
+                }
             }
         });
 

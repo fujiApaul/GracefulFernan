@@ -11,9 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -22,365 +23,307 @@ import java.util.*;
 import java.util.List;
 
 public class DeckBuilderScreen implements Screen {
+    public interface ReturnCallback { void goBack(); }
 
     private final FernansGrace game;
+    private final SaveProfile profile;
+    private final DeckSelectionScreen.Deck deck;
+    private final ReturnCallback onBack;
+    private static final int MAX_CARDS = 20;
+
     private Stage stage;
-    private Skin skin;
+    private Skin  skin;
     private List<CardSystem.Card> allCards;
-    private List<CardSystem.Card> selectedCards = new ArrayList<>();
-    private Texture backgroundTexture;
-    private Image backgroundImage;
-    private Map<CardSystem.Card, Container<VerticalGroup>> cardContainers = new HashMap<>();
+    private List<CardSystem.Card> selected;
+    // after your `private List<CardSystem.Card> allCards;`
+    private Set<String> selectedIds;
     private Table cardTable;
-    private final ConvergingMapScreen returnMap;
-    private final ConvergingMapScreen.Node returnNode;
+    private Texture bgTex;
+    private Image   bgImg;
 
+    private BitmapFont fontWhite, fontYellow, fontHover;
 
-    private String currentPantheonFilter = null;
-    private String currentTypeFilter = null;
-
-    public DeckBuilderScreen(FernansGrace game) {
-        // chain into the full constructor
-        this(game, null, null);
-    }
-
-    /**
-     * @param game       your game instance
-     * @param returnMap  the map screen to go back to
-     * @param returnNode which node to advance to on Select
-     */
-    /**
-     * called when coming from a Rest node
-     * @param returnMap   the map to go back to
-     * @param returnNode  which node to advance upon “Select”
-     */
     public DeckBuilderScreen(FernansGrace game,
-                             ConvergingMapScreen returnMap,
-                             ConvergingMapScreen.Node returnNode) {
-        this.game       = game;
-        this.returnMap  = returnMap;
-        this.returnNode = returnNode;
+                             SaveProfile profile,
+                             DeckSelectionScreen.Deck deck,
+                             ReturnCallback onBack) {
+        this.game    = game;
+        this.profile = profile;
+        this.deck    = deck;
+        this.onBack  = onBack;
 
-        this.stage = new Stage(new ScreenViewport());
+        // Pre‐seed selected with the deck’s current cards:
+        this.selected = new ArrayList<>(deck.getCards());
+
+        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-        allCards = CardSystem.loadCardsFromJson();
+        // Only load the player’s owned cards:
+        allCards = new ArrayList<>(profile.getOwnedCards());
 
-        buildUI();    // builds the UI and wires up “SELECT”
+        // seed selectedIds from the cards already in deck:
+        selectedIds = new HashSet<>();
+        for (CardSystem.Card c : deck.getCards()) {
+            selectedIds.add(c.getName());
+        }
+// also seed your `selected` list if you still need it elsewhere:
+        selected = new ArrayList<>(deck.getCards());
+
+
+        bgTex = new Texture(Gdx.files.internal("ui/deckbuilderscreenbg.png"));
+        bgImg = new Image(bgTex);
+
+        fontWhite  = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
+        fontYellow = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
+        fontHover  = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
+
+        buildUI();
     }
-
 
     private void buildUI() {
         stage.clear();
+        bgImg.setFillParent(true);
+        stage.addActor(bgImg);
 
-        backgroundTexture = new Texture(Gdx.files.internal("ui/deckbuilderscreenbg.png"));
-        backgroundImage = new Image(backgroundTexture);
-        backgroundImage.setFillParent(true);
-        stage.addActor(backgroundImage);
-
-        Table root = new Table();
+        Table root = new Table(skin);
         root.setFillParent(true);
         stage.addActor(root);
 
-        ImageButton backButton = new ImageButton(new TextureRegionDrawable(
+        // Back button
+        ImageButton back = new ImageButton(new TextureRegionDrawable(
             new TextureRegion(new Texture("ui/backicon.png"))));
-        backButton.setSize(50, 50);
-        backButton.getImage().setScaling(Scaling.fit);
-        backButton.getImageCell().size(50, 50);
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameMenuScreen(game));
+        back.setSize(50,50);
+        back.addListener(new ClickListener(){
+            @Override public void clicked(InputEvent e, float x, float y) {
+                onBack.goBack();
             }
         });
 
-        ImageButton sortButton = new ImageButton(new TextureRegionDrawable(
+        // Sort button
+        ImageButton sort = new ImageButton(new TextureRegionDrawable(
             new TextureRegion(new Texture("ui/sorticon.png"))));
-        sortButton.setSize(50, 50);
-        sortButton.getImage().setScaling(Scaling.fit);
-        sortButton.getImageCell().size(50, 50);
-        sortButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+        sort.setSize(50,50);
+        sort.addListener(new ClickListener(){
+            @Override public void clicked(InputEvent e, float x, float y) {
                 showSortDialog();
             }
         });
 
-        Table header = new Table();
+        Label title = new Label("CARD SELECTION",
+            new Label.LabelStyle(fontWhite, Color.WHITE));
+
+        Table header = new Table(skin);
         header.pad(10).top();
+        header.add(back).size(50,50).padRight(10);
+        header.add(title).expandX().left();
+        header.add(sort).size(50,50);
+        root.add(header).colspan(4).fillX().row();
 
-        header.add(backButton).size(50, 50).padRight(10).left();
-        Label titleLabel = new Label("CARD SELECTION", skin);
-        titleLabel.setColor(Color.WHITE);
-        header.add(titleLabel).left().expandX();
-        header.add(sortButton).size(50, 50).padLeft(10).right();
+        // Card grid
+        cardTable = new Table(skin);
+        refreshCards();
+        ScrollPane sp = new ScrollPane(cardTable, skin);
+        sp.setFadeScrollBars(false);
+        root.add(sp).expand().fill().colspan(4).pad(10).row();
 
-        cardTable = new Table().top().left();
-        rebuildCardTable();
-
-        ScrollPane scrollPane = new ScrollPane(cardTable, skin);
-        scrollPane.setFadeScrollBars(false);
-        scrollPane.setScrollingDisabled(true, false);
-        scrollPane.setScrollbarsOnTop(true);
-
-        root.add(header).expandX().fillX().top().row();
-        root.add(scrollPane).expand().fill().pad(10).row();
-
-        BitmapFont whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
-        BitmapFont yellowFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
-
-        Label.LabelStyle selectButtonStyle = new Label.LabelStyle();
-        selectButtonStyle.font = whiteFont;
-
-        final Label selectButton = new Label("SELECT", selectButtonStyle);
-        selectButton.setColor(Color.WHITE);
-
-        selectButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (selectedCards.size() > 0) {
-                    // if we came here from a map, advance the marker
-                    if (returnMap != null && returnNode != null) {
-                        returnMap.moveTo(returnNode);
-                        game.setScreen(returnMap);
-                    } else {
-                        // original “start game” flow
-                        game.setScreen(new GameMap1Screen(game));
-                    }
+        // SELECT label with hover font
+        final Label select = new Label("SELECT", new Label.LabelStyle(fontWhite, Color.WHITE));
+        select.setAlignment(Align.center);
+        select.addListener(new ClickListener(){
+            @Override public void clicked(InputEvent e, float x, float y) {
+                if (!selected.isEmpty()) {
+                    deck.getCards().clear();
+                    deck.getCards().addAll(selected);
+                    SaveManager.saveProfile(profile);
+                    onBack.goBack();
                 }
             }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                selectButtonStyle.font = yellowFont;
-                selectButton.setStyle(selectButtonStyle);
-                selectButton.setColor(Color.YELLOW);
+            @Override public void enter(InputEvent event, float x, float y, int pointer, Actor from) {
+                select.setStyle(new Label.LabelStyle(fontHover, Color.WHITE));
             }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                selectButtonStyle.font = whiteFont;
-                selectButton.setStyle(selectButtonStyle);
-                selectButton.setColor(Color.WHITE);
+            @Override public void exit(InputEvent event, float x, float y, int pointer, Actor to) {
+                select.setStyle(new Label.LabelStyle(fontWhite, Color.WHITE));
             }
         });
-
-        root.add(selectButton).padTop(20).colspan(3);
+        root.add(select).colspan(4).padTop(20);
     }
 
-    private void rebuildCardTable() {
+    private void refreshCards() {
         cardTable.clear();
-        cardContainers.clear();
+        int cols = 4, i = 0;
 
-        int columns = 4;
-        int i = 0;
+        for (CardSystem.Card c : allCards) {
+            // create the image & container
+            Image img = new Image(new TextureRegionDrawable(
+                new TextureRegion(new Texture(c.getImagePath()))
+            ));
+            img.setScaling(Scaling.fit);
 
-        for (CardSystem.Card card : allCards) {
-            VerticalGroup cardGroup = new VerticalGroup();
-            cardGroup.space(5);
-            cardGroup.pad(5);
-            cardGroup.setTouchable(Touchable.enabled);
+            // to this:
+            Container<Image> cont = new Container<>(img);
+            cont.size(190, 280);
+            cont.pad(5);
+            cont.setTouchable(Touchable.enabled);
 
-            Texture texture = new Texture(Gdx.files.internal(card.getImagePath()));
-            Image cardImage = new Image(texture);
-            cardImage.setScaling(Scaling.fit);
+            // mark already‐selected cards
+            boolean inDeck = selectedIds.contains(c.getName());
+            if (inDeck) {
+                cont.background(skin.newDrawable("white", Color.YELLOW));
+            } else {
+                cont.background(skin.newDrawable("white", Color.DARK_GRAY));
+            }
 
-            Container<Image> imageContainer = new Container<>(cardImage);
-            imageContainer.size(190, 280);
 
-            cardGroup.addActor(imageContainer);
-
-            Container<VerticalGroup> container = new Container<>(cardGroup);
-            container.setBackground(skin.newDrawable("white", Color.DARK_GRAY));
-            container.width(190).height(280).pad(10);
-
-            cardContainers.put(card, container);
-
-            cardGroup.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    if (selectedCards.contains(card)) {
-                        selectedCards.remove(card);
-                        container.setBackground(skin.newDrawable("white", Color.DARK_GRAY));
-                    } else if (selectedCards.size() < 10) {
-                        selectedCards.add(card);
-                        container.setBackground(skin.newDrawable("white", Color.YELLOW));
+            // toggle on click
+            cont.addListener(new ClickListener(){
+                @Override public void clicked(InputEvent e, float x, float y) {
+                    String id = c.getName();
+                    if (selectedIds.remove(id)) {
+                        // was selected, now removed
+                        selected.removeIf(card -> card.getName().equals(id));
+                        cont.background(skin.newDrawable("white", Color.DARK_GRAY));
+                    } else if (selectedIds.size() < MAX_CARDS) {
+                        selectedIds.add(id);
+                        selected.add(c);
+                        cont.background(skin.newDrawable("white", Color.YELLOW));
                     }
                 }
             });
 
-            cardTable.add(container).pad(10);
 
-            i++;
-            if (i % columns == 0) cardTable.row();
+            cardTable.add(cont).pad(10);
+            if (++i % cols == 0) cardTable.row();
         }
     }
 
-    @Override public void show() {}
+    @Override public void show() {
+        Gdx.input.setInputProcessor(stage);
+    }
     @Override public void render(float delta) {
-        ScreenUtils.clear(0, 0, 0, 1);
+        ScreenUtils.clear(Color.BLACK);
         stage.act(delta);
         stage.draw();
     }
-    @Override public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-    @Override public void pause() {}
+    @Override public void resize(int w, int h) { stage.getViewport().update(w,h,true); }
+    @Override public void pause()  {}
     @Override public void resume() {}
-    @Override public void hide() {}
+    @Override public void hide()   {}
     @Override public void dispose() {
         stage.dispose();
         skin.dispose();
-        backgroundTexture.dispose();
+        bgTex.dispose();
+        fontWhite.dispose();
+        fontYellow.dispose();
+        fontHover.dispose();
     }
 
-    private void showSortDialog() {
+    /** Copy your existing showSortDialog/bubbleSort/insertionSort here… */
+    public void showSortDialog() {
         Dialog dialog = new Dialog("Sort Cards", skin);
 
+        // 1) Field selector
         final SelectBox<String> fieldSelect = new SelectBox<>(skin);
         fieldSelect.setItems("HP", "Name", "Pantheon", "Card Type");
 
+        // 2) Method selector
         final SelectBox<String> methodSelect = new SelectBox<>(skin);
         methodSelect.setItems("Bubble Sort", "Insertion Sort", "Merge Sort");
 
+        // 3) Order selector
         final SelectBox<String> orderSelect = new SelectBox<>(skin);
         orderSelect.setItems("Ascending", "Descending");
 
-        final SelectBox<String> pantheonValueSelect = new SelectBox<>(skin);
-        pantheonValueSelect.setItems("GREEK", "ROMAN");
-        pantheonValueSelect.setVisible(false);
+        // 4) Build table
+        Table table = new Table(skin);
+        table.add(new Label("Field:", skin)).left();
+        table.add(fieldSelect).row();
+        table.add(new Label("Method:", skin)).left();
+        table.add(methodSelect).row();
+        table.add(new Label("Order:", skin)).left();
+        table.add(orderSelect).row();
 
-        final SelectBox<String> typeValueSelect = new SelectBox<>(skin);
-        typeValueSelect.setItems("GOD", "DIVINE", "ITEM", "ARTIFACT");
-        typeValueSelect.setVisible(false);
-
-        fieldSelect.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                String selected = fieldSelect.getSelected();
-                pantheonValueSelect.setVisible("Pantheon".equals(selected));
-                typeValueSelect.setVisible("Card Type".equals(selected));
-            }
-        });
-
+        // 5) Apply button
         TextButton applyBtn = new TextButton("Apply Sort", skin);
         applyBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String field = fieldSelect.getSelected();
+                String field  = fieldSelect.getSelected();
                 String method = methodSelect.getSelected();
-                boolean ascending = orderSelect.getSelected().equals("Ascending");
+                boolean asc   = orderSelect.getSelected().equals("Ascending");
 
-                currentPantheonFilter = pantheonValueSelect.isVisible() ? pantheonValueSelect.getSelected() : null;
-                currentTypeFilter = typeValueSelect.isVisible() ? typeValueSelect.getSelected() : null;
+                // choose comparator
+                Comparator<CardSystem.Card> cmp;
+                switch (field) {
+                    case "HP":
+                        cmp = Comparator.comparingInt(CardSystem.Card::getHealth);
+                        break;
+                    case "Name":
+                        cmp = Comparator.comparing(CardSystem.Card::getName, String.CASE_INSENSITIVE_ORDER);
+                        break;
+                    case "Pantheon":
+                        cmp = Comparator.comparing(c -> c.getPantheon().name(), String.CASE_INSENSITIVE_ORDER);
+                        break;
+                    case "Card Type":
+                        cmp = Comparator.comparing(c -> c.getType().name(), String.CASE_INSENSITIVE_ORDER);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unknown field: " + field);
+                }
+                if (!asc) cmp = cmp.reversed();
 
-                sortCards(field, method, ascending);
+                // sort
+                switch (method) {
+                    case "Bubble Sort":
+                        bubbleSort(allCards, cmp);
+                        break;
+                    case "Insertion Sort":
+                        insertionSort(allCards, cmp);
+                        break;
+                    case "Merge Sort":
+                        allCards.sort(cmp);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unknown method: " + method);
+                }
+
                 dialog.hide();
+                refreshCards();
             }
         });
 
-        TextButton clearBtn = new TextButton("Clear Filters", skin);
-        clearBtn.addListener(new ClickListener() {
+        // 6) Cancel button
+        TextButton cancelBtn = new TextButton("Cancel", skin);
+        cancelBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                currentPantheonFilter = null;
-                currentTypeFilter = null;
-                allCards = CardSystem.loadCardsFromJson();
-                rebuildCardTable();
                 dialog.hide();
             }
         });
 
-        Table table = new Table();
-        table.add(new Label("Sort Field: ", skin)).left();
-        table.add(fieldSelect).row();
-        table.add(new Label("Sort Method: ", skin)).left();
-        table.add(methodSelect).row();
-        table.add(new Label("Order: ", skin)).left();
-        table.add(orderSelect).row();
-
-        table.add(new Label("Pantheon Value:", skin)).left();
-        table.add(pantheonValueSelect).row();
-
-        table.add(new Label("Card Type Value:", skin)).left();
-        table.add(typeValueSelect).row();
-
-        table.add(applyBtn).padTop(10);
-        table.add(clearBtn).padTop(10);
+        // 7) Lay out buttons
+        table.row().padTop(10);
+        table.add(applyBtn).padRight(10);
+        table.add(cancelBtn);
 
         dialog.getContentTable().add(table);
-        dialog.button("Cancel");
         dialog.show(stage);
     }
-
-    private void sortCards(String field, String method, boolean ascending) {
-        Comparator<CardSystem.Card> comparator;
-        List<CardSystem.Card> filtered = new ArrayList<>(CardSystem.loadCardsFromJson());
-
-        if (currentPantheonFilter != null) {
-            filtered.removeIf(card -> !card.getPantheon().name().equalsIgnoreCase(currentPantheonFilter));
-        }
-
-        if (currentTypeFilter != null) {
-            filtered.removeIf(card -> !card.getType().name().equalsIgnoreCase(currentTypeFilter));
-        }
-
-        switch (field) {
-            case "HP":
-                comparator = Comparator.comparingInt(CardSystem.Card::getHealth);
-                break;
-            case "Name":
-                comparator = Comparator.comparing(CardSystem.Card::getName, String.CASE_INSENSITIVE_ORDER);
-                break;
-            case "Pantheon":
-                comparator = Comparator.comparing(card -> card.getPantheon().name(), String.CASE_INSENSITIVE_ORDER);
-                break;
-            case "Card Type":
-                comparator = Comparator.comparing(card -> card.getType().name(), String.CASE_INSENSITIVE_ORDER);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown field: " + field);
-        }
-
-        if (!ascending) {
-            comparator = comparator.reversed();
-        }
-
-        switch (method) {
-            case "Bubble Sort":
-                bubbleSort(filtered, comparator);
-                break;
-            case "Insertion Sort":
-                insertionSort(filtered, comparator);
-                break;
-            case "Merge Sort":
-                filtered.sort(comparator);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown sort method: " + method);
-        }
-
-        allCards = filtered;
-        updateCardDisplay();
-    }
-
-    private void bubbleSort(List<CardSystem.Card> list, Comparator<CardSystem.Card> comparator) {
-        int n = list.size();
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (comparator.compare(list.get(j), list.get(j + 1)) > 0) {
+    private <T> void bubbleSort(List<T> list, Comparator<T> cmp) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = 0; j < list.size() - i - 1; j++) {
+                if (cmp.compare(list.get(j), list.get(j + 1)) > 0) {
                     Collections.swap(list, j, j + 1);
                 }
             }
         }
     }
 
-    private void insertionSort(List<CardSystem.Card> list, Comparator<CardSystem.Card> comparator) {
+    private <T> void insertionSort(List<T> list, Comparator<T> cmp) {
         for (int i = 1; i < list.size(); i++) {
-            CardSystem.Card key = list.get(i);
+            T key = list.get(i);
             int j = i - 1;
-            while (j >= 0 && comparator.compare(list.get(j), key) > 0) {
+            while (j >= 0 && cmp.compare(list.get(j), key) > 0) {
                 list.set(j + 1, list.get(j));
                 j--;
             }
@@ -388,7 +331,4 @@ public class DeckBuilderScreen implements Screen {
         }
     }
 
-    private void updateCardDisplay() {
-        rebuildCardTable();
-    }
 }

@@ -18,14 +18,16 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class GameMenuFernan implements Screen {
 
     private final FernansGrace game;
+    private final SaveProfile profile;
     private Stage stage;
     private Texture background;
     private BitmapFont defaultFont;
     private BitmapFont hoverFont;
     private Label descriptionLabel;
 
-    public GameMenuFernan(final FernansGrace game) {
+    public GameMenuFernan(FernansGrace game, SaveProfile profile) {
         this.game = game;
+        this.profile = profile;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -37,18 +39,18 @@ public class GameMenuFernan implements Screen {
         stage.addActor(bgImage);
 
         defaultFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
-        hoverFont = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
+        hoverFont   = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
 
         Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("ui/transparent.png")));
 
         TextButton.TextButtonStyle defaultStyle = new TextButton.TextButtonStyle();
-        defaultStyle.up = transparentDrawable;
-        defaultStyle.down = transparentDrawable;
-        defaultStyle.over = transparentDrawable;
-        defaultStyle.font = defaultFont;
+        defaultStyle.up    = transparentDrawable;
+        defaultStyle.down  = transparentDrawable;
+        defaultStyle.over  = transparentDrawable;
+        defaultStyle.font  = defaultFont;
 
         TextButton.TextButtonStyle hoverStyle = new TextButton.TextButtonStyle();
-        hoverStyle.up = transparentDrawable;
+        hoverStyle.up   = transparentDrawable;
         hoverStyle.down = transparentDrawable;
         hoverStyle.over = transparentDrawable;
         hoverStyle.font = hoverFont;
@@ -85,33 +87,35 @@ public class GameMenuFernan implements Screen {
             rowDescription.setAlignment(Align.left);
 
             button.addListener(new ClickListener() {
-                @Override
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                @Override public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     button.setStyle(hoverStyle);
                     rowDescription.setText(descriptions[index]);
                 }
-
-                @Override
-                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                @Override public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                     button.setStyle(defaultStyle);
                     rowDescription.setText("");
                 }
-
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
+                @Override public void clicked(InputEvent event, float x, float y) {
                     switch (index) {
                         case 0:
-                            System.out.println("Load game clicked");
-                            game.setScreen(new ModeSelectionFernan(game));
+                            game.setScreen(new ModeSelectionFernan(game, profile));
                             break;
-                        case 1:
-                            System.out.println("Load game clicked");
+                        case 1: {
+                            DeckSelectionScreen.ReturnCallback onBack = () -> {
+                                game.setScreen(new GameMenuFernan(game, profile));
+                            };
+                            game.setScreen(new DeckSelectionScreen(
+                                game,
+                                profile,
+                                onBack
+                            ));
                             break;
+                        }
                         case 2:
                             game.setScreen(new StoreScreenFernan(game));
                             break;
                         case 3:
-                            game.setScreen(new SettingsFernan(game)); // Go back to the main menu
+                            game.setScreen(new SettingsFernan(game));
                             break;
                         case 4:
                             game.setScreen(new MainFernan(game));
@@ -122,38 +126,30 @@ public class GameMenuFernan implements Screen {
             });
 
             float extraPadLeft = (index == 1 || index == 2) ? 40f : 0f;
-
             table.add(button).padBottom(20).padLeft(extraPadLeft).left();
             table.add(rowDescription).padLeft(30 + extraPadLeft).width(600).left().row();
         }
     }
 
-    @Override
-    public void show() {}
+    // Legacy constructor for backward compatibility (if ever used)
+    public GameMenuFernan(FernansGrace game) {
+        this(game, null);
+    }
 
-    @Override
-    public void render(float delta) {
+    @Override public void show() {}
+
+    @Override public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
     }
-
-    @Override
-    public void resize(int width, int height) {
+    @Override public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
-
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
-
-    @Override
-    public void hide() {}
-
-    @Override
-    public void dispose() {
+    @Override public void pause() {}
+    @Override public void resume() {}
+    @Override public void hide() {}
+    @Override public void dispose() {
         stage.dispose();
         background.dispose();
         defaultFont.dispose();

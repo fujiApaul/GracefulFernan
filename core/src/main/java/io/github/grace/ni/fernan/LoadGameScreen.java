@@ -17,11 +17,16 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import io.github.grace.ni.fernan.SaveManager;
+import io.github.grace.ni.fernan.SaveProfile;
+import java.util.List;
+
 
 public class LoadGameScreen implements Screen {
 
     final FernansGrace game;
     private Stage stage;
+    private List<SaveProfile> profiles;
     private Texture background;
     private int selectedSaveIndex = -1;
 
@@ -30,21 +35,15 @@ public class LoadGameScreen implements Screen {
     private BitmapFont buttonFontHover;
     private Skin skin;
 
-    private String[] saveNames = {
-        "Zeus Starting Save", "asdasdawdasd", "ewanko", "speedrun attempt 2",
-        "paul nakilaro save", "lebron card save", "god pack save", "asjdadsaldadak", "malding malala save"
-    };
-    private String[] saveDates = {
-        "2:31 pm 05/01/2024", "2:31 pm 05/01/2024", "2:31 pm 05/01/2024", "2:31 pm 05/01/2024",
-        "2:31 pm 05/01/2024", "2:31 pm 05/01/2024", "2:31 pm 05/01/2024", "2:31 pm 05/01/2024", "2:31 pm 05/01/2024"
-    };
-
     public LoadGameScreen(final FernansGrace game) {
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        // pull all saved profiles
+        profiles = SaveManager.listProfiles();
+
 
         Texture bgTexture = new Texture(Gdx.files.internal("ui/loadbg.png"));
         bgTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -83,7 +82,7 @@ public class LoadGameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO: Replace with actual screen change
-                System.out.println("Back button clicked.");
+                game.setScreen(new MainFernan(game));
             }
         });
 
@@ -108,34 +107,22 @@ public class LoadGameScreen implements Screen {
         scrollContent.defaults().expandX().fillX();
 
 
-        for (int i = 0; i < saveNames.length; i++) {
+        for (int i = 0; i < profiles.size(); i++) {
             final int index = i;
-            final Table row = new Table();
+            final SaveProfile p = profiles.get(i);
+            Table row = new Table();
             row.padBottom(10);
-            row.setBackground(selectionDrawable); // Optional default background
+            row.setBackground(selectionDrawable);
             row.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
+                @Override public void clicked(InputEvent e, float x, float y) {
                     selectedSaveIndex = index;
                     updateRowSelection(scrollContent);
                 }
             });
-
-
-            Label.LabelStyle nameStyle = new Label.LabelStyle(font, Color.BLACK);
-            Label.LabelStyle dateStyle = new Label.LabelStyle(font, Color.BLACK);
-
-            Label nameLabel = new Label(saveNames[i], nameStyle);
+            Label nameLabel = new Label(p.saveName, new Label.LabelStyle(font, Color.BLACK));
             nameLabel.setFontScale(1.5f);
             nameLabel.setAlignment(Align.left);
-
-            Label timestampLabel = new Label(saveDates[i], dateStyle);
-            timestampLabel.setFontScale(1.5f);
-            timestampLabel.setAlignment(Align.right);
-
-            row.add(nameLabel).expandX().left().padRight(50);
-            row.add(timestampLabel).right();
-
+            row.add(nameLabel).expandX().left();
             scrollContent.add(row).expandX().fillX().row();
         }
 
@@ -164,7 +151,13 @@ public class LoadGameScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Load logic would be triggered here.");
+                if (selectedSaveIndex >= 0) {
+                    SaveProfile toLoad = profiles.get(selectedSaveIndex);
+                    SaveProfile loaded = SaveManager.loadProfile(toLoad.saveName);
+                    if (loaded != null) {
+                        game.setScreen(new GameMenuFernan(game, loaded));
+                    }
+                }
             }
         });
 

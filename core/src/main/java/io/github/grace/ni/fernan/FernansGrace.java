@@ -27,7 +27,7 @@ public class FernansGrace extends Game {
         batch = new SpriteBatch();
 
 
-        this.setScreen(new MapNavigationFernan(this));
+        this.setScreen(new MainFernan(this));
     }
 
     public void render(){
