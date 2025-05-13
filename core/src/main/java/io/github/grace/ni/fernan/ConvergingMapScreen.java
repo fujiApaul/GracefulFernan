@@ -278,11 +278,12 @@ public class ConvergingMapScreen implements Screen {
             popupTable.add(row).colspan(2).center().padTop(20).row();
         } else {
             ImageButton start = new ImageButton(new TextureRegionDrawable(new TextureRegion(startBtnTex)));
-            start.addListener(new ClickListener(){
+            start.addListener(new ClickListener() {
                 @Override public void clicked(InputEvent e, float x, float y) {
                     showingPopup = false;
                     uiStage.clear();
-                    game.setScreen(new BattleScreen(game, ConvergingMapScreen.this, node));
+                    // NEW: pass your SaveProfile so BattleScreen can load the right deck/currency/etc.
+                    game.setScreen(new BattleScreen(game, ConvergingMapScreen.this, profile));
                 }
             });
             popupTable.add(start).size(180,60).colspan(2).center().padTop(20);
