@@ -66,7 +66,7 @@ public class DeckBuilderScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameMenuScreen(game));
+                game.setScreen(new GameMenuFernan(game));
             }
         });
 

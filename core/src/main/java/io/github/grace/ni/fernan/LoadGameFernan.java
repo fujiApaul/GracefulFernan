@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.audio.Sound;
 
 public class LoadGameFernan implements Screen {
 
@@ -29,6 +30,7 @@ public class LoadGameFernan implements Screen {
     private BitmapFont buttonFont;
     private BitmapFont buttonFontHover;
     private Skin skin;
+    private Sound clickSound;
 
     private String[] saveNames = {
         "Zeus Starting Save", "asdasdawdasd", "ewanko", "speedrun attempt 2",
@@ -57,6 +59,8 @@ public class LoadGameFernan implements Screen {
         buttonFont = new BitmapFont(Gdx.files.internal("ui/smalligator_white.fnt"));
         buttonFontHover = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
 
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
+
         Table root = new Table();
         root.setFillParent(true);
         root.padTop(185).padBottom(10).padLeft(10).padRight(10);
@@ -82,8 +86,8 @@ public class LoadGameFernan implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Replace with actual screen change
-                System.out.println("Back button clicked.");
+                clickSound.play();
+                game.setScreen(new MainFernan(game));
             }
         });
 

@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.audio.Sound;
+
 
 public class GameMenuFernan implements Screen {
 
@@ -23,6 +25,7 @@ public class GameMenuFernan implements Screen {
     private BitmapFont defaultFont;
     private BitmapFont hoverFont;
     private Label descriptionLabel;
+    private Sound clickSound;
 
     public GameMenuFernan(final FernansGrace game) {
         this.game = game;
@@ -38,6 +41,8 @@ public class GameMenuFernan implements Screen {
 
         defaultFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
         hoverFont = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
 
         Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("ui/transparent.png")));
 
@@ -102,19 +107,24 @@ public class GameMenuFernan implements Screen {
                     switch (index) {
                         case 0:
                             System.out.println("Load game clicked");
+                            clickSound.play();
                             game.setScreen(new ModeSelectionFernan(game));
                             break;
                         case 1:
                             System.out.println("Load game clicked");
+                            clickSound.play();
                             game.setScreen(new DeckBuilderScreen(game));
                             break;
                         case 2:
+                            clickSound.play();
                             game.setScreen(new StoreScreenFernan(game));
                             break;
                         case 3:
+                            clickSound.play();
                             game.setScreen(new SettingsFernan(game)); // Go back to the main menu
                             break;
                         case 4:
+                            clickSound.play();
                             game.setScreen(new MainFernan(game));
                             game.isInGame = false;
                             break;

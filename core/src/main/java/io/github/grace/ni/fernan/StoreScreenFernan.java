@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.audio.Sound;
 
 public class StoreScreenFernan implements Screen {
     final FernansGrace game;
@@ -28,6 +29,8 @@ public class StoreScreenFernan implements Screen {
 
     private int selectedItemIndex = -1;
 
+    private Sound clickSound;
+
     public StoreScreenFernan(final FernansGrace game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
@@ -41,6 +44,7 @@ public class StoreScreenFernan implements Screen {
 
         Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
         // Background
         background = new Image(new Texture("Bg2B.PNG"));
         background.setFillParent(true);
@@ -85,6 +89,7 @@ public class StoreScreenFernan implements Screen {
             }
 
             @Override public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new GameMenuFernan(game));
             }
         });
@@ -169,6 +174,7 @@ public class StoreScreenFernan implements Screen {
                 // Transition to different screens based on the item clicked
                 switch (item.name) {
                     case "GOD/DIVINE PACK":
+                        clickSound.play();
                         game.setScreen(new PackScreenFernan(game,
                             new PackScreenFernan.StoreItem(
                                 "GOD / DIVINE CARD PACK",
@@ -182,7 +188,7 @@ public class StoreScreenFernan implements Screen {
                         break;
 
                     case "DIVINE/SUPPORT PACK":
-                        System.out.println("Load game clicked");
+                        clickSound.play();
                         game.setScreen(new PackScreenFernan(game,
                             new PackScreenFernan.StoreItem(
                                 "DIVINE / SUPPORT CARD PACK",
@@ -196,6 +202,7 @@ public class StoreScreenFernan implements Screen {
 
                         break;
                     case "ARTIFACT/ITEM PACK":
+                        clickSound.play();
                         game.setScreen(new PackScreenFernan(game,
                             new PackScreenFernan.StoreItem(
                                 "ARTIFACT / ITEM CARD PACK",
