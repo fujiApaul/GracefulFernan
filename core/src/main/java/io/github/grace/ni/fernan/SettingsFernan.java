@@ -1,5 +1,4 @@
 package io.github.grace.ni.fernan;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.audio.Sound;
-
 
 public class SettingsFernan implements Screen {
 
@@ -44,7 +42,6 @@ public class SettingsFernan implements Screen {
 
         clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
 
-
         Texture transparentTexture = new Texture(Gdx.files.internal("ui/transparent.png"));
         Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(transparentTexture));
 
@@ -52,25 +49,50 @@ public class SettingsFernan implements Screen {
         buttonStyle.up = transparentDrawable;
         buttonStyle.down = transparentDrawable;
         buttonStyle.over = transparentDrawable;
-        buttonStyle.font = yellowFont;  // Set the default font to yellow
+        buttonStyle.font = yellowFont;
 
+        // MUSIC TOGGLE BUTTON - CENTER
+        TextButton musicToggleButton = new TextButton(game.isMusicOn ? "Music: ON" : "Music: OFF", buttonStyle);
+        musicToggleButton.getLabel().setFontScale(2f);
+
+        musicToggleButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                changeFont(musicToggleButton, whiteFont);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                changeFont(musicToggleButton, yellowFont);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
+                game.toggleMusic();
+                musicToggleButton.setText(game.isMusicOn ? "Music: ON" : "Music: OFF");
+            }
+        });
+
+        // BACK BUTTON - BOTTOM
         TextButton backButton = new TextButton("Back", buttonStyle);
         backButton.getLabel().setFontScale(1.7f);
 
         backButton.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                changeFont(backButton, whiteFont);  // Change to white on hover
+                changeFont(backButton, whiteFont);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                changeFont(backButton, yellowFont);  // Change back to yellow when hover ends
+                changeFont(backButton, yellowFont);
             }
 
             @Override
-            public void clicked(InputEvent event, float x, float y) { clickSound.play();
-                if (!game.isInGame){
+            public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
+                if (!game.isInGame) {
                     game.setScreen(new MainFernan(game));
                 } else {
                     game.setScreen(new GameMenuFernan(game));
@@ -78,13 +100,20 @@ public class SettingsFernan implements Screen {
             }
         });
 
-        Table table = new Table();
-        table.setFillParent(true);
-        table.bottom().pad(30);
+        // TABLES
+        Table mainTable = new Table();
+        mainTable.setFillParent(true);
+        mainTable.center();
 
-        table.add(backButton).width(150).height(50);
+        Table bottomTable = new Table();
+        bottomTable.setFillParent(true);
+        bottomTable.bottom().pad(30);
 
-        stage.addActor(table);
+        mainTable.add(musicToggleButton).width(250).height(70);
+        bottomTable.add(backButton).width(150).height(50);
+
+        stage.addActor(mainTable);
+        stage.addActor(bottomTable);
     }
 
     private void changeFont(TextButton button, BitmapFont font) {
@@ -130,5 +159,8 @@ public class SettingsFernan implements Screen {
         stage.dispose();
         skin.dispose();
         font.dispose();
+        whiteFont.dispose();
+        yellowFont.dispose();
+        clickSound.dispose();
     }
 }

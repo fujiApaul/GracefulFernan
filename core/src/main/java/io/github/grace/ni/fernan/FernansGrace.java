@@ -6,10 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-/**
- * Main game class for FernansGrace.
- * Handles initial screen setup, music playback, and resource management.
- */
 public class FernansGrace extends Game {
 
     public SpriteBatch batch;
@@ -17,44 +13,45 @@ public class FernansGrace extends Game {
     public boolean isInGame = false;
 
     private Music backgroundMusic;
+    public boolean isMusicOn = true; // Music toggle flag
 
     @Override
     public void create() {
-        // Set up a 48x27 viewport (16:9 ratio scaled by 3)
         viewport = new FitViewport(16 * 3, 9 * 3);
         batch = new SpriteBatch();
 
-        // Try to load and play background music
         try {
             backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("BGM1.mp3"));
             backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.2f); // Volume range: 0.0 to 1.0
-            backgroundMusic.play();
+            backgroundMusic.setVolume(0.2f);
+            if (isMusicOn) backgroundMusic.play();
         } catch (Exception e) {
             Gdx.app.error("FernansGrace", "Failed to load or play background music.", e);
         }
 
-        // Set the initial screen
         setScreen(new MainFernan(this));
     }
 
-    @Override
-    public void render() {
-        super.render(); // Renders the current screen
+    public void toggleMusic() {
+        if (backgroundMusic == null) return;
+
+        if (isMusicOn) {
+            backgroundMusic.pause();
+            isMusicOn = false;
+        } else {
+            backgroundMusic.play();
+            isMusicOn = true;
+        }
     }
 
-    @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height, true);
-        super.resize(width, height);
+    public boolean isMusicPlaying() {
+        return isMusicOn;
     }
 
     @Override
     public void dispose() {
-        // Clean up core resources
         if (batch != null) batch.dispose();
         if (backgroundMusic != null) backgroundMusic.dispose();
-
         super.dispose();
     }
 }
