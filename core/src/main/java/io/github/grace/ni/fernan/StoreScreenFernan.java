@@ -42,33 +42,27 @@ public class StoreScreenFernan implements Screen {
         whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
         whiteFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-
         clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
-        // Background
+
         background = new Image(new Texture("Bg2B.PNG"));
         background.setFillParent(true);
         stage.addActor(background);
 
-        // Store Items
         storeItems = new Array<>();
-        storeItems.add(new StoreItem("GOD/DIVINE PACK", "\n\n\n\n\n\n\n Pack Owned", new Texture("BG1.png")));
-        storeItems.add(new StoreItem("DIVINE/SUPPORT PACK", "\n\n\n\n\n\n\n Pack Owned", new Texture("BG1.png")));
-        storeItems.add(new StoreItem("ARTIFACT/ITEM PACK", "\n\n\n\n\n\n\n Pack Owned", new Texture("BG1.png")));
+        storeItems.add(new StoreItem("GOD/DIVINE PACK", new Texture("cards/zeus.png")));
+        storeItems.add(new StoreItem("DIVINE/SUPPORT PACK", new Texture("BG1.png")));
+        storeItems.add(new StoreItem("ARTIFACT/ITEM PACK", new Texture("items/goldenapple.png")));
 
-        // Main layout table
         mainTable = new Table();
         mainTable.setFillParent(true);
         stage.addActor(mainTable);
 
-        // Create item cards
         for (int i = 0; i < 3; i++) {
             itemCards[i] = createItemCard(i);
         }
 
         layoutUI();
 
-        // Back button
         TextButton.TextButtonStyle backButtonStyle = new TextButton.TextButtonStyle();
         Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ui/transparent.png"))));
         backButtonStyle.up = transparentDrawable;
@@ -80,15 +74,18 @@ public class StoreScreenFernan implements Screen {
         backButton.getLabel().setFontScale(1.5f);
 
         backButton.addListener(new ClickListener() {
-            @Override public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 backButton.getLabel().setStyle(new Label.LabelStyle(whiteFont, Color.WHITE));
             }
 
-            @Override public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 backButton.getLabel().setStyle(new Label.LabelStyle(yellowFont, Color.YELLOW));
             }
 
-            @Override public void clicked(InputEvent event, float x, float y) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
                 clickSound.play();
                 game.setScreen(new GameMenuFernan(game));
             }
@@ -111,23 +108,21 @@ public class StoreScreenFernan implements Screen {
 
         Image image = new Image(item.texture);
         image.setColor(Color.WHITE);
-        image.getColor().a = 0.5f;
+        image.getColor().a = 1f;
 
         Table textTable = new Table();
         textTable.top().pad(10);
 
-        // Larger font scale for item name and description
         Label name = new Label(item.name, new Label.LabelStyle(yellowFont, Color.WHITE));
-        name.setFontScale(0.8f);  // Increased font scale
+        name.setFontScale(0.8f);
         name.setWrap(true);
         name.setAlignment(Align.center);
 
-        Label desc = new Label(item.description, new Label.LabelStyle(yellowFont, Color.WHITE));
-        desc.setFontScale(0.7f);  // Slightly larger description font scale
+        Label desc = new Label("Packs Owned: " + item.packsOwned, new Label.LabelStyle(yellowFont, Color.WHITE));
+        desc.setFontScale(0.7f);
         desc.setWrap(true);
         desc.setAlignment(Align.center);
 
-        // Adjusting widths to match the larger size
         textTable.add(name).width(280).padBottom(10).row();
         textTable.add(desc).width(280).padTop(20).row();
 
@@ -135,87 +130,75 @@ public class StoreScreenFernan implements Screen {
         stack.add(image);
         stack.add(textTable);
 
-        // Increased card dimensions (300x400)
         cardContainer.add(stack).width(250).height(350).row();
 
         cardContainer.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                image.setColor(Color.GREEN);
-                image.getColor().a = (itemIndex == selectedItemIndex) ? 1f : 0.7f;
+                image.setColor(Color.WHITE);
+                image.getColor().a = 1f;
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (itemIndex == selectedItemIndex) {
-                    image.setColor(Color.WHITE);
-                    image.getColor().a = 1f;
-                } else {
-                    image.setColor(Color.WHITE);
-                    image.getColor().a = 0.5f;
-                }
+                image.setColor(Color.WHITE);
+                image.getColor().a = 1f;
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedItemIndex != itemIndex) {
+                    // Select new item, reset alpha for all images
                     for (int j = 0; j < 3; j++) {
                         Image otherImage = (Image) ((Stack) itemCards[j].getChildren().first()).getChildren().first();
                         otherImage.setColor(Color.WHITE);
-                        otherImage.getColor().a = 0.5f;
+                        otherImage.getColor().a = 1f;
                     }
-                    image.setColor(Color.WHITE);
-                    image.getColor().a = 1f;
                     selectedItemIndex = itemIndex;
                 } else {
+                    // Increment owned packs on second click on selected item
+                    clickSound.play();
+                    item.packsOwned++;
+                    refreshItemCard(itemIndex);
                     System.out.println("Purchased: " + item.name);
                 }
 
-                // Transition to different screens based on the item clicked
+                // Switch to PackScreen passing current packsOwned count as String
                 switch (item.name) {
                     case "GOD/DIVINE PACK":
-                        clickSound.play();
                         game.setScreen(new PackScreenFernan(game,
-                            new PackScreenFernan.StoreItem(
+                            new PackScreenFernan.MutableStoreItem(
                                 "GOD / DIVINE CARD PACK",
                                 "\nThis pack contains a god or divine card with chances:\n\n" +
                                     "15% chance for a God Card\n" +
                                     "85% chance for a Divine Card",
-                                "Packs owned: 13",
-                                new Texture("BG1.png")
-                            )
-                        ));  // Transition to GodDivineScreen
+                                String.valueOf(item.packsOwned),
+                                new Texture("cards/zeus.png")
+                            )));
                         break;
-
                     case "DIVINE/SUPPORT PACK":
-                        clickSound.play();
                         game.setScreen(new PackScreenFernan(game,
-                            new PackScreenFernan.StoreItem(
+                            new PackScreenFernan.MutableStoreItem(
                                 "DIVINE / SUPPORT CARD PACK",
                                 "\nThis pack contains a divine or support card with chances:\n\n" +
                                     "15% chance for a God Card\n" +
                                     "85% chance for a Divine Card",
-                                "Packs owned: 13",
+                                String.valueOf(item.packsOwned),
                                 new Texture("BG1.png")
-                            )
-                        ));
-
+                            )));
                         break;
                     case "ARTIFACT/ITEM PACK":
-                        clickSound.play();
                         game.setScreen(new PackScreenFernan(game,
-                            new PackScreenFernan.StoreItem(
+                            new PackScreenFernan.MutableStoreItem(
                                 "ARTIFACT / ITEM CARD PACK",
-                                "\nThis pack contains a artifact or item card with chances:\n\n" +
+                                "\nThis pack contains an artifact or item card with chances:\n\n" +
                                     "15% chance for a God Card\n" +
                                     "85% chance for a Divine Card",
-                                "Packs owned: 13",
-                                new Texture("BG1.png")
-                            )
-                        ));  // Transition to ArtifactItemScreen
+                                String.valueOf(item.packsOwned),
+                                new Texture("items/goldenapple.png")
+                            )));
                         break;
                     default:
-                        // Handle unknown items if necessary
                         System.out.println("Unknown item: " + item.name);
                         break;
                 }
@@ -223,6 +206,16 @@ public class StoreScreenFernan implements Screen {
         });
 
         return cardContainer;
+    }
+
+    private void refreshItemCard(int index) {
+        Table card = itemCards[index];
+        Stack stack = (Stack) card.getChildren().first();
+        Table textTable = (Table) stack.getChildren().get(1);
+
+        Label descLabel = (Label) textTable.getChildren().get(1);
+        StoreItem item = storeItems.get(index);
+        descLabel.setText("Packs Owned: " + item.packsOwned);
     }
 
     private void layoutUI() {
@@ -247,6 +240,7 @@ public class StoreScreenFernan implements Screen {
     @Override public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
+
     @Override public void pause() {}
     @Override public void resume() {}
     @Override public void hide() {}
@@ -261,13 +255,13 @@ public class StoreScreenFernan implements Screen {
 
     static class StoreItem {
         String name;
-        String description;
         Texture texture;
+        int packsOwned;
 
-        public StoreItem(String name, String description, Texture texture) {
+        public StoreItem(String name, Texture texture) {
             this.name = name;
-            this.description = description;
             this.texture = texture;
+            this.packsOwned = 0;
         }
     }
 }
