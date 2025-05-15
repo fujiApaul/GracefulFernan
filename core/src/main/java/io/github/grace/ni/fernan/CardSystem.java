@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import io.github.grace.ni.fernan.SkillEffect;
-import java.util.List;
 import java.util.Iterator;
 import io.github.grace.ni.fernan.status.Status;
 
@@ -29,7 +28,6 @@ public class CardSystem {
         private int cost;
         private List<SkillEffect> effects;
 
-        /** JSON needs a public no-arg constructor */
         public Skill() {
         }
 
@@ -39,7 +37,6 @@ public class CardSystem {
             this.effects = effects;
         }
 
-        // ← ADD THESE SETTERS FOR JSON
         public void setName(String name) {
             this.name = name;
         }
@@ -53,9 +50,16 @@ public class CardSystem {
         public String getName() { return name; }
         public int    getCost() { return cost; }
 
+        // ADD THIS GETTER METHOD
+        public List<SkillEffect> getEffects() { return effects; }
+
         public void apply(Card user, Card target) {
-            for (SkillEffect e : effects) {
-                e.apply(user, target);
+            if (this.effects != null) {
+                for (SkillEffect e : this.effects) {
+                    if (e != null) {
+                        e.apply(user, target);
+                    }
+                }
             }
         }
     }
@@ -73,7 +77,6 @@ public class CardSystem {
         private boolean usedOnceThisBattle = false;
         private boolean usedThisTurn        = false;
 
-        /** Can this card be used right now? */
         public boolean canUse() {
             switch(type) {
                 case ITEM:
@@ -85,7 +88,6 @@ public class CardSystem {
             }
         }
 
-        /** Mark it as having been used. */
         public void markUsed() {
             switch(type) {
                 case ITEM:
@@ -97,15 +99,11 @@ public class CardSystem {
             }
         }
 
-        /** Call this when you actually “consume” the card */
         public void consume() {
-            // Move itself into its own graveyard
             graveyard.add(this);
-            // If it was in hand, drop it
             hand.remove(this);
         }
 
-        /** Reset artifact usage at the start of each player turn */
         public void resetTurnUsage() {
             usedThisTurn = false;
         }
@@ -119,6 +117,39 @@ public class CardSystem {
             this.pantheon = pantheon;
             this.imagePath = imagePath;
         }
+
+        public String getUniqueId() {
+            return name + "_" + (pantheon != null ? pantheon.name() : "NONE") + "_" + (type != null ? type.name() : "UNKNOWN");
+        }
+
+        /**
+         * Copy constructor to create a new instance from an existing card.
+         * Ensures deep copy of mutable fields like skills list.
+         */
+        public Card(Card other) {
+            this.name = other.name;
+            this.health = other.health;
+            this.skills = new ArrayList<>();
+            if (other.skills != null) {
+                for (Skill originalSkill : other.skills) {
+                    List<SkillEffect> newEffects = new ArrayList<>();
+                    // Check if originalSkill.getEffects() is not null before using it
+                    if (originalSkill.getEffects() != null) {
+                        // Assuming SkillEffect instances are shareable/stateless or re-created by EffectFactory
+                        // For a true deep copy where SkillEffect instances are also new,
+                        // you'd need to recreate them, possibly using original EffectData if available.
+                        // This current approach shares SkillEffect instances if they are directly copied.
+                        newEffects.addAll(originalSkill.getEffects());
+                    }
+                    this.skills.add(new Skill(originalSkill.getName(), originalSkill.getCost(), newEffects));
+                }
+            }
+            this.type = other.type;
+            this.pantheon = other.pantheon;
+            this.imagePath = other.imagePath;
+            // statuses, usedOnceThisBattle, usedThisTurn are battle-specific and start fresh for the new instance
+        }
+
 
         public void setName(String name) {
             this.name = name;
@@ -140,7 +171,6 @@ public class CardSystem {
         }
 
 
-        /** Returns all active status effects on this card. */
         public List<io.github.grace.ni.fernan.status.Status> getStatuses() {
             return statuses;
         }
@@ -155,17 +185,14 @@ public class CardSystem {
         public CardType getType() { return type; }
         public CardPantheon getPantheon() { return pantheon; }
 
-        /** JSON deserializer needs this */
         public Card() {
         }
 
 
-        /** Add a status effect to this card. */
         public void addStatus(io.github.grace.ni.fernan.status.Status s) {
             statuses.add(s);
         }
 
-        /** Called by battle logic to advance all statuses. */
         public void applyStartOfTurnStatuses() {
             Iterator<Status> it = statuses.iterator();
             while (it.hasNext()) {
@@ -175,7 +202,6 @@ public class CardSystem {
             }
         }
 
-        /** (Optional) if you need end-of-turn effects */
         public void applyEndOfTurnStatuses() {
             Iterator<Status> it = statuses.iterator();
             while (it.hasNext()) {
@@ -184,64 +210,37 @@ public class CardSystem {
                 if (st.isExpired()) it.remove();
             }
         }
-
-        // ——————————————————————————————————————
-        // Status & damage utilities
-
-        /** Subtracts health, clamped at 0. */
         public void takeDamage(int amount) {
             this.health = Math.max(0, this.health - amount);
         }
-
-        /** Heals up to whatever max you want (or unlimited). */
         public void heal(int amount) {
             this.health += amount;
         }
 
-        // ——————————————————————————————————————
-        // Bench slots for multi‐card effects
-
-        /** Cards sitting on the bench beside this one. */
         private final List<Card> bench = new ArrayList<>();
-        // for DrawFromGraveEffect
         private final List<Card> hand = new ArrayList<>();
         private final List<Card> graveyard = new ArrayList<>();
 
-        /** Remove and return one random card from the graveyard (or null if empty). */
         public Card drawFromGraveyard() {
             if (graveyard.isEmpty()) return null;
-            // pick a random one:
             return graveyard.remove((int)(Math.random() * graveyard.size()));
         }
-
-        /** Put a card into this card’s hand. */
         public void addToHand(Card c) {
             if (c != null) {
                 hand.add(c);
             }
         }
-
-
-        /** Returns the bench group (empty by default). */
         public List<Card> getBench() {
             return bench;
         }
-
-        /** Swap this card with a bench card (for RetreatEffect). */
         public void swapWithBench(Card benchCard) {
             int idx = bench.indexOf(benchCard);
             if (idx >= 0) {
                 bench.set(idx, this);
-                // wherever you track the “active” card,
-                // replace it with benchCard instead.
-                // This is just the placeholder:
-                // (you’ll need to wire it up in your battle logic)
             }
         }
-
     }
 
-    /** JSON‐binding helper classes for cards.json */
     public static class CardData {
         public String name;
         public int    health;
@@ -258,47 +257,68 @@ public class CardSystem {
 
         public static class EffectData {
             public String type;
-            public int    amount;    // for flat effects
-            public int    duration;  // for Poisons/Stuns/etc
-            public float  percent;   // for buffs/debuffs
+            public int    amount;
+            public int    duration;
+            public float  percent;
         }
     }
 
     public static List<Card> loadCardsFromJson() {
         List<Card> cards = new ArrayList<>();
         Json json = new Json();
-        Array<CardData> data = json.fromJson(Array.class, CardData.class, Gdx.files.internal("cards.json"));
+        json.setIgnoreUnknownFields(true); // Good practice for robustness
+        Array<CardData> dataArray = json.fromJson(Array.class, CardData.class, Gdx.files.internal("cards.json"));
 
-        for (CardData cd : data) {
-            CardType type = CardType.valueOf(cd.type.toUpperCase());
-            CardPantheon pantheon = CardPantheon.valueOf(cd.pantheon.toUpperCase());
+        if (dataArray == null) { // Check if dataArray itself is null
+            Gdx.app.error("CardSystem", "Failed to load or parse cards.json. dataArray is null.");
+            return cards; // Return empty list
+        }
 
-            List<Skill> skills = new ArrayList<>();
-            for (CardData.SkillData sd : cd.skills) {
-                List<SkillEffect> effects = new ArrayList<>();
-                for (CardData.EffectData ed : sd.effects) {
-                    effects.add(EffectFactory.create(ed));
-                }
-                skills.add(new Skill(sd.name, sd.cost, effects));
+        for (CardData cd : dataArray) {
+            if (cd == null) continue; // Skip if a card data entry is null
+
+            CardType type = null;
+            try {
+                if (cd.type != null) type = CardType.valueOf(cd.type.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                Gdx.app.error("CardSystem", "Invalid CardType in cards.json: " + cd.type + " for card " + cd.name);
+                continue; // Skip this card
+            }
+
+            CardPantheon pantheon = null;
+            try {
+                if (cd.pantheon != null) pantheon = CardPantheon.valueOf(cd.pantheon.toUpperCase());
+                else pantheon = CardPantheon.NONE; // Default if null
+            } catch (IllegalArgumentException e) {
+                Gdx.app.error("CardSystem", "Invalid CardPantheon in cards.json: " + cd.pantheon + " for card " + cd.name);
+                pantheon = CardPantheon.NONE; // Default to NONE or skip
             }
 
 
-
+            List<Skill> skills = new ArrayList<>();
+            if (cd.skills != null) {
+                for (CardData.SkillData sd : cd.skills) {
+                    if (sd == null) continue;
+                    List<SkillEffect> effects = new ArrayList<>();
+                    if (sd.effects != null) {
+                        for (CardData.EffectData ed : sd.effects) {
+                            if (ed == null) continue;
+                            try {
+                                effects.add(EffectFactory.create(ed));
+                            } catch (Exception e) {
+                                Gdx.app.error("CardSystem", "Failed to create effect for card " + cd.name + ", skill " + sd.name + ", effect type " + ed.type + ": " + e.getMessage());
+                            }
+                        }
+                    }
+                    skills.add(new Skill(sd.name, sd.cost, effects));
+                }
+            }
             cards.add(new Card(cd.name, cd.health, skills, type, pantheon, cd.imagePath));
         }
-
         return cards;
     }
-
-
 
     public static List<Card> getAllCards() {
-        List<Card> cards = new ArrayList<>();
-
-        return cards;
+        return loadCardsFromJson();
     }
-
-
 }
-
-

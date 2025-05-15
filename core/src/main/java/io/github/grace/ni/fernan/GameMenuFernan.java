@@ -27,12 +27,15 @@ public class GameMenuFernan implements Screen {
     private BitmapFont hoverFont;
     private Label descriptionLabel;
     private Sound clickSound;
+    private Skin skin; // Added for dialogs
 
     public GameMenuFernan(FernansGrace game, SaveProfile profile) {
         this.game = game;
         this.profile = profile;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        this.skin = new Skin(Gdx.files.internal("ui/uiskin.json")); // Initialize skin for dialogs
 
         background = new Texture(Gdx.files.internal("ui/gamemenubg2.png"));
         background.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -101,13 +104,26 @@ public class GameMenuFernan implements Screen {
                     rowDescription.setText("");
                 }
                 @Override public void clicked(InputEvent event, float x, float y) {
+                    clickSound.play();
+                    // Critical null check for profile before navigating to screens that need it
+                    if (profile == null && (index == 0 || index == 1 || index == 2)) {
+                        System.err.println("Error: Profile is null in GameMenuFernan. Cannot proceed to Play, Decks, or Store.");
+                        Dialog errorDialog = new Dialog("Error", skin, "default");
+                        Label errorLabel = new Label("No profile loaded. Please load or create a new game.", new Label.LabelStyle(defaultFont, Color.WHITE));
+                        errorLabel.setWrap(true);
+                        errorDialog.getContentTable().add(errorLabel).width(300f).pad(10f);
+                        errorDialog.button("OK", true);
+                        errorDialog.show(stage);
+                        return; // Stop further action
+                    }
+
                     switch (index) {
-                        case 0:
-                            System.out.println("Load game clicked");
-                            clickSound.play();
+                        case 0: // Play
+                            System.out.println("Play clicked");
                             game.setScreen(new ModeSelectionFernan(game, profile));
                             break;
-                        case 1: {
+                        case 1: // Decks
+                            System.out.println("Decks clicked");
                             DeckSelectionScreen.ReturnCallback onBack = () -> {
                                 game.setScreen(new GameMenuFernan(game, profile));
                             };
@@ -117,17 +133,16 @@ public class GameMenuFernan implements Screen {
                                 onBack
                             ));
                             break;
-                        }
-                        case 2:
-                            clickSound.play();
-                            game.setScreen(new StoreScreenFernan(game));
+                        case 2: // Store
+                            System.out.println("Store clicked");
+                            game.setScreen(new StoreScreenFernan(game, profile));
                             break;
-                        case 3:
-                            clickSound.play();
-                            game.setScreen(new SettingsFernan(game)); // Go back to the main menu
+                        case 3: // Settings
+                            System.out.println("Settings clicked");
+                            game.setScreen(new SettingsFernan(game));
                             break;
-                        case 4:
-                            clickSound.play();
+                        case 4: // Main Menu
+                            System.out.println("Main Menu clicked");
                             game.setScreen(new MainFernan(game));
                             game.isInGame = false;
                             break;
@@ -141,7 +156,8 @@ public class GameMenuFernan implements Screen {
         }
     }
 
-    // Legacy constructor for backward compatibility (if ever used)
+    // This constructor should ideally not be used if a profile is always expected.
+    // If it's called, 'profile' will be null, and the checks above will handle it.
     public GameMenuFernan(FernansGrace game) {
         this(game, null);
     }
@@ -149,6 +165,7 @@ public class GameMenuFernan implements Screen {
     @Override public void show() {}
 
     @Override public void render(float delta) {
+        Gdx.gl.glClearColor(0,0,0,1); // Clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
@@ -161,10 +178,10 @@ public class GameMenuFernan implements Screen {
     @Override public void hide() {}
     @Override public void dispose() {
         stage.dispose();
-        background.dispose();
-        defaultFont.dispose();
-        hoverFont.dispose();
+        if (background != null) background.dispose();
+        if (defaultFont != null) defaultFont.dispose();
+        if (hoverFont != null) hoverFont.dispose();
+        if (clickSound != null) clickSound.dispose();
+        if (skin != null) skin.dispose();
     }
-
-
 }

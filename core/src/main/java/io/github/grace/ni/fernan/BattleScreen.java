@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class BattleScreen implements Screen {
     private static final int STARTING_HAND = 5;
@@ -32,7 +33,7 @@ public class BattleScreen implements Screen {
     private final FernansGrace game;
     private final ConvergingMapScreen mapScreen;
     private final SaveProfile profile;
-    private final ConvergingMapScreen.Node battleNode; // Store the map node this battle is for
+    private final ConvergingMapScreen.Node battleNode;
 
     public static final float VIRTUAL_WIDTH = 1600f;
     public static final float VIRTUAL_HEIGHT = 900f;
@@ -47,10 +48,11 @@ public class BattleScreen implements Screen {
 
     private CardSystem.Card enemyActive;
     private boolean playerTurn = true;
+    private boolean battleEnded = false; // Flag to prevent further actions after battle ends
 
     private Stage stage;
     private Skin skin;
-    private BitmapFont font; // General font, consider using specific fonts for different UI parts if needed
+    private BitmapFont font;
     private Table root;
     private Table topHudTable;
     private ScrollPane handScroll;
@@ -71,25 +73,23 @@ public class BattleScreen implements Screen {
     private Table graveTable;
     private Table logTable;
 
-    // --- Size Constants ---
     private final float CARD_WIDTH_ACTIVE_V = VIRTUAL_WIDTH * 0.16f;
     private final float CARD_HEIGHT_ACTIVE_V = CARD_WIDTH_ACTIVE_V * 1.4f;
-    private final float CARD_WIDTH_BENCH_HAND_V = VIRTUAL_WIDTH * 0.115f; // Increased for larger hand/bench cards
+    private final float CARD_WIDTH_BENCH_HAND_V = VIRTUAL_WIDTH * 0.115f;
     private final float CARD_HEIGHT_BENCH_HAND_V = CARD_WIDTH_BENCH_HAND_V * 1.4f;
     private final float CARD_WIDTH_GRAVE_V = VIRTUAL_WIDTH * 0.05f;
     private final float CARD_HEIGHT_GRAVE_V = CARD_WIDTH_GRAVE_V * 1.4f;
 
     private final float ACTION_MENU_WIDTH_V = VIRTUAL_WIDTH * 0.18f;
     private final float ACTION_MENU_HEIGHT_V = CARD_HEIGHT_ACTIVE_V;
-    private final float LOG_MENU_WIDTH_V = VIRTUAL_WIDTH * 0.25f;    // Increased log box width
-    private final float LOG_MENU_HEIGHT_V = CARD_HEIGHT_ACTIVE_V;   // Height for log box
+    private final float LOG_MENU_WIDTH_V = VIRTUAL_WIDTH * 0.25f;
+    private final float LOG_MENU_HEIGHT_V = CARD_HEIGHT_ACTIVE_V;
 
-    // --- Font Scale Constants ---
     private final float HUD_FONT_SCALE_V = 1.5f * (VIRTUAL_WIDTH / 1600f);
-    private final float SKILL_BUTTON_FONT_SCALE_V = 2.4f * (VIRTUAL_WIDTH / 1600f);  // Doubled
+    private final float SKILL_BUTTON_FONT_SCALE_V = 2.4f * (VIRTUAL_WIDTH / 1600f);
     private final float LOG_FONT_SCALE_V = 1.2f * (VIRTUAL_WIDTH / 1600f);
-    private final float DIALOG_TEXT_FONT_SCALE_V = 2.4f * (VIRTUAL_WIDTH / 1600f); // Doubled
-    private final float DIALOG_BUTTON_FONT_SCALE_V = 2.4f * (VIRTUAL_WIDTH / 1600f); // Doubled
+    private final float DIALOG_TEXT_FONT_SCALE_V = 2.4f * (VIRTUAL_WIDTH / 1600f);
+    private final float DIALOG_BUTTON_FONT_SCALE_V = 2.4f * (VIRTUAL_WIDTH / 1600f);
 
 
     public BattleScreen(FernansGrace game, ConvergingMapScreen mapScreen, SaveProfile profile, ConvergingMapScreen.Node battleNode) {
@@ -106,9 +106,10 @@ public class BattleScreen implements Screen {
         this.logTable = new Table(skin);
 
         DeckSelectionScreen.Deck activeDeck = null;
-        if (profile != null && profile.decks != null) {
+        if (profile != null && profile.decks != null && !profile.decks.isEmpty()) {
             activeDeck = profile.decks.stream()
-                .filter(DeckSelectionScreen.Deck::isActive).findFirst().orElse(null);
+                .filter(DeckSelectionScreen.Deck::isActive).findFirst()
+                .orElse(profile.decks.get(0));
         }
 
         if (activeDeck == null || activeDeck.getCards().isEmpty()) {
@@ -117,17 +118,21 @@ public class BattleScreen implements Screen {
             List<CardSystem.Card> allCardsFallback = CardSystem.loadCardsFromJson();
             if (!allCardsFallback.isEmpty()) {
                 for (int i = 0; i < Math.min(5, allCardsFallback.size()); i++) {
-                    playerDeck.add(allCardsFallback.get(i));
+                    playerDeck.add(new CardSystem.Card(allCardsFallback.get(i)));
                 }
                 if (playerDeck.isEmpty()) {
-                    logSafe("CRITICAL FALLBACK FAILED: No cards available at all.");
+                    logSafe("CRITICAL FALLBACK FAILED: No cards available at all to form a fallback deck.");
                 }
             } else {
-                logSafe("CRITICAL: cards.json seems empty or unloadable for fallback.");
+                logSafe("CRITICAL: cards.json seems empty or unloadable for fallback deck creation.");
             }
         } else {
-            playerDeck = new ArrayList<>(activeDeck.getCards());
+            playerDeck = new ArrayList<>();
+            for(CardSystem.Card cardData : activeDeck.getCards()){
+                playerDeck.add(new CardSystem.Card(cardData));
+            }
         }
+        Collections.shuffle(playerDeck);
 
         playerHand = new ArrayList<>();
         playerBench = new ArrayList<>();
@@ -137,64 +142,63 @@ public class BattleScreen implements Screen {
         buildUI();
         drawCards(STARTING_HAND);
 
-        // Enemy Selection Logic
-        List<CardSystem.Card> allCards = CardSystem.loadCardsFromJson();
-        if (allCards.isEmpty()) {
+        List<CardSystem.Card> allCardsMasterList = CardSystem.loadCardsFromJson();
+        if (allCardsMasterList.isEmpty()) {
             logSafe("CRITICAL ERROR: No cards loaded from cards.json. Cannot select an enemy.");
             this.enemyActive = new CardSystem.Card("Fallback Enemy", 30, new ArrayList<>(), CardSystem.CardType.DIVINE, CardSystem.CardPantheon.NONE, "ui/card_slot_empty.png");
         } else {
             String enemyName = null;
+            CardSystem.Card tempEnemy = null;
+
             if (this.battleNode != null) {
                 switch (this.battleNode.type) {
-                    case COMBAT:
-                        enemyName = "Cerberus";
-                        break;
-                    case MINIBOSS:
-                        enemyName = "Medusa";
-                        break;
-                    case BOSS:
-                        enemyName = "Minotaur";
-                        break;
+                    case COMBAT:   enemyName = "Cerberus"; break;
+                    case MINIBOSS: enemyName = "Medusa";   break;
+                    case BOSS:     enemyName = "Minotaur"; break;
                     default:
-                        logSafe("Warning: Battle initiated for non-combat related node type (" + this.battleNode.type + ") or null node. Picking random enemy.");
-                        if (!allCards.isEmpty()) {
-                            this.enemyActive = allCards.get(MathUtils.random(allCards.size() - 1));
-                        } else {
-                            this.enemyActive = new CardSystem.Card("Random Default", 50, new ArrayList<>(), CardSystem.CardType.DIVINE, CardSystem.CardPantheon.NONE, "ui/card_slot_empty.png");
+                        logSafe("Warning: Battle for non-combat node type (" + this.battleNode.type + "). Picking random enemy.");
+                        if (!allCardsMasterList.isEmpty()) {
+                            tempEnemy = allCardsMasterList.get(MathUtils.random(allCardsMasterList.size() - 1));
                         }
                         break;
                 }
             } else {
-                logSafe("CRITICAL: battleNode is null in BattleScreen constructor. Picking random enemy.");
-                if (!allCards.isEmpty()) {
-                    this.enemyActive = allCards.get(MathUtils.random(allCards.size() - 1));
-                } else {
-                    this.enemyActive = new CardSystem.Card("Null Node Enemy", 50, new ArrayList<>(), CardSystem.CardType.DIVINE, CardSystem.CardPantheon.NONE, "ui/card_slot_empty.png");
+                logSafe("CRITICAL: battleNode is null. Picking random enemy.");
+                if (!allCardsMasterList.isEmpty()) {
+                    tempEnemy = allCardsMasterList.get(MathUtils.random(allCardsMasterList.size() - 1));
                 }
             }
 
-            if (enemyName != null && this.enemyActive == null) { // Only try to load by name if not already set by default case
+            if (enemyName != null && tempEnemy == null) {
                 final String finalEnemyName = enemyName;
-                this.enemyActive = allCards.stream()
+                tempEnemy = allCardsMasterList.stream()
                     .filter(card -> finalEnemyName.equals(card.getName()))
                     .findFirst()
                     .orElse(null);
-                if (this.enemyActive == null) {
-                    logSafe("CRITICAL: Specified enemy '" + enemyName + "' not found in cards.json. Picking random enemy.");
-                    if (!allCards.isEmpty()) {
-                        this.enemyActive = allCards.get(MathUtils.random(allCards.size() - 1));
-                    } else {
-                        this.enemyActive = new CardSystem.Card("Missing Enemy", 50, new ArrayList<>(), CardSystem.CardType.DIVINE, CardSystem.CardPantheon.NONE, "ui/card_slot_empty.png");
+
+                if (tempEnemy == null) {
+                    logSafe("CRITICAL: Specified enemy '" + enemyName + "' not found. Picking random enemy.");
+                    if (!allCardsMasterList.isEmpty()) {
+                        tempEnemy = allCardsMasterList.get(MathUtils.random(allCardsMasterList.size() - 1));
                     }
                 }
             }
-            // Ensure the selected enemy has health
+
+            if (tempEnemy == null) {
+                logSafe("CRITICAL: Could not select an enemy. Using a hardcoded fallback.");
+                this.enemyActive = new CardSystem.Card("Ultimate Fallback Enemy", 10, new ArrayList<>(), CardSystem.CardType.DIVINE, CardSystem.CardPantheon.NONE, "ui/card_slot_empty.png");
+            } else {
+                this.enemyActive = new CardSystem.Card(tempEnemy);
+            }
+
             if (this.enemyActive != null && this.enemyActive.getHealth() <= 0 &&
                 this.enemyActive.getType() != CardSystem.CardType.ITEM &&
                 this.enemyActive.getType() != CardSystem.CardType.ARTIFACT) {
 
-                CardSystem.Card originalCardData = allCards.stream()
-                    .filter(c -> this.enemyActive.getName().equals(c.getName())) // Safe getName()
+                CardSystem.Card originalCardData = allCardsMasterList.stream()
+                    .filter(c -> this.enemyActive.getName().equals(c.getName()) &&
+                        this.enemyActive.getPantheon() == c.getPantheon() &&
+                        this.enemyActive.getType() == c.getType())
                     .findFirst().orElse(null);
                 if (originalCardData != null && originalCardData.getHealth() > 0) {
                     this.enemyActive.setHealth(originalCardData.getHealth());
@@ -206,12 +210,13 @@ public class BattleScreen implements Screen {
         }
         updateEnemyStack();
         refreshAll();
-        log("Battle started. Select a creature from your hand to make it active.");
+        log("Battle started against " + (enemyActive != null ? enemyActive.getName() : "Unknown Enemy") + ". Select a creature from your hand to make it active.");
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        battleEnded = false; // Reset battle ended flag when screen is shown
     }
 
     @Override
@@ -250,6 +255,7 @@ public class BattleScreen implements Screen {
         }
         if (this.graveTable == null) this.graveTable = new Table(skin);
 
+
         topHudTable = new Table(skin);
         roundLabel = new Label("Round " + roundNumber, new Label.LabelStyle(font, Color.YELLOW));
         faithLabel = new Label("Faith: " + playerFaith, new Label.LabelStyle(font, Color.CYAN));
@@ -265,32 +271,24 @@ public class BattleScreen implements Screen {
         String enemyImgPath = (enemyActive != null && enemyActive.getImagePath() != null) ? enemyActive.getImagePath() : "ui/card_slot_empty.png";
         int enemyHp = (enemyActive != null) ? enemyActive.getHealth() : 0;
         enemyStack = createCardStack(enemyImgPath, enemyHp, CARD_WIDTH_ACTIVE_V, CARD_HEIGHT_ACTIVE_V);
+
         if (enemyStack.getChildren().size > 1 && enemyStack.getChildren().get(1) instanceof Table) {
             Table enemyOverlayTable = (Table) enemyStack.getChildren().get(1);
             if (enemyOverlayTable.getChildren().size > 0 && enemyOverlayTable.getChildren().first() instanceof Label) {
                 enemyHpLabel = (Label) enemyOverlayTable.getChildren().first();
-            } else {
-                enemyHpLabel = new Label("0", new Label.LabelStyle(font, Color.WHITE));
-                logSafe("Warning: Could not find HP label in enemyStack overlay during buildUI.");
-            }
-        } else {
-            enemyHpLabel = new Label("0", new Label.LabelStyle(font, Color.WHITE));
-            logSafe("Warning: enemyStack overlay table not found or structured as expected during buildUI.");
-        }
+            } else { enemyHpLabel = new Label("0", new Label.LabelStyle(font, Color.WHITE)); logSafe("Warning: Could not find HP label in enemyStack overlay during buildUI."); }
+        } else { enemyHpLabel = new Label("0", new Label.LabelStyle(font, Color.WHITE)); logSafe("Warning: enemyStack overlay table not found or structured as expected during buildUI."); }
+
 
         activeStack = createCardStack("ui/card_slot_empty.png", 0, CARD_WIDTH_ACTIVE_V, CARD_HEIGHT_ACTIVE_V);
+
         if (activeStack.getChildren().size > 1 && activeStack.getChildren().get(1) instanceof Table) {
             Table activeOverlayTable = (Table) activeStack.getChildren().get(1);
             if (activeOverlayTable.getChildren().size > 0 && activeOverlayTable.getChildren().first() instanceof Label) {
                 activeHpLabel = (Label) activeOverlayTable.getChildren().first();
-            } else {
-                activeHpLabel = new Label("", new Label.LabelStyle(font, Color.WHITE));
-                logSafe("Warning: Could not find HP label in activeStack overlay during buildUI.");
-            }
-        } else {
-            activeHpLabel = new Label("", new Label.LabelStyle(font, Color.WHITE));
-            logSafe("Warning: activeStack overlay table not found or structured as expected during buildUI.");
-        }
+            } else { activeHpLabel = new Label("", new Label.LabelStyle(font, Color.WHITE)); logSafe("Warning: Could not find HP label in activeStack overlay during buildUI."); }
+        } else { activeHpLabel = new Label("", new Label.LabelStyle(font, Color.WHITE)); logSafe("Warning: activeStack overlay table not found or structured as expected during buildUI."); }
+
 
         benchTable = new Table(skin);
         benchContainer = new Container<>(benchTable);
@@ -311,22 +309,20 @@ public class BattleScreen implements Screen {
         endTurnBtn = new TextButton("End Turn", skin);
         endTurnBtn.addListener(new ClickListener() {
             @Override public void clicked(InputEvent event, float x, float y) {
-                if (!playerTurn) return;
+                if (battleEnded || !playerTurn) return; // Check battleEnded flag
                 if (playerActive == null && (playerHand != null && !playerHand.isEmpty()) && (playerBench != null && !playerBench.isEmpty())) {
                     boolean canMakeActive = false;
                     if (playerHand != null) {
                         for (CardSystem.Card card : playerHand) {
                             if (card.getType() == CardSystem.CardType.GOD || card.getType() == CardSystem.CardType.DIVINE) {
-                                canMakeActive = true;
-                                break;
+                                canMakeActive = true; break;
                             }
                         }
                     }
                     if (!canMakeActive && playerBench != null) {
                         for (CardSystem.Card card : playerBench) {
                             if (card.getType() == CardSystem.CardType.GOD || card.getType() == CardSystem.CardType.DIVINE) {
-                                canMakeActive = true;
-                                break;
+                                canMakeActive = true; break;
                             }
                         }
                     }
@@ -334,30 +330,29 @@ public class BattleScreen implements Screen {
                         log("Please set an active card before ending the turn.");
                     } else {
                         log("No playable active card. Player ends turn.");
-                        playerTurn = false;
-                        enemyTurn();
+                        endPlayerTurnActions();
                     }
                 } else if (playerActive == null && (playerHand == null || playerHand.isEmpty()) && (playerDeck == null || playerDeck.isEmpty()) && (playerBench == null || playerBench.isEmpty())) {
                     log("No cards left to play or in deck/bench. Player ends turn.");
-                    playerTurn = false;
-                    enemyTurn();
+                    endPlayerTurnActions();
                 }
                 else if (playerActive == null) {
                     log("Cannot end turn: no active card. Please play a card from your hand or bench.");
                 }
                 else {
                     log("Player ends turn.");
-                    playerTurn = false;
-                    enemyTurn();
+                    endPlayerTurnActions();
                 }
             }
         });
+
 
         if (this.logTable == null) this.logTable = new Table(skin);
         logScroll = new ScrollPane(this.logTable, skin);
         logScroll.setFadeScrollBars(false);
         logScroll.setScrollingDisabled(false, false);
         logScroll.setForceScroll(false, true);
+
 
         battleLogTableContainer = new Table(skin);
         battleLogTableContainer.setBackground(skin.newDrawable("white", new Color(0.15f, 0.15f, 0.15f, 0.75f)));
@@ -372,6 +367,7 @@ public class BattleScreen implements Screen {
         enemyZoneTable.add(enemyStack).width(CARD_WIDTH_ACTIVE_V).height(CARD_HEIGHT_ACTIVE_V).center().expandX();
         enemyZoneTable.add(battleLogTableContainer).width(LOG_MENU_WIDTH_V).minHeight(LOG_MENU_HEIGHT_V).top().padLeft(VIRTUAL_WIDTH * 0.01f);
         root.add(enemyZoneTable).colspan(3).expandX().fillX().padBottom(VIRTUAL_HEIGHT * 0.022f).row();
+
 
         Table playerStageTable = new Table();
         float benchWidth = MAX_BENCH_SLOTS * (CARD_WIDTH_BENCH_HAND_V + (VIRTUAL_WIDTH * 0.005f)) + (VIRTUAL_WIDTH * 0.01f);
@@ -395,10 +391,27 @@ public class BattleScreen implements Screen {
         float actualLogContentWidth = LOG_MENU_WIDTH_V * 0.92f;
         this.logTable.add(lbl).width(actualLogContentWidth).left().padTop(2);
         this.logTable.row();
+
         this.logTable.layout();
         this.logScroll.layout();
         this.logScroll.scrollTo(0, 0, 0, 0);
     }
+
+    private void endPlayerTurnActions() {
+        if (battleEnded) return; // Don't proceed if battle has already concluded
+        playerTurn = false;
+        if (playerActive != null) playerActive.applyEndOfTurnStatuses();
+        if (playerBench != null) {
+            for (CardSystem.Card benchCard : playerBench) {
+                benchCard.applyEndOfTurnStatuses();
+            }
+        }
+        // Check for player defeat immediately after their end-of-turn effects (like poison)
+        if (!checkPlayerDefeated()) { // If player is not defeated
+            enemyTurn();
+        }
+    }
+
 
     private void refreshAllUIModules() {
         refreshSkillsAndEndTurnUI();
@@ -413,6 +426,7 @@ public class BattleScreen implements Screen {
         if (roundLabel != null) roundLabel.setText("Round " + roundNumber);
     }
 
+
     private Stack createCardStack(String imgPath, int hp, float width, float height) {
         Stack stack = new Stack();
         Image img;
@@ -426,8 +440,20 @@ public class BattleScreen implements Screen {
 
         Table overlay = new Table(skin);
         overlay.top().right();
-        Label hpLabel = new Label(hp > 0 ? String.valueOf(hp) : (hp == 0 && (imgPath.contains("item") || imgPath.contains("artifact")) ? "" : "0"), new Label.LabelStyle(font, Color.WHITE));
-        hpLabel.setFontScale(Math.max(0.8f, 0.0085f * width)); // Adjusted HP font scale
+
+        String hpText = "";
+        // For items/artifacts, don't show HP unless it's relevant to their mechanics (e.g. they can be "broken")
+        // For this setup, we assume items/artifacts don't display HP this way.
+        if (imgPath != null && (imgPath.toLowerCase().contains("item/") || imgPath.toLowerCase().contains("artifact/"))) {
+            // No HP display for items/artifacts in this simple overlay
+        } else if (hp > 0) {
+            hpText = String.valueOf(hp);
+        } else {
+            hpText = "0"; // Show 0 for defeated creatures
+        }
+        Label hpLabel = new Label(hpText, new Label.LabelStyle(font, Color.WHITE));
+
+        hpLabel.setFontScale(Math.max(0.8f, 0.0085f * width));
         hpLabel.setAlignment(Align.right);
         overlay.add(hpLabel).padTop(height * 0.015f).padRight(width * 0.025f);
 
@@ -435,6 +461,7 @@ public class BattleScreen implements Screen {
         stack.add(overlay);
         return stack;
     }
+
 
     private void refreshSkillsAndEndTurnUI() {
         skillsAndEndTable.clear();
@@ -449,22 +476,22 @@ public class BattleScreen implements Screen {
                     skillButton.getLabel().setWrap(true);
                     skillButton.getLabel().setAlignment(Align.center);
                     skillButton.getLabel().setFontScale(SKILL_BUTTON_FONT_SCALE_V);
-                    if (!playerTurn || playerFaith < skill.getCost() || !playerActive.canUse()) {
+
+                    if (battleEnded || !playerTurn || playerFaith < skill.getCost() || !playerActive.canUse()) {
                         skillButton.setDisabled(true);
                         skillButton.getLabel().setColor(Color.GRAY);
                     } else {
                         skillButton.getLabel().setColor(Color.WHITE);
                     }
 
+
                     skillButton.addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            if (!playerTurn || skillButton.isDisabled()) return;
+                            if (battleEnded || !playerTurn || skillButton.isDisabled()) return;
 
                             if ("Retreat".equals(skill.getName())) {
                                 showRetreatDialog();
-                            } else if (playerFaith < skill.getCost()) {
-                                log("Insufficient faith for " + skill.getName());
                             } else {
                                 log("Player uses " + skill.getName() + " from " + playerActive.getName());
                                 playerActive.markUsed();
@@ -477,21 +504,28 @@ public class BattleScreen implements Screen {
                                 if (enemyActive != null && enemyActive.getHealth() != oldEnemyHp) {
                                     log(enemyActive.getName() + " HP: " + oldEnemyHp + " -> " + enemyActive.getHealth());
                                 }
-                                if (playerActive.getHealth() != oldPlayerHp) {
+                                if (playerActive.getHealth() != oldPlayerHp) { // Check if player card HP changed
                                     log(playerActive.getName() + " HP: " + oldPlayerHp + " -> " + playerActive.getHealth());
                                 }
+                                // For items, check if they should be consumed (e.g., health reduced to 0 by a self-damage effect)
                                 if (playerActive.getType() == CardSystem.CardType.ITEM && playerActive.getHealth() <=0) {
-                                    playerActive.consume();
+                                    playerActive.consume(); // This should handle moving to graveyard
                                     log(playerActive.getName() + " was consumed.");
                                     if (playerGraveyard != null) playerGraveyard.add(playerActive);
+                                    // playerActive = null; // Handled by checkPlayerDefeated
                                 }
-                                refreshAll();
-                                checkEnemyDefeated();
-                                checkPlayerDefeated();
+
+                                refreshAllUIModules(); // Refresh UI before defeat checks
+                                if (checkEnemyDefeated()) return; // If enemy defeated, battle ends.
+                                if (checkPlayerDefeated()) return; // If player defeated, battle ends.
+
+                                // If neither is defeated, and player's active card is still usable (e.g. artifact not used this turn)
+                                // We might refresh skills again, or the turn might end.
+                                // For simplicity, skill use usually means the card has acted.
+                                refreshSkillsAndEndTurnUI(); // Refresh skills in case some became available/unavailable
                             }
                         }
                     });
-                    // Increased prefHeight to accommodate larger text from doubled font scale
                     skillsAndEndTable.add(skillButton).prefHeight(VIRTUAL_HEIGHT * 0.12f).row();
                 }
             } else {
@@ -505,7 +539,13 @@ public class BattleScreen implements Screen {
             skillsAndEndTable.add(noActiveLabel).center().row();
         }
         endTurnBtn.getLabel().setFontScale(SKILL_BUTTON_FONT_SCALE_V * 1.15f);
-        // Increased prefHeight for End Turn button as well
+        if (battleEnded || !playerTurn) { // Also disable if battle ended
+            endTurnBtn.setDisabled(true);
+            endTurnBtn.getLabel().setColor(Color.GRAY);
+        } else {
+            endTurnBtn.setDisabled(false);
+            endTurnBtn.getLabel().setColor(Color.WHITE);
+        }
         skillsAndEndTable.add(endTurnBtn).padTop(VIRTUAL_HEIGHT * 0.015f).center().prefHeight(VIRTUAL_HEIGHT * 0.10f);
     }
 
@@ -522,7 +562,7 @@ public class BattleScreen implements Screen {
             btn.setTouchable(Touchable.enabled);
             btn.addListener(new ClickListener() {
                 @Override public void clicked(InputEvent event, float x, float y) {
-                    if (!playerTurn) return;
+                    if (battleEnded || !playerTurn) return;
                     Dialog dialog = new Dialog("Play Card", skin) {
                         @Override
                         protected void result(Object object) {
@@ -569,7 +609,7 @@ public class BattleScreen implements Screen {
                 s.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if (!playerTurn) return;
+                        if (battleEnded || !playerTurn) return;
                         if (playerActive == null) {
                             playerActive = c;
                             playerBench.remove(c);
@@ -676,13 +716,14 @@ public class BattleScreen implements Screen {
 
         Texture deckTex = null;
         try {
-            deckTex = new Texture(Gdx.files.internal("ui/back_card.png")); // Using specified deck back image
+            deckTex = new Texture(Gdx.files.internal("ui/back_card.png"));
         } catch (Exception e) {
             logSafe("Error loading deck texture ui/back_card.png: " + e.getMessage() + ". Using placeholder.");
             try {
                 deckTex = new Texture(Gdx.files.internal("ui/card_slot_empty.png"));
             } catch (Exception e2) {
                 logSafe("Error loading fallback deck texture: " + e2.getMessage());
+                if (deckAndGraveTable != null) deckAndGraveTable.add(new Label("Error", skin)); // Add error label if texture fails
                 return;
             }
         }
@@ -761,6 +802,7 @@ public class BattleScreen implements Screen {
     }
 
     private void handleHandCard(final CardSystem.Card c, Object action) {
+        if (battleEnded) return;
         if ("active".equals(action)) {
             if (playerActive == null) {
                 playerActive = c;
@@ -816,7 +858,7 @@ public class BattleScreen implements Screen {
     }
 
     private void showRetreatDialog() {
-        if (playerActive == null) { log("No active card to retreat."); return; }
+        if (battleEnded || playerActive == null) { log("No active card to retreat."); return; }
         if (playerBench == null || playerBench.isEmpty()) { log("Cannot retreat: no cards on the bench."); return; }
 
         final SelectBox<String> box = new SelectBox<>(skin);
@@ -870,34 +912,38 @@ public class BattleScreen implements Screen {
     }
 
     private void enemyTurn() {
-        if (enemyActive == null || enemyActive.getHealth() <= 0) {
-            log("Enemy is already defeated or not present.");
-            playerTurn = true;
-            refreshSkillsAndEndTurnUI();
-            return;
-        }
+        if (battleEnded) return;
 
         log("-- Enemy turn (Round " + roundNumber + ") --");
-        if (playerActive != null && playerActive.getHealth() > 0) {
-            if (enemyActive.getSkills() != null && !enemyActive.getSkills().isEmpty()) {
-                CardSystem.Skill sk = enemyActive.getSkills().get(MathUtils.random(enemyActive.getSkills().size() - 1));
-                log("Enemy " + enemyActive.getName() + " uses " + sk.getName());
-                int oldHp = playerActive.getHealth();
-                sk.apply(enemyActive, playerActive);
-                log(playerActive.getName() + " HP: " + oldHp + " -> " + playerActive.getHealth());
-                checkPlayerDefeated();
+        if (enemyActive != null && enemyActive.getHealth() > 0) { // Check if enemy is still alive
+            if (playerActive != null && playerActive.getHealth() > 0) {
+                if (enemyActive.getSkills() != null && !enemyActive.getSkills().isEmpty()) {
+                    CardSystem.Skill sk = enemyActive.getSkills().get(MathUtils.random(enemyActive.getSkills().size() - 1));
+                    log("Enemy " + enemyActive.getName() + " uses " + sk.getName());
+                    int oldHp = playerActive.getHealth();
+                    sk.apply(enemyActive, playerActive);
+                    log(playerActive.getName() + " HP: " + oldHp + " -> " + playerActive.getHealth());
+                    refreshAllUIModules(); // Update UI immediately after skill application
+                    if (checkPlayerDefeated()) return; // If player defeated, end enemy turn
+                } else {
+                    log(enemyActive.getName() + " has no skills to use.");
+                }
             } else {
-                log(enemyActive.getName() + " has no skills to use.");
+                log("Player has no active card to target or active card is already defeated.");
             }
         } else {
-            log("Player has no active card to target or active card is defeated.");
+            log("Enemy was already defeated before its turn.");
         }
+
         if(enemyActive != null) {
             enemyActive.applyStartOfTurnStatuses();
             enemyActive.resetTurnUsage();
             enemyActive.applyEndOfTurnStatuses();
+            // Check if enemy defeated itself with status effects (e.g. self-inflicted poison)
+            if (checkEnemyDefeated()) return;
         }
 
+        // Transition back to player turn if battle not ended
         playerTurn = true;
         log("-- Player turn (Round " + (roundNumber + 1) + ") --");
 
@@ -911,18 +957,58 @@ public class BattleScreen implements Screen {
                 benchCard.applyStartOfTurnStatuses();
             }
         }
+        // Check if player cards were defeated by start-of-turn statuses
+        if (checkPlayerDefeated()) return;
+
 
         drawCards(1);
         roundNumber++;
         refreshAll();
     }
 
-    private void checkEnemyDefeated() {
+    // Returns true if battle ended due to enemy defeat, false otherwise
+    private boolean checkEnemyDefeated() {
+        if (battleEnded) return true; // Already ended
+
         if (enemyActive != null && enemyActive.getHealth() <= 0) {
             log("Enemy " + enemyActive.getName() + " defeated!");
+            battleEnded = true; // Set flag
+
+            int coinsEarned = 0;
+            String packTypeNameForLog = "";
+
+            if (this.battleNode != null && this.profile != null) {
+                switch (this.battleNode.type) {
+                    case COMBAT:
+                        coinsEarned = 20;
+                        profile.addArtifactItemPack(1);
+                        packTypeNameForLog = "Artifact/Item";
+                        break;
+                    case MINIBOSS:
+                        coinsEarned = 30;
+                        profile.addDivinePack(1);
+                        packTypeNameForLog = "Divine";
+                        break;
+                    case BOSS:
+                        coinsEarned = 50;
+                        profile.addGodDivinePack(1);
+                        packTypeNameForLog = "God/Divine";
+                        break;
+                    default:
+                        log("No specific rewards for this node type: " + this.battleNode.type);
+                        break;
+                }
+                if (coinsEarned > 0) {
+                    profile.gachaCurrency += coinsEarned;
+                }
+                SaveManager.saveProfile(profile);
+                log("Profile saved. Current coins: " + profile.gachaCurrency +
+                    ", God/Divine Packs: " + profile.godDivinePacks +
+                    ", Divine Packs: " + profile.divinePacks +
+                    ", Artifact/Item Packs: " + profile.artifactItemPacks);
+            }
 
             final boolean wasBossNodeFight = (this.battleNode != null && this.battleNode.type == ConvergingMapScreen.NodeType.BOSS);
-
             Dialog victoryDialog = new Dialog("Victory!", skin) {
                 @Override
                 protected void result(Object obj) {
@@ -941,14 +1027,19 @@ public class BattleScreen implements Screen {
                     }
                 }
             };
-            Label victoryText = new Label("You have defeated " + enemyActive.getName() + "!", skin);
+            String rewardLogMessage = "You have defeated " + enemyActive.getName() + "!\n" +
+                "Gained " + coinsEarned + " coins." +
+                (packTypeNameForLog.isEmpty() ? "" : "\nReceived a " + packTypeNameForLog + " Pack!\n(Check your inventory/store to open packs)");
+            Label victoryText = new Label(rewardLogMessage, skin);
             victoryText.setFontScale(DIALOG_TEXT_FONT_SCALE_V);
-            victoryDialog.getContentTable().add(victoryText).pad(VIRTUAL_HEIGHT * 0.01f);
+            victoryText.setWrap(true);
+            victoryText.setAlignment(Align.center);
+            victoryDialog.getContentTable().add(victoryText).width(VIRTUAL_WIDTH * 0.5f).pad(VIRTUAL_HEIGHT * 0.01f);
 
             if (wasBossNodeFight) {
                 victoryDialog.button("Finish Map & Return", true);
             } else {
-                victoryDialog.button("Continue", true);
+                victoryDialog.button("Continue to Map", true);
             }
 
             Table buttonTable = victoryDialog.getButtonTable();
@@ -959,69 +1050,76 @@ public class BattleScreen implements Screen {
             }
             victoryDialog.pad(VIRTUAL_HEIGHT * 0.055f);
             victoryDialog.show(stage);
+            return true; // Battle ended
         }
+        return false; // Battle continues
     }
 
-    private void checkPlayerDefeated() {
-        boolean activeCardWasDefeated = false;
+    // Returns true if battle ended due to player defeat, false otherwise
+    private boolean checkPlayerDefeated() {
+        if (battleEnded) return true; // Already ended
+
+        boolean activeCardWasJustDefeatedThisCheck = false;
         if (playerActive != null && playerActive.getHealth() <= 0) {
             log("Active card " + playerActive.getName() + " was defeated.");
             if (playerGraveyard != null) playerGraveyard.add(playerActive);
             activeDeathCount++;
             playerActive = null;
-            activeCardWasDefeated = true;
+            activeCardWasJustDefeatedThisCheck = true;
         }
 
-        if (activeCardWasDefeated) {
-            if (activeDeathCount >= MAX_ACTIVE_DEATHS) {
-                log("All lives lost! Game Over.");
-                Dialog defeatDialog = new Dialog("Defeat!", skin) {
-                    @Override
-                    protected void result(Object obj) { game.setScreen(new MainFernan(game)); }
-                };
-                Label defeatText = new Label("You have run out of lives!", skin);
-                defeatText.setFontScale(DIALOG_TEXT_FONT_SCALE_V);
-                defeatDialog.getContentTable().add(defeatText).pad(VIRTUAL_HEIGHT * 0.01f);
-                defeatDialog.button("To Main Menu", true);
-                Table buttonTable = defeatDialog.getButtonTable();
-                for(Cell cell : buttonTable.getCells()){
-                    if(cell.getActor() instanceof TextButton){
-                        ((TextButton)cell.getActor()).getLabel().setFontScale(DIALOG_BUTTON_FONT_SCALE_V);
-                    }
-                }
-                defeatDialog.pad(VIRTUAL_HEIGHT * 0.055f);
-                defeatDialog.show(stage);
+        boolean noCardsLeftToPlay = (playerActive == null && (playerHand == null || playerHand.isEmpty()) && (playerDeck == null || playerDeck.isEmpty()) && (playerBench == null || playerBench.isEmpty()));
 
-            } else if ((playerBench == null || playerBench.isEmpty()) && (playerHand == null || playerHand.isEmpty()) && (playerDeck == null || playerDeck.isEmpty())){
-                log("No cards left in hand, deck or bench! Game Over.");
-                Dialog noCardsDialog = new Dialog("Defeat!", skin) {
-                    @Override
-                    protected void result(Object obj) { game.setScreen(new MainFernan(game)); }
-                };
-                Label noCardsText = new Label("You have no more cards to play!", skin);
-                noCardsText.setFontScale(DIALOG_TEXT_FONT_SCALE_V);
-                noCardsDialog.getContentTable().add(noCardsText).pad(VIRTUAL_HEIGHT * 0.01f);
-                noCardsDialog.button("To Main Menu", true);
-                Table buttonTable = noCardsDialog.getButtonTable();
-                for(Cell cell : buttonTable.getCells()){
-                    if(cell.getActor() instanceof TextButton){
-                        ((TextButton)cell.getActor()).getLabel().setFontScale(DIALOG_BUTTON_FONT_SCALE_V);
-                    }
+        if (activeDeathCount >= MAX_ACTIVE_DEATHS || noCardsLeftToPlay) {
+            battleEnded = true; // Set flag
+            String defeatReason = noCardsLeftToPlay && activeDeathCount < MAX_ACTIVE_DEATHS ?
+                "You have no more cards to play!" :
+                "You have run out of lives!";
+            log(defeatReason + " Game Over.");
+
+            if (profile != null) {
+                profile.gachaCurrency += 10; // Gain 10 coins on loss
+                profile.currentMapId = "n0";   // Reset map progress
+                SaveManager.saveProfile(profile);
+                log("Awarded 10 coins. Map progress reset. Profile saved.");
+            }
+
+            Dialog defeatDialog = new Dialog("Defeat!", skin) {
+                @Override
+                protected void result(Object obj) {
+                    game.setScreen(new GameMenuFernan(game, profile)); // Go to Game Menu
                 }
-                noCardsDialog.pad(VIRTUAL_HEIGHT * 0.055f);
-                noCardsDialog.show(stage);
-            } else {
-                if (playerBench != null && !playerBench.isEmpty()) {
-                    log("Your active card was defeated. Select a card from your bench to make active.");
-                } else if (playerHand != null && !playerHand.isEmpty()) {
-                    log("Your active card was defeated. Play a card from your hand.");
+            };
+            Label defeatText = new Label(defeatReason + "\n\nYou gained 10 coins.\nMap progress has been reset.", skin);
+            defeatText.setFontScale(DIALOG_TEXT_FONT_SCALE_V);
+            defeatText.setWrap(true);
+            defeatText.setAlignment(Align.center);
+            defeatDialog.getContentTable().add(defeatText).width(VIRTUAL_WIDTH * 0.6f).pad(VIRTUAL_HEIGHT * 0.01f);
+            defeatDialog.button("To Game Menu", true);
+
+            Table buttonTable = defeatDialog.getButtonTable();
+            for(Cell cell : buttonTable.getCells()){
+                if(cell.getActor() instanceof TextButton){
+                    ((TextButton)cell.getActor()).getLabel().setFontScale(DIALOG_BUTTON_FONT_SCALE_V);
                 }
             }
-            refreshAll();
+            defeatDialog.pad(VIRTUAL_HEIGHT * 0.055f);
+            defeatDialog.show(stage);
+            return true; // Battle ended
+        } else if (activeCardWasJustDefeatedThisCheck) {
+            if (playerBench != null && !playerBench.isEmpty()) {
+                log("Your active card was defeated. Select a card from your bench to make active.");
+            } else if (playerHand != null && !playerHand.isEmpty()) {
+                log("Your active card was defeated. Play a card from your hand.");
+            }
+            refreshAllUIModules(); // Refresh UI to show empty active slot and updated death count
         }
+        return false; // Battle continues
     }
 
+
     private void drawCards(int n) {
+        if (battleEnded) return; // Don't draw if battle is over
         if (playerDeck == null) playerDeck = new ArrayList<>();
         if (playerHand == null) playerHand = new ArrayList<>();
 
@@ -1051,6 +1149,7 @@ public class BattleScreen implements Screen {
         }
     }
 
+
     @Override public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
         stage.getViewport().apply();
@@ -1071,6 +1170,5 @@ public class BattleScreen implements Screen {
         if (stage != null) stage.dispose();
         if (skin != null) skin.dispose();
         if (font != null) font.dispose();
-        // Dispose any other Textures manually loaded by this screen if they are class fields
     }
 }

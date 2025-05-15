@@ -1,82 +1,133 @@
 package io.github.grace.ni.fernan;
 
+import com.badlogic.gdx.Gdx; // Added for potential logging
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import io.github.grace.ni.fernan.CardSystem;
-import io.github.grace.ni.fernan.DeckSelectionScreen;
+import com.badlogic.gdx.math.MathUtils; // For random selection
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SaveProfile {
     public String saveName;
     public String currentMapId;
-    public int    gachaCurrency;
+    public int gachaCurrency;
 
-    /** The user’s decks (max 3) */
+    // Pack counts
+    public int godDivinePacks;
+    public int divinePacks;
+    public int artifactItemPacks;
+
     public List<DeckSelectionScreen.Deck> decks = new ArrayList<>();
+    public List<String> ownedCardIds = new ArrayList<>(); // Will store unique IDs
 
-    /**
-     * We store each owned card by its unique ID (e.g. name).
-     * When you need the actual Card objects, call getOwnedCards().
-     */
-    public List<String> ownedCardIds = new ArrayList<>();
-
-    // No-arg constructor for JSON
     public SaveProfile() {}
 
-    // New-game constructor
     public SaveProfile(String saveName) {
-        this.saveName      = saveName;
-        this.currentMapId  = "n0";
-        this.gachaCurrency = 0;
+        this.saveName = saveName;
+        this.currentMapId = "n0";
+        this.gachaCurrency = 100; // Starting coins
 
-        // 1) Starter DECK of 5 cards:
-        List<CardSystem.Card> all = CardSystem.loadCardsFromJson();
-        List<CardSystem.Card> starterCards = all.subList(0, Math.min(5, all.size()));
-        DeckSelectionScreen.Deck starter = new DeckSelectionScreen.Deck(
-            "Starter Deck",
-            new ArrayList<>(starterCards)
-        );
-        this.decks.add(starter);
+        this.godDivinePacks = 0;
+        this.divinePacks = 0;
+        this.artifactItemPacks = 0;
 
-        // 2) Starter COLLECTION = exactly those same 5 cards:
-        for (CardSystem.Card c : starterCards) {
-            ownedCardIds.add(c.getName());
+        List<CardSystem.Card> allCardsMasterList = CardSystem.loadCardsFromJson();
+        List<CardSystem.Card> godCards = allCardsMasterList.stream()
+            .filter(c -> c.getType() == CardSystem.CardType.GOD)
+            .collect(Collectors.toList());
+
+        CardSystem.Card starterCard = null;
+        if (!godCards.isEmpty()) {
+            starterCard = godCards.get(MathUtils.random(godCards.size() - 1));
+        } else {
+            // Fallback: if no GOD cards, pick a random DIVINE or any card
+            Gdx.app.log("SaveProfile", "Warning: No GOD type cards found for starter deck. Trying DIVINE.");
+            List<CardSystem.Card> divineCards = allCardsMasterList.stream()
+                .filter(c -> c.getType() == CardSystem.CardType.DIVINE)
+                .collect(Collectors.toList());
+            if (!divineCards.isEmpty()) {
+                starterCard = divineCards.get(MathUtils.random(divineCards.size() - 1));
+            } else if (!allCardsMasterList.isEmpty()) {
+                Gdx.app.log("SaveProfile", "Warning: No DIVINE type cards found. Picking a random card for starter deck.");
+                starterCard = allCardsMasterList.get(MathUtils.random(allCardsMasterList.size() - 1));
+            } else {
+                Gdx.app.error("SaveProfile", "CRITICAL: No cards available in cards.json to create a starter deck.");
+                // Handle this critical error, maybe by creating a dummy card or throwing an exception
+            }
+        }
+
+        if (starterCard != null) {
+            DeckSelectionScreen.Deck starterDeck = new DeckSelectionScreen.Deck(
+                "Starter Deck",
+                new ArrayList<>(Collections.singletonList(starterCard)) // Deck with one card
+            );
+            this.decks.add(starterDeck);
+            this.addToCollection(starterCard); // Add its unique ID to owned cards
+        } else {
+            // If still no starter card (critical error), create an empty starter deck
+            this.decks.add(new DeckSelectionScreen.Deck("Starter Deck", new ArrayList<>()));
+            Gdx.app.log("SaveProfile", "Created an empty starter deck due to lack of suitable cards.");
         }
     }
 
-    /** Serialize this profile to JSON string */
     public String toJson() {
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         return json.toJson(this);
     }
 
-    /** Deserialize from JSON */
     public static SaveProfile fromJson(String jsonString) {
         return new Json().fromJson(SaveProfile.class, jsonString);
     }
 
-    /**
-     * Returns the actual Card objects this player owns,
-     * by matching IDs in ownedCardIds against the master list.
-     */
     public List<CardSystem.Card> getOwnedCards() {
         List<CardSystem.Card> master = CardSystem.loadCardsFromJson();
         return master.stream()
-            .filter(c -> ownedCardIds.contains(c.getName()))
+            .filter(c -> ownedCardIds.contains(c.getUniqueId())) // Filter by unique ID
             .collect(Collectors.toList());
     }
 
-    /**
-     * Adds a card to the player's collection (if not already owned).
-     */
     public void addToCollection(CardSystem.Card card) {
-        String id = card.getName();
-        if (!ownedCardIds.contains(id)) {
-            ownedCardIds.add(id);
+        if (card == null) return;
+        String uniqueId = card.getUniqueId(); // Use the new unique ID method
+        if (!ownedCardIds.contains(uniqueId)) {
+            ownedCardIds.add(uniqueId);
         }
+    }
+
+    // Methods to manage pack counts
+    public void addGodDivinePack(int count) {
+        this.godDivinePacks += count;
+    }
+    public void addDivinePack(int count) {
+        this.divinePacks += count;
+    }
+    public void addArtifactItemPack(int count) {
+        this.artifactItemPacks += count;
+    }
+
+    public boolean useGodDivinePack() {
+        if (this.godDivinePacks > 0) {
+            this.godDivinePacks--;
+            return true;
+        }
+        return false;
+    }
+    public boolean useDivinePack() {
+        if (this.divinePacks > 0) {
+            this.divinePacks--;
+            return true;
+        }
+        return false;
+    }
+    public boolean useArtifactItemPack() {
+        if (this.artifactItemPacks > 0) {
+            this.artifactItemPacks--;
+            return true;
+        }
+        return false;
     }
 }
