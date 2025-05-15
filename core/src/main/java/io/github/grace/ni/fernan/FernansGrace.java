@@ -25,18 +25,17 @@ public class FernansGrace extends Game {
     public boolean isInGame = false;
 
     private Music backgroundMusic;
+    public boolean isMusicEnabled = true;
 
     @Override
     public void create() {
-        // Set up a 48x27 viewport (16:9 ratio scaled by 3)
         viewport = new FitViewport(16 * 3, 9 * 3);
         batch = new SpriteBatch();
 
-        // Try to load and play background music
         try {
             backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("BGM1.mp3"));
             backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.2f); // Volume range: 0.0 to 1.0
+            backgroundMusic.setVolume(0.2f);
             backgroundMusic.play();
         } catch (Exception e) {
             Gdx.app.error("FernansGrace", "Failed to load or play background music.", e);
@@ -45,9 +44,24 @@ public class FernansGrace extends Game {
         this.setScreen(new MainFernan(this));
     }
 
+    public void toggleMusic() {
+        if (backgroundMusic == null) return;
+
+        isMusicEnabled = !isMusicEnabled;
+        if (isMusicEnabled) {
+            backgroundMusic.play();
+        } else {
+            backgroundMusic.pause();
+        }
+    }
+
+    public boolean isMusicPlaying() {
+        return isMusicEnabled;
+    }
+
     @Override
     public void render() {
-        super.render(); // Renders the current screen
+        super.render();
     }
 
     @Override
@@ -58,10 +72,9 @@ public class FernansGrace extends Game {
 
     @Override
     public void dispose() {
-        // Clean up core resources
         if (batch != null) batch.dispose();
         if (backgroundMusic != null) backgroundMusic.dispose();
-
         super.dispose();
     }
 }
+
