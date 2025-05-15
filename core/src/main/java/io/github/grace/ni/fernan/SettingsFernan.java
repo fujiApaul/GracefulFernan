@@ -131,4 +131,4 @@ public class SettingsFernan implements Screen {
         skin.dispose();
         font.dispose();
     }
-}
+    }
