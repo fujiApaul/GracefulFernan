@@ -14,6 +14,8 @@ public class EffectFactory {
                 return new DrawFromGraveEffect(ed.amount);
             case "Poison":
                 return new PoisonEffect(ed.amount, ed.duration);
+            case "Burn": // ADD THIS NEW CASE
+                return new BurnEffect(ed.amount, ed.duration); // Use ed.amount for damage per turn
             case "Stun":
                 return new StunEffect(ed.duration);
             case "Confuse":
