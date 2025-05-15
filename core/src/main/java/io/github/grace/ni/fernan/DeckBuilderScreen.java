@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.audio.Sound;
 
 import java.util.*;
 import java.util.List;
@@ -32,6 +33,7 @@ public class DeckBuilderScreen implements Screen {
     private Image backgroundImage;
     private Map<CardSystem.Card, Container<VerticalGroup>> cardContainers = new HashMap<>();
     private Table cardTable;
+    private Sound clickSound;
 
     private String currentPantheonFilter = null;
     private String currentTypeFilter = null;
@@ -44,6 +46,8 @@ public class DeckBuilderScreen implements Screen {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         allCards = CardSystem.loadCardsFromJson();
         buildUI();
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
     }
 
     private void buildUI() {
@@ -66,6 +70,7 @@ public class DeckBuilderScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new GameMenuFernan(game));
             }
         });
@@ -114,6 +119,7 @@ public class DeckBuilderScreen implements Screen {
         selectButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 if (selectedCards.size() > 0) {
                     System.out.println("Selected Deck:");
                     for (CardSystem.Card c : selectedCards)

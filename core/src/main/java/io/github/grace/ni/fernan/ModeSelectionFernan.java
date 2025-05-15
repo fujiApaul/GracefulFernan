@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.audio.Sound;
 
 public class ModeSelectionFernan implements Screen {
     final FernansGrace game;
@@ -27,6 +28,8 @@ public class ModeSelectionFernan implements Screen {
     private Label descriptionLabel;
 
     private int selectedCardIndex = -1;
+    private Sound clickSound;
+    private Sound clickSound2;
 
     public ModeSelectionFernan(final FernansGrace game) {
         this.game = game;
@@ -47,6 +50,10 @@ public class ModeSelectionFernan implements Screen {
         gameModes.add(new GameMode("Classic", "Fight against various enemies to get the Ultimate God.", new Texture("BG2.png")));
         gameModes.add(new GameMode("Versus", "Challenge other players.", new Texture("BG2.png")));
         gameModes.add(new GameMode("Coming Soon", "Ma'am, next week na po please.", new Texture("BG2.png")));
+
+        //SFX
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("Click2.mp3"));
+        clickSound2 = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));// Make sure this file exists
 
         // === Main Table ===
         mainTable = new Table();
@@ -80,6 +87,7 @@ public class ModeSelectionFernan implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound2.play();
                 System.out.println("Back button clicked.");
                 game.setScreen(new GameMenuFernan(game));
             }
@@ -144,14 +152,17 @@ public class ModeSelectionFernan implements Screen {
                     switch (gameModes.get(cardIndex).title)
                     {
                         case "Classic":
+                            clickSound.play();
                             game.setScreen(new MapNavigationFernan(game));
                             break;
 
                         case "Versus":
+                            clickSound.play();
                             game.setScreen(new MapNavigationFernan(game));
                             break;
 
                         case "Coming Soon":
+                            clickSound.play();
                             game.setScreen(new MapNavigationFernan(game));
                             break;
                     }
