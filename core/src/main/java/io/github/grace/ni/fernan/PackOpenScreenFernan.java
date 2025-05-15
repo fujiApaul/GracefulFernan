@@ -22,6 +22,8 @@ import java.util.List;
 public class PackOpenScreenFernan implements Screen {
 
     private final FernansGrace game;
+    private final PackScreenFernan.MutableStoreItem item;
+
     private Stage stage;
     private Skin skin;
     private Texture backgroundTexture;
@@ -31,8 +33,10 @@ public class PackOpenScreenFernan implements Screen {
     private BitmapFont whiteFont;
     private Sound clickSound;
 
-    public PackOpenScreenFernan(FernansGrace game) {
+    public PackOpenScreenFernan(FernansGrace game, PackScreenFernan.MutableStoreItem item) {
         this.game = game;
+        this.item = item;
+
         this.stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -49,7 +53,6 @@ public class PackOpenScreenFernan implements Screen {
     private void buildUI() {
         stage.clear();
 
-        // Background
         backgroundTexture = new Texture(Gdx.files.internal("Bg2B.PNG"));
         backgroundImage = new Image(backgroundTexture);
         backgroundImage.setFillParent(true);
@@ -59,7 +62,6 @@ public class PackOpenScreenFernan implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
-        // Shuffle and pick 2 random cards
         Collections.shuffle(allCards);
         CardSystem.Card card1 = allCards.get(0);
         CardSystem.Card card2 = allCards.get(1);
@@ -70,12 +72,22 @@ public class PackOpenScreenFernan implements Screen {
 
         root.add(cardRow).center();
 
-        // Back Button
+        createBackButton();
+    }
+
+    private void addCardToTable(CardSystem.Card card, Table table) {
+        Texture cardTexture = new Texture(Gdx.files.internal(card.getImagePath()));
+        Image cardImage = new Image(cardTexture);
+        cardImage.setScaling(Scaling.fit);
+        cardImage.setSize(200, 300);
+
+        table.add(cardImage).size(200, 300).pad(20);
+    }
+
+    private void createBackButton() {
         TextButton.TextButtonStyle backButtonStyle = new TextButton.TextButtonStyle();
         Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("ui/transparent.png"))));
-        backButtonStyle.up = transparentDrawable;
-        backButtonStyle.down = transparentDrawable;
-        backButtonStyle.over = transparentDrawable;
+        backButtonStyle.up = backButtonStyle.down = backButtonStyle.over = transparentDrawable;
         backButtonStyle.font = yellowFont;
 
         TextButton backButton = new TextButton("Back", backButtonStyle);
@@ -92,7 +104,7 @@ public class PackOpenScreenFernan implements Screen {
 
             @Override public void clicked(InputEvent event, float x, float y) {
                 clickSound.play();
-                game.setScreen(new StoreScreenFernan(game));
+                game.setScreen(new PackScreenFernan(game, item));
             }
         });
 
@@ -101,15 +113,6 @@ public class PackOpenScreenFernan implements Screen {
         topTable.top().left().padTop(10).padLeft(10);
         topTable.add(backButton).width(100).height(40);
         stage.addActor(topTable);
-    }
-
-    private void addCardToTable(CardSystem.Card card, Table table) {
-        Texture cardTexture = new Texture(Gdx.files.internal(card.getImagePath()));
-        Image cardImage = new Image(cardTexture);
-        cardImage.setScaling(Scaling.fit);
-        cardImage.setSize(200, 300);
-
-        table.add(cardImage).size(200, 300).pad(20);
     }
 
     @Override public void show() {}

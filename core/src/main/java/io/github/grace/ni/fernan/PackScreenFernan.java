@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.audio.Sound;
 
 public class PackScreenFernan implements Screen {
     final FernansGrace game;
@@ -20,8 +21,9 @@ public class PackScreenFernan implements Screen {
     private final BitmapFont yellowFont;
     private final BitmapFont whiteFont;
     private final MutableStoreItem item;
-
-    private Label ownedLabel;  // Label showing owned packs count, updated dynamically
+    private Sound clickSound;
+    private Sound clickSound2;
+    private Label ownedLabel;
 
     public PackScreenFernan(FernansGrace game, MutableStoreItem item) {
         this.game = game;
@@ -34,6 +36,9 @@ public class PackScreenFernan implements Screen {
         yellowFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
         whiteFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("Click2.mp3"));
+        clickSound2 = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));// Make sure this file exists
 
         Image background = new Image(new Texture("Bg2B.PNG"));
         background.setFillParent(true);
@@ -122,20 +127,35 @@ public class PackScreenFernan implements Screen {
         open1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PackOpenScreenFernan(game));
+                clickSound.play();
+                if (item.packsOwned >= 1) {
+                    item.packsOwned -= 1;
+                    updateOwnedLabel();
+                    game.setScreen(new PackOpenScreenFernan(game, item));
+                } else {
+                    System.out.println("Not enough packs to open 1.");
+                }
             }
         });
 
         open10.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PackOpenScreenFernan(game));
+                clickSound.play();
+                if (item.packsOwned >= 10) {
+                    item.packsOwned -= 10;
+                    updateOwnedLabel();
+                    game.setScreen(new PackOpenScreenFernan(game, item));
+                } else {
+                    System.out.println("Not enough packs to open 10.");
+                }
             }
         });
 
         buy1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound2.play();
                 item.packsOwned += 1;
                 updateOwnedLabel();
             }
@@ -144,6 +164,7 @@ public class PackScreenFernan implements Screen {
         buy10.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound2.play();
                 item.packsOwned += 10;
                 updateOwnedLabel();
             }
@@ -180,6 +201,7 @@ public class PackScreenFernan implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound2.play();
                 game.setScreen(new StoreScreenFernan(game));
             }
         });
@@ -223,7 +245,6 @@ public class PackScreenFernan implements Screen {
         item.texture.dispose();
     }
 
-    // MutableStoreItem to track owned packs count
     public static class MutableStoreItem extends StoreItem {
         public int packsOwned = 0;
 

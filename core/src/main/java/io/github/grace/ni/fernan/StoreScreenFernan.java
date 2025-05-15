@@ -30,6 +30,7 @@ public class StoreScreenFernan implements Screen {
     private int selectedItemIndex = -1;
 
     private Sound clickSound;
+    private Sound clickSound2;
 
     public StoreScreenFernan(final FernansGrace game) {
         this.game = game;
@@ -43,6 +44,7 @@ public class StoreScreenFernan implements Screen {
         whiteFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
+        clickSound2 = Gdx.audio.newSound(Gdx.files.internal("Click2.mp3"));
 
         background = new Image(new Texture("Bg2B.PNG"));
         background.setFillParent(true);
@@ -118,7 +120,7 @@ public class StoreScreenFernan implements Screen {
         name.setWrap(true);
         name.setAlignment(Align.center);
 
-        Label desc = new Label("Packs Owned: " + item.packsOwned, new Label.LabelStyle(yellowFont, Color.WHITE));
+        Label desc = new Label("\n\n\n\n\n\n\n\n\nPacks Owned: " + item.packsOwned, new Label.LabelStyle(yellowFont, Color.WHITE));
         desc.setFontScale(0.7f);
         desc.setWrap(true);
         desc.setAlignment(Align.center);
@@ -166,6 +168,7 @@ public class StoreScreenFernan implements Screen {
                 // Switch to PackScreen passing current packsOwned count as String
                 switch (item.name) {
                     case "GOD/DIVINE PACK":
+                        clickSound2.play();
                         game.setScreen(new PackScreenFernan(game,
                             new PackScreenFernan.MutableStoreItem(
                                 "GOD / DIVINE CARD PACK",
@@ -177,6 +180,7 @@ public class StoreScreenFernan implements Screen {
                             )));
                         break;
                     case "DIVINE/SUPPORT PACK":
+                        clickSound2.play();
                         game.setScreen(new PackScreenFernan(game,
                             new PackScreenFernan.MutableStoreItem(
                                 "DIVINE / SUPPORT CARD PACK",
@@ -188,6 +192,7 @@ public class StoreScreenFernan implements Screen {
                             )));
                         break;
                     case "ARTIFACT/ITEM PACK":
+                        clickSound2.play();
                         game.setScreen(new PackScreenFernan(game,
                             new PackScreenFernan.MutableStoreItem(
                                 "ARTIFACT / ITEM CARD PACK",
