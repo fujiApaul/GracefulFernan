@@ -316,6 +316,10 @@ public class ConvergingMapScreen implements Screen {
         current = nxt;
     }
 
+    public Node getCurrentNode() {
+        return this.current;
+    }
+
     @Override public void resize(int w, int h)    { viewport.update(w, h, true); }
     @Override public void pause()                  {}
     @Override public void resume()                 {}
