@@ -19,9 +19,11 @@ public class PackScreenFernan implements Screen {
     private final Stage stage;
     private final BitmapFont yellowFont;
     private final BitmapFont whiteFont;
-    private final StoreItem item;
+    private final MutableStoreItem item;
 
-    public PackScreenFernan(FernansGrace game, StoreItem item) {
+    private Label ownedLabel;  // Label showing owned packs count, updated dynamically
+
+    public PackScreenFernan(FernansGrace game, MutableStoreItem item) {
         this.game = game;
         this.item = item;
 
@@ -85,7 +87,7 @@ public class PackScreenFernan implements Screen {
         infoLabel.setWrap(true);
         infoLabel.setAlignment(Align.left);
 
-        Label ownedLabel = new Label(item.ownedText, new Label.LabelStyle(yellowFont, Color.YELLOW));
+        ownedLabel = new Label("Packs Owned: " + item.packsOwned, new Label.LabelStyle(yellowFont, Color.YELLOW));
         ownedLabel.setFontScale(0.6f);
         ownedLabel.setWrap(true);
         ownedLabel.setAlignment(Align.left);
@@ -134,14 +136,16 @@ public class PackScreenFernan implements Screen {
         buy1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PackOpenScreenFernan(game));
+                item.packsOwned += 1;
+                updateOwnedLabel();
             }
         });
 
         buy10.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PackOpenScreenFernan(game));
+                item.packsOwned += 10;
+                updateOwnedLabel();
             }
         });
 
@@ -158,6 +162,10 @@ public class PackScreenFernan implements Screen {
         buttonTable.add(coinLabel10).padTop(0).row();
 
         return buttonTable;
+    }
+
+    private void updateOwnedLabel() {
+        ownedLabel.setText("Packs Owned: " + item.packsOwned);
     }
 
     private void createBackButton() {
@@ -215,6 +223,15 @@ public class PackScreenFernan implements Screen {
         item.texture.dispose();
     }
 
+    // MutableStoreItem to track owned packs count
+    public static class MutableStoreItem extends StoreItem {
+        public int packsOwned = 0;
+
+        public MutableStoreItem(String name, String infoText, String ownedText, Texture texture) {
+            super(name, infoText, ownedText, texture);
+        }
+    }
+
     public static class StoreItem {
         public final String name;
         public final String infoText;
@@ -226,8 +243,6 @@ public class PackScreenFernan implements Screen {
             this.infoText = infoText;
             this.ownedText = ownedText;
             this.texture = texture;
-
-
         }
     }
 }

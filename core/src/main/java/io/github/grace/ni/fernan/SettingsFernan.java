@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.audio.Sound;
+
 
 public class SettingsFernan implements Screen {
 
@@ -20,7 +22,8 @@ public class SettingsFernan implements Screen {
     private Texture background;
     private Stage stage;
     private Skin skin;
-    private BitmapFont font;
+    private BitmapFont font, whiteFont, yellowFont;
+    private Sound clickSound;
 
     public SettingsFernan(final FernansGrace game) {
         this.game = game;
@@ -33,8 +36,14 @@ public class SettingsFernan implements Screen {
         font = new BitmapFont(Gdx.files.internal("ui/Aligator2.fnt"));
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        BitmapFont whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
+        whiteFont = new BitmapFont(Gdx.files.internal("ui/smalligator_gradient2.fnt"));
         whiteFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        yellowFont = new BitmapFont(Gdx.files.internal("ui/smalligator_yellow.fnt"));
+        yellowFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
+
 
         Texture transparentTexture = new Texture(Gdx.files.internal("ui/transparent.png"));
         Drawable transparentDrawable = new TextureRegionDrawable(new TextureRegion(transparentTexture));
@@ -43,20 +52,29 @@ public class SettingsFernan implements Screen {
         buttonStyle.up = transparentDrawable;
         buttonStyle.down = transparentDrawable;
         buttonStyle.over = transparentDrawable;
-        buttonStyle.font = whiteFont;
+        buttonStyle.font = yellowFont;  // Set the default font to yellow
 
         TextButton backButton = new TextButton("Back", buttonStyle);
         backButton.getLabel().setFontScale(1.7f);
 
         backButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                changeFont(backButton, whiteFont);  // Change to white on hover
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                changeFont(backButton, yellowFont);  // Change back to yellow when hover ends
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) { clickSound.play();
                 if (!game.isInGame){
                     game.setScreen(new MainFernan(game));
                 } else {
                     game.setScreen(new GameMenuFernan(game));
                 }
-
             }
         });
 
@@ -67,6 +85,12 @@ public class SettingsFernan implements Screen {
         table.add(backButton).width(150).height(50);
 
         stage.addActor(table);
+    }
+
+    private void changeFont(TextButton button, BitmapFont font) {
+        Label.LabelStyle style = new Label.LabelStyle(button.getLabel().getStyle());
+        style.font = font;
+        button.getLabel().setStyle(style);
     }
 
     @Override

@@ -2,6 +2,7 @@ package io.github.grace.ni.fernan;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -37,8 +38,9 @@ public class MainFernan implements Screen {
     private TextButton.TextButtonStyle customButtonStyle;
     private TextButton button1, button2, button3;
     private Table table;
-
     private boolean isMainMenu2 = false;
+
+    private Sound clickSound;
 
     public MainFernan(final FernansGrace game) {
         this.game = game;
@@ -61,6 +63,9 @@ public class MainFernan implements Screen {
         whiteFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+
+        // Load click sound
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3")); // Make sure this file exists
 
         // Button style
         customButtonStyle = new TextButton.TextButtonStyle();
@@ -91,7 +96,7 @@ public class MainFernan implements Screen {
         titleLabel.setFontScale(2.5f);
         titleLabel.setAlignment(Align.center);
 
-        // Buttons depending on menu state
+        // Buttons
         if (!isMainMenu2) {
             button1 = new TextButton("Start", customButtonStyle);
             button2 = new TextButton("Settings", customButtonStyle);
@@ -114,17 +119,19 @@ public class MainFernan implements Screen {
         table.add(button3).width(200).height(50).row();
     }
 
-
     private void setButtonListeners() {
         // Button 1
         button1.addListener(new ClickListener() {
             @Override public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 changeFont(button1, whiteFont);
             }
+
             @Override public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 changeFont(button1, yellowFont);
             }
+
             @Override public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 if (!isMainMenu2) {
                     isMainMenu2 = true;
                     updateMenuButtons();
@@ -141,10 +148,13 @@ public class MainFernan implements Screen {
             @Override public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 changeFont(button2, whiteFont);
             }
+
             @Override public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 changeFont(button2, yellowFont);
             }
+
             @Override public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 if (!isMainMenu2) {
                     game.setScreen(new SettingsFernan(game));
                 } else {
@@ -160,10 +170,13 @@ public class MainFernan implements Screen {
             @Override public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 changeFont(button3, whiteFont);
             }
+
             @Override public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 changeFont(button3, yellowFont);
             }
+
             @Override public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 if (!isMainMenu2) {
                     Gdx.app.exit();
                 } else {
@@ -181,6 +194,7 @@ public class MainFernan implements Screen {
     }
 
     @Override public void show() {}
+
     @Override public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
 
@@ -191,7 +205,6 @@ public class MainFernan implements Screen {
         game.batch.draw(background, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         game.batch.end();
 
-        // Draw the Scene2D UI elements (buttons, labels)
         stage.act(delta);
         stage.draw();
     }
@@ -213,6 +226,6 @@ public class MainFernan implements Screen {
         buttonFont.dispose();
         yellowFont.dispose();
         whiteFont.dispose();
+        clickSound.dispose();
     }
-
 }
