@@ -160,6 +160,7 @@ public class MainFernan implements Screen {
                 } else {
                     System.out.println("Load Game clicked");
                     game.setScreen(new LoadGameScreen(game));
+                    game.isInGame = true;
                     // handle load
                 }
             }
