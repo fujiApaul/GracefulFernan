@@ -28,7 +28,7 @@ public class SaveProfile {
     public SaveProfile(String saveName) {
         this.saveName = saveName;
         this.currentMapId = "n0";
-        this.gachaCurrency = 100; // Starting coins
+        this.gachaCurrency = 1000000; // Starting coins
 
         this.godDivinePacks = 0;
         this.divinePacks = 0;

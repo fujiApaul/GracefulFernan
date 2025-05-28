@@ -1,1719 +1,3479 @@
 [
-{
-"name": "Aeolus",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/aeolus.png",
-"skills": [
-{
-"name": "Wind Blast",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun",   "duration": 1  }
-]
-},
-{
-"name": "Cyclone",
-"cost": 4,
-"effects": [
-{ "type": "Damage", "amount": 35 },
-{ "type": "AoE",    "amount": 15 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Aeolus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/aeolus.png",
+    "skills": [
+      {
+        "name": "Wind Blast",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun",   "duration": 1  }
+        ]
+      },
+      {
+        "name": "Cyclone",
+        "cost": 4,
+        "effects": [
+          { "type": "Damage", "amount": 35 },
+          { "type": "AoE",    "amount": 15 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Ananke",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/ananke.png",
-"skills": [
-{
-"name": "Inevitable Wrath",
-"cost": 1,
-"effects": [
-{ "type": "Damage", "amount": 20 }
-]
-},
-{
-"name": "Unstoppable Fate",
-"cost": 1,
-"effects": [
-{ "type": "Damage", "amount": 35 },
-{ "type": "Cleanse", "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Ananke",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/ananke.png",
+    "skills": [
+      {
+        "name": "Inevitable Wrath",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Unstoppable Fate",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 35 },
+          { "type": "Cleanse", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Asclepius",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/asclepius.png",
-"skills": [
-{
-"name": "Serpent's Strike",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 10 },
-{ "type": "Poison", "amount": 10 }
-]
-},
-{
-"name": "Healing Touch",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 10 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Asclepius",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/asclepius.png",
+    "skills": [
+      {
+        "name": "Serpent's Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 10 },
+          { "type": "Poison", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Healing Touch",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Boreas",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/boreas.png",
-"skills": [
-{
-"name": "Frozen Gale",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun", "duration": 1 }
-]
-},
-{
-"name": "Arctic Protection",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 10 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Boreas",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/boreas.png",
+    "skills": [
+      {
+        "name": "Frozen Gale",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Arctic Protection",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Charon",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/charon.png",
-"skills": [
-{
-"name": "Obol's Toll",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 }
-]
-},
-{
-"name": "Styx's Protection",
-"cost": 2,
-"effects": [
-{ "type": "Heal", "amount": 10 },
-{ "type": "Confuse", "percent": 0.5, "duration": 1   }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Charon",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/charon.png",
+    "skills": [
+      {
+        "name": "Obol's Toll",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Styx's Protection",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 10 },
+          { "type": "Confuse", "percent": 0.5, "duration": 1   }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Deimos",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/deimos.png",
-"skills": [
-{
-"name": "Fear Strike",
-"cost": 1,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.25, "duration": 1}
-]
-},
-{
-"name": "Dread Resilience",
-"cost": 2,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1.00, "duration":1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Deimos",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/deimos.png",
+    "skills": [
+      {
+        "name": "Fear Strike",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.25, "duration": 1}
+        ]
+      },
+      {
+        "name": "Dread Resilience",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration":1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Eos",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/eos.png",
-"skills": [
-{
-"name": "Radiant Strike",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.25, "duration": 1}
-]
-},
-{
-"name": "Morning Blessing",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 0.25, "duration":1 },
-{ "type": "Heal", "amount": 10}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Eos",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/eos.png",
+    "skills": [
+      {
+        "name": "Radiant Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.25, "duration": 1}
+        ]
+      },
+      {
+        "name": "Morning Blessing",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 0.25, "duration":1 },
+          { "type": "Heal", "amount": 10}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Eris",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/eris.png",
-"skills": [
-{
-"name": "Chaos Strike",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun", "duration": 1}
-]
-},
-{
-"name": "Unpredictable",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration":1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Eris",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/eris.png",
+    "skills": [
+      {
+        "name": "Chaos Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 1}
+        ]
+      },
+      {
+        "name": "Unpredictable",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration":1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Eros",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/eros.png",
-"skills": [
-{
-"name": "Piercing Arrow",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun", "duration": 1}
-]
-},
-{
-"name": "Lover's Protection",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration":1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Eros",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/eros.png",
+    "skills": [
+      {
+        "name": "Piercing Arrow",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 1}
+        ]
+      },
+      {
+        "name": "Lover's Protection",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration":1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Eurus",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/eurus.png",
-"skills": [
-{
-"name": "Storm Fury",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Collateral", "amount": 10 }
-]
-},
-{
-"name": "Wind Veil",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration":1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Eurus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/eurus.png",
+    "skills": [
+      {
+        "name": "Storm Fury",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "AoE", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Wind Veil",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration":1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Hades",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/hades.png",
-"skills": [
-{
-"name": "Soul Reap",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Heal", "amount": 20 }
-]
-},
-{
-"name": "Death Barrier",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 0.25, "duration":1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Hades",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/greek_hades.png",
+    "skills": [
+      {
+        "name": "Soul Reap",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.25, "duration": 2}
+        ]
+      },
+      {
+        "name": "Death Barrier",
+        "cost": 1,
+        "effects": [
+          { "type": "Cleanse", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Hades",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/hades.png",
-"skills": [
-{
-"name": "Soul Reap",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.25, "duration": 2}
-]
-},
-{
-"name": "Death Barrier",
-"cost": 1,
-"effects": [
-{ "type": "Cleanse", "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Harmonia",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/harmonia.png",
+    "skills": [
+      {
+        "name": "Melodic Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.25, "duration": 2}
+        ]
+      },
+      {
+        "name": "Harmony",
+        "cost": 1,
+        "effects": [
+          { "type": "Cleanse", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Harmonia",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/harmonia.png",
-"skills": [
-{
-"name": "Melodic Strike",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.25, "duration": 2}
-]
-},
-{
-"name": "Harmony",
-"cost": 1,
-"effects": [
-{ "type": "Cleanse", "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Hecate",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/hecate.png",
+    "skills": [
+      {
+        "name": "Dark Hex",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Witch's Veil",
+        "cost": 1,
+        "effects": [
+          { "type": "FlatDamageBuff", "percent":0.5, "duration": 1, "amount": 15 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Hecate",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/hecate.png",
-"skills": [
-{
-"name": "Dark Hex",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 }
-]
-},
-{
-"name": "Witch's Veil",
-"cost": 1,
-"effects": [
-{ "type": "FlatDamageBuff", "percent":0.5, "duration": 1, "amount": 15 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Helios",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/helios.png",
+    "skills": [
+      {
+        "name": "Solar Lance",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "Burn", "amount": 10, "duration": 2 },
+          { "type": "Stun", "duration": 1}
+        ]
+      },
+      {
+        "name": "Daylight Bless",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 20}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Helios",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/helios.png",
-"skills": [
-{
-"name": "Solar Lance",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 },
-{ "type": "Burn", "amount": 10, "duration": 2 },
-{ "type": "Stun", "duration": 1}
-]
-},
-{
-"name": "Daylight Bless",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 20}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Hypnos",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/hypnos.png",
+    "skills": [
+      {
+        "name": "Drowsy Whisper",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "Stun", "duration": 1}
+        ]
+      },
+      {
+        "name": "Dream Barrier",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Hypnos",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/hypnos.png",
-"skills": [
-{
-"name": "Drowsy Whisper",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 },
-{ "type": "Stun", "duration": 1}
-]
-},
-{
-"name": "Dream Barrier",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1.00, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Iris",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/iris.png",
+    "skills": [
+      {
+        "name": "Prismatic Ray",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "AoE", "amount": 10}
+        ]
+      },
+      {
+        "name": "Fleetfoot Escape",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 0.5, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Iris",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/iris.png",
-"skills": [
-{
-"name": "Prismatic Ray",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Collateral", "amount": 10}
-]
-},
-{
-"name": "Fleetfoot Escape",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 0.5, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Kratos",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/kratos.png",
+    "skills": [
+      {
+        "name": "Titan's Strike",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Titan's Might",
+        "cost": 1,
+        "effects": [
+          { "type": "FlatDamageBuff",  "amount": 15,    "duration": 3 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Kratos",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/kratos.png",
-"skills": [
-{
-"name": "Titan's Strike",
-"cost": 1,
-"effects": [
-{ "type": "Damage", "amount": 20 }
-]
-},
-{
-"name": "Titan's Might",
-"cost": 1,
-"effects": [
-{ "type": "FlatDamageBuff",  "amount": 15,    "duration": 3 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Morpheus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/morpheus.png",
+    "skills": [
+      {
+        "name": "Nightmare Wave",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 2 }
+        ]
+      },
+      {
+        "name": "Sleepy Fog",
+        "cost": 1,
+        "effects": [
+          { "type": "DamageMod", "percent": -1.00, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Morpheus",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/morpheus.png",
-"skills": [
-{
-"name": "Nightmare Wave",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun", "duration": 2 }
-]
-},
-{
-"name": "Sleepy Fog",
-"cost": 1,
-"effects": [
-{ "type": "DamageMod", "percent": -1.00, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Nemesis",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/nemesis.png",
+    "skills": [
+      {
+        "name": "Law of Balance",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Retribution",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Nemesis",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/nemesis.png",
-"skills": [
-{
-"name": "Law of Balance",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 }
-]
-},
-{
-"name": "Retribution",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1.00, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Nike",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/nike.png",
+    "skills": [
+      {
+        "name": "Swift Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Champion's Aura",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 0.25, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Nike",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/nike.png",
-"skills": [
-{
-"name": "Swift Strike",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 }
-]
-},
-{
-"name": "Champion's Aura",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 0.25, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Notus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/notus.png",
+    "skills": [
+      {
+        "name": "Scorching Winds",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "Burn", "amount": 10, "duration": 2}
+        ]
+      },
+      {
+        "name": "Desert Cloak",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Notus",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/notus.png",
-"skills": [
-{
-"name": "Scorching Winds",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 },
-{ "type": "Burn", "amount": 10, "duration": 2}
-]
-},
-{
-"name": "Desert Cloak",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1.00, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Nyx",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/nyx.png",
+    "skills": [
+      {
+        "name": "Shadow Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.25, "duration": 2}
+        ]
+      },
+      {
+        "name": "Midnight Cloak",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 0.75, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Nyx",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/nyx.png",
-"skills": [
-{
-"name": "Shadow Strike",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.25, "duration": 2}
-]
-},
-{
-"name": "Midnight Cloak",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 0.75, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Pan",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/pan.png",
+    "skills": [
+      {
+        "name": "Wild Frenzy",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "FlatDamageBuff", "amount": 10, "duration": 1}
+        ]
+      },
+      {
+        "name": "Forest's Embrace",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 10}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Pan",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/pan.png",
-"skills": [
-{
-"name": "Wild Frenzy",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "FlatDamageBuff", "amount": 10, "duration": 1}
-]
-},
-{
-"name": "Forest's Embrace",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 10}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Persephone",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/persephone.png",
+    "skills": [
+      {
+        "name": "Underworld Bloom",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "DamageMod", "percent": 0.5, "duration": 1}
+        ]
+      },
+      {
+        "name": "Cycle of Seasons",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 40}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Persephone",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/persephone.png",
-"skills": [
-{
-"name": "Underworld Bloom",
-"cost": 1,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "DamageMod", "percent": 0.5, "duration": 1}
-]
-},
-{
-"name": "Cycle of Seasons",
-"cost": 2,
-"effects": [
-{ "type": "Heal", "amount": 40}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Phobos",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/phobos.png",
+    "skills": [
+      {
+        "name": "Terror Slash",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.5, "duration": 1}
+        ]
+      },
+      {
+        "name": "Unyielding Mind",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Phobos",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/phobos.png",
-"skills": [
-{
-"name": "Terror Slash",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.5, "duration": 1}
-]
-},
-{
-"name": "Unyielding Mind",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Psyche",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/psyche.png",
+    "skills": [
+      {
+        "name": "Ethereal Kiss",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "Confuse", "percent": 0.5, "duration": 1}
+        ]
+      },
+      {
+        "name": "Spiritual Shield",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Psyche",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/psyche.png",
-"skills": [
-{
-"name": "Ethereal Kiss",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 },
-{ "type": "Confuse", "percent": 0.5, "duration": 1}
-]
-},
-{
-"name": "Spiritual Shield",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Selene",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/selene.png",
+    "skills": [
+      {
+        "name": "Lunar Barrage",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Moonlit Veil",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Selene",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/selene.png",
-"skills": [
-{
-"name": "Lunar Barrage",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 }
-]
-},
-{
-"name": "Moonlit Veil",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Thanatos",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/thanatos.png",
+    "skills": [
+      {
+        "name": "Soul Reap",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Heal", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Death's Resilience",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 20}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Thanatos",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/thanatos.png",
-"skills": [
-{
-"name": "Soul Reap",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Heal", "amount": 20 }
-]
-},
-{
-"name": "Death's Resilience",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 20}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Tyche",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/tyche.png",
+    "skills": [
+      {
+        "name": "Fate's Favor",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Gambler's Shield",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Tyche",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/tyche.png",
-"skills": [
-{
-"name": "Fate's Favor",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 }
-]
-},
-{
-"name": "Gambler's Shield",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Zephyrus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "GREEK",
+    "imagePath": "cards/zephyrus.png",
+    "skills": [
+      {
+        "name": "Spring Bloom",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "FlatDamageBuff", "amount": 20, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Gambler's Shield",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Zephyrus",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "GREEK",
-"imagePath": "cards/zephyrus.png",
-"skills": [
-{
-"name": "Spring Bloom",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "FlatDamageBuff", "amount": 20, "duration": 1 }
-]
-},
-{
-"name": "Gambler's Shield",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Aesculapius",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/aesculapius.png",
+    "skills": [
+      {
+        "name": "Venom Touch",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 10 },
+          { "type": "Poison", "amount": 10, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Divine Mend",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Aesculapius",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/aesculapius.png",
-"skills": [
-{
-"name": "Venom Touch",
-"cost": 1,
-"effects": [
-{ "type": "Damage", "amount": 10 },
-{ "type": "Poison", "amount": 10, "duration": 2 }
-]
-},
-{
-"name": "Divine Mend",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 10 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Aquilo",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/aquilo.png",
+    "skills": [
+      {
+        "name": "Ice Fang",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Arctic Skin",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Aquilo",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/aquilo.png",
-"skills": [
-{
-"name": "Ice Fang",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun", "duration": 1 }
-]
-},
-{
-"name": "Arctic Skin",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 10 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Arcus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/arcus.png",
+    "skills": [
+      {
+        "name": "Piercing Shot",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "AoE", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Evasion Dash",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Arcus",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/arcus.png",
-"skills": [
-{
-"name": "Piercing Shot",
-"cost": 1,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Collateral", "amount": 10 }
-]
-},
-{
-"name": "Evasion Dash",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1.00, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Aurora",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/aurora.png",
+    "skills": [
+      {
+        "name": "Dawn Ray",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.5, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Luminous Rush",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 10 },
+          { "type": "Confuse", "percent": 0.5, "duration": 1   }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Aurora",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/aurora.png",
-"skills": [
-{
-"name": "Dawn Ray",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.5, "duration": 1 }
-]
-},
-{
-"name": "Luminous Rush",
-"cost": 2,
-"effects": [
-{ "type": "Heal", "amount": 10 },
-{ "type": "Confuse", "percent": 0.5, "duration": 1   }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Charon",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/roman_charon.png",
+    "skills": [
+      {
+        "name": "Obol Slash",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "Heal", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Styx's Protection",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 10 },
+          { "type": "Confuse", "percent": 0.5, "duration": 1   }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Charon",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/roman_charon.png",
-"skills": [
-{
-"name": "Obol Slash",
-"cost": 3,
-"effects": [
-{ "type": "Damage", "amount": 30 },
-{ "type": "Heal", "amount": 30 }
-]
-},
-{
-"name": "Styx's Protection",
-"cost": 2,
-"effects": [
-{ "type": "Heal", "amount": 10 },
-{ "type": "Confuse", "percent": 0.5, "duration": 1   }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Concordia",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/concordia.png",
+    "skills": [
+      {
+        "name": "Harmony Spear",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 10 },
+          { "type": "Poison", "amount": 10, "poison": 10 }
+        ]
+      },
+      {
+        "name": "Accurate Alliance",
+        "cost": 1,
+        "effects": [
+          { "type": "DamageMod", "percent": 0.75, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Concordia",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/concordia.png",
-"skills": [
-{
-"name": "Harmony Spear",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 10 },
-{ "type": "Poison", "amount": 10}
-]
-},
-{
-"name": "Accurate Alliance",
-"cost": 1,
-"effects": [
-{ "type": "DamageMod", "percent": 0.75, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Cupid",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/cupid.png",
+    "skills": [
+      {
+        "name": "Golden Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "AoE", "amount": 20}
+        ]
+      },
+      {
+        "name": "Heart's Protection",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Cupid",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/cupid.png",
-"skills": [
-{
-"name": "Golden Strike",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Collateral", "amount": 20, "duration": 1 }
-]
-},
-{
-"name": "Heart's Protection",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Discordia",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/discordia.png",
+    "skills": [
+      {
+        "name": "Chaos Pulse",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "AoE", "amount": 10}
+        ]
+      },
+      {
+        "name": "Confused Winds",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Discordia",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/discordia.png",
-"skills": [
-{
-"name": "Chaos Pulse",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Collateral", "amount": 10, "duration": 1 }
-]
-},
-{
-"name": "Confused Winds",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Fauna",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/fauna.png",
+    "skills": [
+      {
+        "name": "Nature's Prank",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "FlatDamageBuff", "amount": 10, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Earth's Gift",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 20, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Fauna",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/fauna.png",
-"skills": [
-{
-"name": "Nature's Prank",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "FlatDamageBuff", "amount": 10, "duration": 1 }
-]
-},
-{
-"name": "Earth's Gift",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 20, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Favonius",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/favonius.png",
+    "skills": [
+      {
+        "name": "Whisper's Belt",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.5, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Spirit's WWind",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 20, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Favonius",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/favonius.png",
-"skills": [
-{
-"name": "Whisper's Belt",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.5, "duration": 1 }
-]
-},
-{
-"name": "Spirit's WWind",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 20, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Flora",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/flora.png",
+    "skills": [
+      {
+        "name": "Toxic Blossom",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 10 },
+          { "type": "Poison", "amount": 10, "duration": 3 }
+        ]
+      },
+      {
+        "name": "Petal Heal",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Flora",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/flora.png",
-"skills": [
-{
-"name": "Toxic Blossom",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 10 },
-{ "type": "Poison", "amount": 10, "duration": 3 }
-]
-},
-{
-"name": "Petal Heal",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 10 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Fortuna",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/fortuna.png",
+    "skills": [
+      {
+        "name": "Wheel of Fate",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Fickle Guard",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 0.5, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Fortuna",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/fortuna.png",
-"skills": [
-{
-"name": "Wheel of Fate",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 }
-]
-},
-{
-"name": "Fickle Guard",
-"cost": 1,
-"effects": [
-{ "type": "DodgeBuff", "percent": 0.5, "duration": 1 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Luna",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/luna.png",
+    "skills": [
+      {
+        "name": "Silver Slash",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Moonlight Barrier",
+        "cost": 1,
+        "effects": [
+          { "type": "Heal", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Luna",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/luna.png",
-"skills": [
-{
-"name": "Silver Slash",
-"cost": 1,
-"effects": [
-{ "type": "Damage", "amount": 20 }
-]
-},
-{
-"name": "Moonlight Barrier",
-"cost": 1,
-"effects": [
-{ "type": "Heal", "amount": 20 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Morpheus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/roman_morpheus.png",
+    "skills": [
+      {
+        "name": "Vision Dagger",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 2 }
+        ]
+      },
+      {
+        "name": "Fate Denial",
+        "cost": 1,
+        "effects": [
+          { "type": "DamageMod", "percent": -1.00, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Morpheus",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/roman_morpheus.png",
-"skills": [
-{
-"name": "Vision Dagger",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun", "duration": 2 }
-]
-},
-{
-"name": "Fate Denial",
-"cost": 1,
-"effects": [
-{ "type": "DamageMod", "percent": -1.00, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Nemesis",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/roman_nemesis.png",
+    "skills": [
+      {
+        "name": "Justice Echo",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Judgement Return",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Nemesis",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/roman_nemesis.png",
-"skills": [
-{
-"name": "Justice Echo",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 30 }
-]
-},
-{
-"name": "Judgement Return",
-"cost": 2,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1.00, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Nox",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/nox.png",
+    "skills": [
+      {
+        "name": "Dark Slash",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.5, "duration": 2}
+        ]
+      },
+      {
+        "name": "Shadow Grace",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 0.50, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Nox",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/nox.png",
-"skills": [
-{
-"name": "Dark Slash",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Confuse", "percent": 0.5, "duration": 2}
-]
-},
-{
-"name": "Shadow Grace",
-"cost": 2,
-"effects": [
-{ "type": "DodgeBuff", "percent": 0.50, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Pavor",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/pavor.png",
+    "skills": [
+      {
+        "name": "Dominion Rend",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 1}
+        ]
+      },
+      {
+        "name": "Horrow Ward",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Pavor",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/pavor.png",
-"skills": [
-{
-"name": "Dominion Rend",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun", "duration": 1}
-]
-},
-{
-"name": "Horrow Ward",
-"cost": 2,
-"effects": [
-{ "type": "DodgeBuff", "percent": 1, "duration": 1}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Potestas",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/potestas.png",
+    "skills": [
+      {
+        "name": "Dominion Rend",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 1}
+        ]
+      },
+      {
+        "name": "Authority Surge",
+        "cost": 2,
+        "effects": [
+          { "type": "FlatDamageBuff", "amount": 10, "duration": 3}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Potestas",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/potestas.png",
-"skills": [
-{
-"name": "Dominion Rend",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "Stun", "duration": 1}
-]
-},
-{
-"name": "Authority Surge",
-"cost": 2,
-"effects": [
-{ "type": "FlatDamageBuff", "amount": 10, "duration": 3}
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Prosperina",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/prosperina.png",
+    "skills": [
+      {
+        "name": "Wither Bloom",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "FlatDamageBuff", "amount": 10, "duration": 1}
+        ]
+      },
+      {
+        "name": "Queen's Return",
+        "cost": 3,
+        "effects": [
+          { "type": "Heal", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Prosperina",
-"health": 90,
-"type": "DIVINE",
-"pantheon": "ROMAN",
-"imagePath": "cards/prosperina.png",
-"skills": [
-{
-"name": "Wither Bloom",
-"cost": 2,
-"effects": [
-{ "type": "Damage", "amount": 20 },
-{ "type": "FlatDamageBuff", "amount": 10, "duration": 1}
-]
-},
-{
-"name": "Queen's Return",
-"cost": 3,
-"effects": [
-{ "type": "Heal", "amount": 30 }
-]
-},
-{
-"name": "Retreat",
-"cost": 1,
-"effects": [
-{ "type": "Retreat" }
-]
-}
-]
-},
+  {
+    "name": "Saturn",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/saturn.png",
+    "skills": [
+      {
+        "name": "Temporal Crush",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Heal", "amount": 10 }
+        ]
+      },
+      {
+        "name": "God's Immunity",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Minotaur",
-"health": 400,
-"type": "GOD",
-"pantheon": "ROMAN",
-"imagePath": "cards/boss_minotaur.png",
-"skills": [
-{
-"name": "Labyrinth Charge",
-"cost": 0,
-"effects": [
-{ "type": "Damage", "amount": 60 },
-{ "type": "DodgeBuff", "percent": 0.1, "duration": 1}
-]
-},
-{
-"name": "Brutal Slam",
-"cost": 0,
-"effects": [
-{ "type": "Damage", "amount": 40 },
-{ "type": "Collateral", "amount": 20 }
-]
-},
-{
-"name": "Full Rage",
-"cost": 0,
-"effects": [
-{ "type": "FlatDamageBuff", "amount": 20, "duration": 1 }
-]
-}
-]
-},
+  {
+    "name": "Sol",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/sol.png",
+    "skills": [
+      {
+        "name": "Radiant Flame",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Burn", "amount": 10, "duration": 1 },
+          { "type": "Confuse", "percent": 0.2, "duration": 1}
+        ]
+      },
+      {
+        "name": "Solar Renewal",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 10 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Medusa",
-"health": 350,
-"type": "GOD",
-"pantheon": "ROMAN",
-"imagePath": "cards/boss_medusa.png",
-"skills": [
-{
-"name": "Stone Gaze",
-"cost": 0,
-"effects": [
-{ "type": "Stun", "duration": 1 },
-{ "type": "Poison", "amount": 20, "duration": 1}
-]
-},
-{
-"name": "Snake Lash",
-"cost": 0,
-"effects": [
-{ "type": "Damage", "amount": 40 },
-{ "type": "Collateral", "amount": 20 }
-]
-},
-{
-"name": "Venom Pulse",
-"cost": 0,
-"effects": [
-{ "type": "Damage", "amount": 40, "duration": 1 },
-{ "type": "Poison", "amount": 10, "duration": 1 }
-]
-}
-]
-},
+  {
+    "name": "Somnus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/somnus.png",
+    "skills": [
+      {
+        "name": "Silent Embrace",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Stun", "duration": 1}
+        ]
+      },
+      {
+        "name": "Dream Shield",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Cerberus",
-"health": 50,
-"type": "GOD",
-"pantheon": "ROMAN",
-"imagePath": "cards/boss_cerberus.png",
-"skills": [
-{
-"name": "Flame Bark",
-"cost": 0,
-"effects": [
-{ "type": "Damage", "amount": 40 },
-{ "type": "Burn", "amount": 10, "duration": 1}
-]
-},
-{
-"name": "Triple Bite",
-"cost": 0,
-"effects": [
-{ "type": "Damage", "amount": 40 },
-{ "type": "Collateral", "amount": 20 }
-]
-},
-{
-"name": "Infernal Roar",
-"cost": 0,
-"effects": [
-{ "type": "DodgeBuff", "percent": 0.2, "duration": 1 }
-]
-}
-]
-},
+  {
+    "name": "Thanatos",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/roman_thanatos.png",
+    "skills": [
+      {
+        "name": "Judgement End",
+        "cost": 1,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "DamageMod", "percent": -0.5, "duration": 1}
+        ]
+      },
+      {
+        "name": "Undying Vow",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
-{
-"name": "Vulcan's Smithing Gauntlet",
-"health": 0,
-"type": "ARTIFACT",
-"pantheon": "NONE",
-"imagePath": "artifacts/vulcans_smithing_gauntlet.png",
-"skills": [
-{
-"name": "Empower Strike",
-"cost": 0,
-"effects": [
-{
-"type": "FlatDamageBuff",
-"amount": 30,
-"duration": 1
-}
-]
-}
-]
-}
+  {
+    "name": "Trivia",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/trivia.png",
+    "skills": [
+      {
+        "name": "Hex Pulse",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "DamageMod", "percent": -0.5, "duration": 1}
+        ]
+      },
+      {
+        "name": "Triple Path",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 0.5, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
 
+  {
+    "name": "Venti",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/venti.png",
+    "skills": [
+      {
+        "name": "Gale Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Confuse", "percent": 0.25, "duration": 2}
+        ]
+      },
+      {
+        "name": "Windscreen",
+        "cost": 1,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Vertumnus",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/vertumnus.png",
+    "skills": [
+      {
+        "name": "Inevitable Blast",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "AoE", "amount": 10}
+        ]
+      },
+      {
+        "name": "Purifying Bloom",
+        "cost": 2,
+        "effects": [
+          { "type": "Cleanse", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Vestia",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/vestia.png",
+    "skills": [
+      {
+        "name": "Burning Candle",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 20 },
+          { "type": "Burn", "amount": 10, "duration": 1}
+        ]
+      },
+      {
+        "name": "Sacred Flame",
+        "cost": 1,
+        "effects": [
+          { "type": "Cleanse", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Victoria",
+    "health": 90,
+    "type": "DIVINE",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/victoria.png",
+    "skills": [
+      {
+        "name": "Conquering Light",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "Heal", "amount": 10}
+        ]
+      },
+      {
+        "name": "Shield of Triumph",
+        "cost": 2,
+        "effects": [
+          { "type": "DamageMod", "percent": -0.5, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 1,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Apollo",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/apollo.png",
+    "skills": [
+      {
+        "name": "Solar Arrow",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 60 },
+          { "type": "Confuse", "percent": 1, "duration": 1}
+        ]
+      },
+      {
+        "name": "Healing Hymn",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 30}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Ares",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/ares.png",
+    "skills": [
+      {
+        "name": "War Cry",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "FlatDamageBuff", "amount": 20, "duration": 2}
+        ]
+      },
+      {
+        "name": "Savage Charge",
+        "cost": 4,
+        "effects": [
+          { "type": "Damage", "amount": 60},
+          { "type": "Collateral", "amount": 10}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Artemis",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/artemis.png",
+    "skills": [
+      {
+        "name": "Lunar Volley",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "AoE", "amount": 30}
+        ]
+      },
+      {
+        "name": "Silent Hunt",
+        "cost": 2,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Athena",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/athena.png",
+    "skills": [
+      {
+        "name": "Strategic Strike",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "Confuse", "percent": 0.80, "duration": 1}
+        ]
+      },
+      {
+        "name": "Wisdom Shield",
+        "cost": 3,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 1.00, "duration": 1}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Demeter",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/demeter.png",
+    "skills": [
+      {
+        "name": "Harvest Call",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 50 },
+          { "type": "Cleanse", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Earthbind",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "Confuse", "percentage": 0.5, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Dionysus",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/dionysus.png",
+    "skills": [
+      {
+        "name": "Mad Revelry",
+        "cost": 4,
+        "effects": [
+          { "type": "Damage", "amount": 60 },
+          { "type": "Confuse", "percent": 0.5, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Divine Ecstasy",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 30 },
+          { "type": "Heal", "amount": 30 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Hades",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/god_hades.png",
+    "skills": [
+      {
+        "name": "Soul Drain",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 50 },
+          { "type": "Heal", "amount": 50 }
+        ]
+      },
+      {
+        "name": "Gatekeeper's Verdict",
+        "cost": 4,
+        "effects": [
+          { "type": "Damage", "amount": 70 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Hephaestus",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/hephaestus.png",
+    "skills": [
+      {
+        "name": "Forge Strike",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "Burn", "amount": 20, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Armory Blessing",
+        "cost": 2,
+        "effects": [
+          { "type": "FlatDamageBuff", "amount": 50, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Hera",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/hera.png",
+    "skills": [
+      {
+        "name": "Regal Command",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "Burn", "amount": 20, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Armory Blessing",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 40}
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Hermes",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/hermes.png",
+    "skills": [
+      {
+        "name": "Speed Flurry",
+        "cost": 2,
+        "effects": [
+          { "type": "Damage", "amount": 40 }
+        ]
+      },
+      {
+        "name": "Divine Escape",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "Cleanse", "duration": 1 },
+          { "type": "DodgeBuff", "percent": 1, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Poseidon",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/poseidon.png",
+    "skills": [
+      {
+        "name": "Tidal Crash",
+        "cost": 4,
+        "effects": [
+          { "type": "Damage", "amount": 60 },
+          { "type": "AoE", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Sea's Blessing",
+        "cost": 3,
+        "effects": [
+          { "type": "Heal", "amount": 40 },
+          { "type": "Cleanse", "duration": 1 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Zeus",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/zeus.png",
+    "skills": [
+      {
+        "name": "Thunder Wrath",
+        "cost": 4,
+        "effects": [
+          { "type": "Damage", "amount": 60 },
+          { "type": "Burn", "amount": 10, "duration": 3 }
+        ]
+      },
+      {
+        "name": "King's Command",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "AoE", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Apollo",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/roman_apollo.png",
+    "skills": [
+      {
+        "name": "Solar Arrow",
+        "cost": 3,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "Burn", "amount": 10, "duration": 2 },
+          { "type": "Confuse", "percent": 0.50, "duration": 1 }
+        ]
+      },
+      {
+        "name": "Healing Hymn",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 40 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Bacchus",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "ROMAN",
+    "imagePath": "cards/bacchus.png",
+    "skills": [
+      {
+        "name": "Ecstatic Frenzy",
+        "cost": 4,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "Confuse", "percent": 1.00, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Drunken Resilience",
+        "cost": 2,
+        "effects": [
+          { "type": "Heal", "amount": 30 },
+          { "type": "DodgeBuff", "percent": 0.25, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Retreat",
+        "cost": 2,
+        "effects": [
+          { "type": "Retreat" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Minotaur",
+    "health": 350,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/boss_minotaur.png",
+    "skills": [
+      {
+        "name": "Labyrinth Charge",
+        "cost": 0,
+        "effects": [
+          { "type": "Damage", "amount": 60 },
+          { "type": "DodgeBuff", "percent": 0.1, "duration": 1}
+        ]
+      },
+      {
+        "name": "Brutal Slam",
+        "cost": 0,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "AoE", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Full Rage",
+        "cost": 0,
+        "effects": [
+          { "type": "FlatDamageBuff", "amount": 20, "duration": 1 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Medusa",
+    "health": 350,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/boss_medusa.png",
+    "skills": [
+      {
+        "name": "Stone Gaze",
+        "cost": 0,
+        "effects": [
+          { "type": "Stun", "duration": 1 },
+          { "type": "Poison", "amount": 20, "duration": 1}
+        ]
+      },
+      {
+        "name": "Snake Lash",
+        "cost": 0,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "AoE", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Venom Pulse",
+        "cost": 0,
+        "effects": [
+          { "type": "Damage", "amount": 40, "duration": 1 },
+          { "type": "Poison", "amount": 10, "duration": 1 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Cerberus",
+    "health": 250,
+    "type": "GOD",
+    "pantheon": "GREEK",
+    "imagePath": "cards/boss_cerberus.png",
+    "skills": [
+      {
+        "name": "Flame Bark",
+        "cost": 0,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "Burn", "amount": 10, "duration": 1}
+        ]
+      },
+      {
+        "name": "Triple Bite",
+        "cost": 0,
+        "effects": [
+          { "type": "Damage", "amount": 40 },
+          { "type": "AoE", "amount": 20 }
+        ]
+      },
+      {
+        "name": "Infernal Roar",
+        "cost": 0,
+        "effects": [
+          { "type": "DodgeBuff", "percent": 0.2, "duration": 1 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Vulcan's Smithing Gauntlet",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/vulcan's_smithing_gauntlet.png",
+    "skills": [
+      {
+        "name": "Empower Strike",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "FlatDamageBuff",
+            "amount": 30,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Aegis",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/aegis.png",
+    "skills": [
+      {
+        "name": "Aegis",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "DodgeBuff",
+            "percent": 1,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Bow of Artemis",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/bow_of_artemis.png",
+    "skills": [
+      {
+        "name": "Bow of Artemis",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "DamageMod",
+            "percent": 0.25,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Cornucopia",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/cornucopia.png",
+    "skills": [
+      {
+        "name": "Cornucopia",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Heal",
+            "amount": 20
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Cupid's Golden Arrows",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/cupid's_golden_arrows.png",
+    "skills": [
+      {
+        "name": "Cupid's Golden Arrows",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Confuse",
+            "percent": 1,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Diana's Silver Bow",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/diana's_silver_bow.png",
+    "skills": [
+      {
+        "name": "Diana's Silver Bow",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Collateral",
+            "amount": 20
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Echo's Silver Mirror",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/echo's_silver_mirror.png",
+    "skills": [
+      {
+        "name": "Echo's Silver Mirror",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "FlatDamageBuff",
+            "amount": 40,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Golden Fleece",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/golden_fleece.png",
+    "skills": [
+      {
+        "name": "Golden Fleece",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Heal",
+            "amount": 40
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Hebe's Everflowing Goblet",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/hebe's_everflowing_goblet.png",
+    "skills": [
+      {
+        "name": "Hebe's Everflowing Goblet",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Heal",
+            "amount": 20
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Helm of Hades",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/helm_of_hades.png",
+    "skills": [
+      {
+        "name": "Helm of Hades (To 3 allies)",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Heal",
+            "amount": 20
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Janus' Key of Realms",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/janus'_key_of_realms.png",
+    "skills": [
+      {
+        "name": "Janus' Key of Realms",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "DodgeBuff",
+            "percent": 1,
+            "duration": 2
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Jupiter's Thunderbolt",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/jupiter's_thunderbolt.png",
+    "skills": [
+      {
+        "name": "Jupiter's Thunderbolt",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "FlatDamageBuff",
+            "amount": 30,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Lyre of Orpheus",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/lyre_of_orpheus.png",
+    "skills": [
+      {
+        "name": "Lyre of Orpheus",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Stun",
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Mars' War Helm",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/mars'_war_helm.png",
+    "skills": [
+      {
+        "name": "Mars' War Helm",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "FlatDamageBuff",
+            "amount": 20,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Mercury's Winged Boots",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/mercury's_winged_boots.png",
+    "skills": [
+      {
+        "name": "Mercury's Winged Boots",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "DodgeBuff",
+            "percent": 0.5,
+            "duration": 5
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Nemesis' Balanced Scales",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/nemesis'_balanced_scales.png",
+    "skills": [
+      {
+        "name": "Nemesis' Balanced Scales",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "FlatDamageBuff",
+            "amount": 30,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Neptune's Leviathan Shell",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/neptune's_leviathan_shell.png",
+    "skills": [
+      {
+        "name": "Neptune's Leviathan Shell",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Cleanse",
+            "duration": 3
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Prosperina's Eternal Blossom",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/prosperina's_eternal_blossom.png",
+    "skills": [
+      {
+        "name": "Prosperina's Eternal Blossom",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Cleanse",
+            "duration": 3
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Saturn's Scythe",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/saturn's_scythe.png",
+    "skills": [
+      {
+        "name": "Saturn's Scythe",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Stun",
+            "duration": 2
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Shield of Achilles",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/shield_of_achilles.png",
+    "skills": [
+      {
+        "name": "Shield of Achilles",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "DamageMod",
+            "percent": -0.5,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Sol Invictus' Radiance",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/sol_invictus'_radiance.png",
+    "skills": [
+      {
+        "name": "Sol Invictus' Radiance",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "DodgeBuff",
+            "percent": 1.00,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Sword of Peleus",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/sword_of_peleus.png",
+    "skills": [
+      {
+        "name": "Sword of Peleus",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Cleanse",
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Talaria (Hermes' Sandals)",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/talaria_(hermes'_sandals).png",
+    "skills": [
+      {
+        "name": "Talaria (Hermes' Sandals)",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "Stun",
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Tartarus' Shackles",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/tartarus'_shackles.png",
+    "skills": [
+      {
+        "name": "Tartarus' Shackles",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "DamageMod",
+            "percent": 0.5,
+            "duration": 1
+          },
+          {
+            "type": "FlatDamageBuff",
+            "amount": 10,
+            "duration":1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Trident of Poseidon",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/trident_of_poseidon.png",
+    "skills": [
+      {
+        "name": "Trident of Poseidon",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "FlatDamageBuff",
+            "amount": 30,
+            "duration": 1
+          },
+          {
+            "type": "Cleanse",
+            "duration":1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Trivia's Midnight Lantern",
+    "health": 0,
+    "type": "ARTIFACT",
+    "pantheon": "NONE",
+    "imagePath": "artifacts/trivia's_midnight_lantern.png",
+    "skills": [
+      {
+        "name": "Trivia's Midnight Lantern",
+        "cost": 0,
+        "effects": [
+          {
+            "type": "DamageMod",
+            "percent": 0.2,
+            "duration": 1
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Ambrosia",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Ambrosia.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Apollo's Healing Salve",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Apollo_s-Healing-Salve.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Ares' Blood Potion",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Ares_-Blood-Potion.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Argus' All-Seeing Eye",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Argus_-All-Seeing-Eye.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Aurora's Morning Dew",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Aurora_s-Morning-Dew.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Chiron's Herbal Remedy",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Chiron_s-Herbal-Remedy.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Circe's Transformation Wine",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Circe_s-Transformation-Wine.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Dionysus' Drunken Brew",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Dionysus_-Drunken-Brew.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Elysium's Sacred Water",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Elysium_s-Sacred-Water.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Golden Apple",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Golden-Apple.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Hecate's Shadow Dust",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Hecate_s-Shadow-Dust.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Hephaestus' Blacksmith Tonic",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Hephaestus_-Blacksmith-Tonic.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Heracle's Protein Ration",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Heracles_-Protein-Ration.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Hermes' Fleetfoot Potion",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Hermes_-Fleetfoot-Potion.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Hestia's Hearth Bread",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Hestia_s-Hearth-Bread.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Icarus' Wax Coating",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Icarus_-Wax-Coating.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Janus' Dual-faced Token",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Janus_-Dual-Faced-Token.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Juno's Protective Veil",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Juno_s-Protective-Veil.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Laurel Wreath of Victory",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Laurel-Wreath-of-Victory.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Lethe's Forgetfulness Draught",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Lethe_s-Forgetfulness-Draught.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Mars' Fury Brew",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Mars_-Fury-Brew.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Medusa's Vial",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Medusa_s-Vial.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Minerva's Insight Elixir",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Minerva_s-Insight-Elixir.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Nectar of the Gods",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Nectar-of-the-Gods.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Pandora's Mini Box",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Pandora_s-Mini-Box.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Persephone's Pomegranate",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Persephone_s-Pomegranate.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Poseidon's Saltwater Flask",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Poseidon_s-Saltwater-Flask.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Tartarus' Chains",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Tartarus_-Chains.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Thanatos' Black Rose",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Thanatos_-Black-Rose.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Trivia's Cursed Coin",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Trivia_s-Cursed-Coin.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  },
+
+  {
+    "name": "Zeus' Lightning Bottle",
+    "health": 0,
+    "type": "ITEM",
+    "pantheon": "NONE",
+    "imagePath": "items/Zeus_-Lightning-Bottle.png",
+    "skills": [
+      {
+        "name": "Drink Potion",
+        "cost": 0,
+        "effects": [
+          { "type": "Heal", "amount": 50 }
+        ]
+      }
+    ]
+  }
 ]

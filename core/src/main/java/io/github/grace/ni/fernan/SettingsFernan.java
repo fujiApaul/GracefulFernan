@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.audio.Sound;
@@ -24,6 +25,7 @@ public class SettingsFernan implements Screen {
     private Skin skin;
     private BitmapFont font, whiteFont, yellowFont;
     private Sound clickSound;
+    private TextButton musicToggleButton;
 
     public SettingsFernan(final FernansGrace game) {
         this.game = game;
@@ -52,7 +54,30 @@ public class SettingsFernan implements Screen {
         buttonStyle.up = transparentDrawable;
         buttonStyle.down = transparentDrawable;
         buttonStyle.over = transparentDrawable;
-        buttonStyle.font = yellowFont;  // Set the default font to yellow
+        buttonStyle.font = yellowFont;
+
+        musicToggleButton = new TextButton("Music: ON", buttonStyle);
+        musicToggleButton.getLabel().setFontScale(1.7f);
+        updateMusicButtonText();
+
+        musicToggleButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                changeFont(musicToggleButton, whiteFont);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                changeFont(musicToggleButton, yellowFont);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (clickSound != null) clickSound.play();
+                game.toggleMusic();
+                updateMusicButtonText();
+            }
+        });
 
         TextButton backButton = new TextButton("Back", buttonStyle);
         backButton.getLabel().setFontScale(1.7f);
@@ -60,75 +85,122 @@ public class SettingsFernan implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                changeFont(backButton, whiteFont);  // Change to white on hover
+                changeFont(backButton, whiteFont);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                changeFont(backButton, yellowFont);  // Change back to yellow when hover ends
+                changeFont(backButton, yellowFont);
             }
 
             @Override
-            public void clicked(InputEvent event, float x, float y) { clickSound.play();
+            public void clicked(InputEvent event, float x, float y) {
+                if (clickSound != null) clickSound.play();
                 if (!game.isInGame){
                     game.setScreen(new MainFernan(game));
                 } else {
-                    game.setScreen(new GameMenuFernan(game));
+                    // Now this line should work as FernansGrace has the method
+                    SaveProfile currentProfile = game.getCurrentSaveProfile();
+                    if (currentProfile != null) {
+                        game.setScreen(new GameMenuFernan(game, currentProfile));
+                    } else {
+                        // Fallback if profile is somehow null even if isInGame is true
+                        Gdx.app.error("SettingsFernan", "isInGame is true, but no active profile found. Returning to Main Menu.");
+                        game.setScreen(new MainFernan(game));
+                    }
                 }
             }
         });
 
         Table table = new Table();
         table.setFillParent(true);
-        table.bottom().pad(30);
+        table.center();
 
-        table.add(backButton).width(150).height(50);
+        Label settingsTitle = new Label("Settings", new Label.LabelStyle(font, Color.WHITE));
+        settingsTitle.setFontScale(2.5f);
+        table.add(settingsTitle).padBottom(50).row();
+
+        table.add(musicToggleButton).width(300).height(60).padBottom(30).row();
+        table.add(backButton).width(200).height(50).row();
 
         stage.addActor(table);
     }
 
-    private void changeFont(TextButton button, BitmapFont font) {
-        Label.LabelStyle style = new Label.LabelStyle(button.getLabel().getStyle());
-        style.font = font;
-        button.getLabel().setStyle(style);
+    private void updateMusicButtonText() {
+        if (musicToggleButton != null) {
+            if (game.isMusicEnabled()) {
+                musicToggleButton.setText("Music: ON");
+            } else {
+                musicToggleButton.setText("Music: OFF");
+            }
+        }
+    }
+
+    private void changeFont(TextButton button, BitmapFont newFont) {
+        TextButton.TextButtonStyle newStyle = new TextButton.TextButtonStyle(button.getStyle());
+        newStyle.font = newFont;
+        button.setStyle(newStyle);
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+        updateMusicButtonText();
+        game.ensureMusicState();
+    }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
 
-        game.viewport.apply();
-        game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
+        if (game.viewport != null) { // Add null check for game.viewport
+            game.viewport.apply();
+            game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
+        } else {
+            // Fallback or handle if viewport is null, though it should be initialized in FernansGrace.create()
+            Gdx.app.error("SettingsFernan", "game.viewport is null in render method.");
+            // Use stage's viewport as a fallback for drawing background if game.viewport is an issue
+            stage.getViewport().apply();
+            game.batch.setProjectionMatrix(stage.getViewport().getCamera().combined);
+        }
+
 
         game.batch.begin();
-        game.batch.draw(background, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        if (background != null && game.viewport != null) { // Ensure background and viewport are not null
+            game.batch.draw(background, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        } else if (background != null) { // Fallback if game.viewport was null
+            game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
         game.batch.end();
 
+        stage.getViewport().apply();
         stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        game.viewport.update(width, height, true);
-        stage.getViewport().update(width, height, true);
+        if (game.viewport != null) game.viewport.update(width, height, true);
+        if (stage.getViewport() != null) stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void pause() {}
     @Override
-    public void resume() {}
+    public void resume() {
+        game.ensureMusicState();
+    }
     @Override
     public void hide() {}
 
     @Override
     public void dispose() {
-        background.dispose();
-        stage.dispose();
-        skin.dispose();
-        font.dispose();
+        if (background != null) background.dispose();
+        if (stage != null) stage.dispose();
+        if (skin != null) skin.dispose();
+        if (font != null) font.dispose();
+        if (whiteFont != null) whiteFont.dispose();
+        if (yellowFont != null) yellowFont.dispose();
+        if (clickSound != null) clickSound.dispose();
     }
 }
